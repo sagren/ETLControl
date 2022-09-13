@@ -1,0 +1,6351 @@
+
+
+if (select object_id('Persist.prc_load_AccessMethod')) is not null
+drop procedure [Persist].[prc_load_AccessMethod]
+go
+
+create procedure [Persist].[prc_load_AccessMethod]
+as
+begin
+	merge Persist.AccessMethod as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_EW4_ACCESSMETHOD]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]			 = src.[ORDER]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+if (select object_id('Persist.prc_load_AgeGroup')) is not null
+drop procedure Persist.prc_load_AgeGroup 
+go 
+create procedure [Persist].[prc_load_AgeGroup]
+as
+begin
+	merge Persist.AgeGroup as tgt
+	using
+		(
+      SELECT 
+	  [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[FROMYEAR]
+      ,[TOYEAR]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_BZW_AGEGROUP]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+	  AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	  AND ISNULL(tgt.[FROMYEAR], 0) = ISNULL(src.[FROMYEAR], 0)
+	  AND ISNULL(tgt.[TOYEAR], 0) = ISNULL(src.[TOYEAR], 0)
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]		 = src.[ORDER]
+	  ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+	  ,[FROMYEAR]		 = src.[FROMYEAR]
+	  ,[TOYEAR]		 = src.[TOYEAR]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[FROMYEAR]
+      ,[TOYEAR]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[FROMYEAR]
+      ,[TOYEAR]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+if (select object_id('Persist.prc_load_Assessment')) is not null
+drop procedure Persist.prc_load_Assessment 
+go 
+create procedure [Persist].[prc_load_Assessment]
+as
+begin
+	merge Persist.Assessment as tgt
+	using
+		(
+      SELECT [ID]
+      ,[PROBLEMCATEGORYID]
+      ,[PROBLEMTYPEID]
+      ,[RISKTYPEID]
+      ,[RISKLEVELID]
+      ,[RISKDEFINITIONID]
+      ,[EMOTIONALSTATEID]
+      ,[WORKIMPACTID]
+      ,[ISIMPACTFUNCTION]
+      ,[ISIMPACTATTENDANCE]
+      ,[ISIMPACTABILITY]
+      ,[ISIMPACTRELATIONSHIP]
+      ,[ISIMPACTJOBSATISIFACTION]
+      ,[ISIMPACTMOTIVATION]
+      ,[ISIMPACTMANAGERRELATIONSHIP]
+      ,[ISIMPACTFREQUENTERRORS]
+      ,[ISIMPACTDEADLINES]
+      ,[ISIMPACTWORKFUNCTIONING]
+      ,[ISIMPACTCONCENTRATIONLEVELS]
+      ,[CREATEDBY]
+      ,[CREATEDDATE]
+      ,[CASEID]
+      ,[CASESERVICEID]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_CWI_ASSESSMENT]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[PROBLEMCATEGORYID]			,0)  = ISNULL(src.[PROBLEMCATEGORYID]			,0)
+      AND ISNULL(tgt.[PROBLEMTYPEID]				,0)	 = ISNULL(src.[PROBLEMTYPEID]				,0)
+      AND ISNULL(tgt.[RISKTYPEID]					,0)	 = ISNULL(src.[RISKTYPEID]					,0)
+      AND ISNULL(tgt.[RISKLEVELID]					,0)	 = ISNULL(src.[RISKLEVELID]					,0)
+      AND ISNULL(tgt.[RISKDEFINITIONID]				,0)	 = ISNULL(src.[RISKDEFINITIONID]				,0)
+      AND ISNULL(tgt.[EMOTIONALSTATEID]				,0)	 = ISNULL(src.[EMOTIONALSTATEID]				,0)
+      AND ISNULL(tgt.[WORKIMPACTID]					,0)	 = ISNULL(src.[WORKIMPACTID]					,0)
+      AND ISNULL(tgt.[ISIMPACTFUNCTION]				,0)	 = ISNULL(src.[ISIMPACTFUNCTION]				,0)
+      AND ISNULL(tgt.[ISIMPACTATTENDANCE]			,0)	 = ISNULL(src.[ISIMPACTATTENDANCE]			,0)
+      AND ISNULL(tgt.[ISIMPACTABILITY]				,0)	 = ISNULL(src.[ISIMPACTABILITY]				,0)
+      AND ISNULL(tgt.[ISIMPACTRELATIONSHIP]			,0)	 = ISNULL(src.[ISIMPACTRELATIONSHIP]			,0)
+      AND ISNULL(tgt.[ISIMPACTJOBSATISIFACTION]		,0)	 = ISNULL(src.[ISIMPACTJOBSATISIFACTION]		,0)
+      AND ISNULL(tgt.[ISIMPACTMOTIVATION]			,0)	 = ISNULL(src.[ISIMPACTMOTIVATION]			,0)
+      AND ISNULL(tgt.[ISIMPACTMANAGERRELATIONSHIP]	,0)	 = ISNULL(src.[ISIMPACTMANAGERRELATIONSHIP]	,0)
+      AND ISNULL(tgt.[ISIMPACTFREQUENTERRORS]		,0)	 = ISNULL(src.[ISIMPACTFREQUENTERRORS]		,0)
+      AND ISNULL(tgt.[ISIMPACTDEADLINES]			,0)	 = ISNULL(src.[ISIMPACTDEADLINES]			,0)
+      AND ISNULL(tgt.[ISIMPACTWORKFUNCTIONING]		,0)	 = ISNULL(src.[ISIMPACTWORKFUNCTIONING]		,0)
+      AND ISNULL(tgt.[ISIMPACTCONCENTRATIONLEVELS]	,0)	 = ISNULL(src.[ISIMPACTCONCENTRATIONLEVELS]	,0)
+      AND ISNULL(tgt.[CREATEDBY]					,0)	 = ISNULL(src.[CREATEDBY]					,0)
+      AND ISNULL(tgt.[CREATEDDATE]					,'') = ISNULL(src.[CREATEDDATE]					,'')
+      AND ISNULL(tgt.[CASEID]						,0)	 = ISNULL(src.[CASEID]						,0)
+      AND ISNULL(tgt.[CASESERVICEID]				,0)	 = ISNULL(src.[CASESERVICEID]				,0)
+	)
+	then
+	update set 
+	   [PROBLEMCATEGORYID]           = src.[PROBLEMCATEGORYID]
+      ,[PROBLEMTYPEID]				 = src.[PROBLEMTYPEID]
+      ,[RISKTYPEID]					 = src.[RISKTYPEID]
+      ,[RISKLEVELID]				 = src.[RISKLEVELID]
+      ,[RISKDEFINITIONID]			 = src.[RISKDEFINITIONID]
+      ,[EMOTIONALSTATEID]			 = src.[EMOTIONALSTATEID]
+      ,[WORKIMPACTID]				 = src.[WORKIMPACTID]
+      ,[ISIMPACTFUNCTION]			 = src.[ISIMPACTFUNCTION]
+      ,[ISIMPACTATTENDANCE]			 = src.[ISIMPACTATTENDANCE]
+      ,[ISIMPACTABILITY]			 = src.[ISIMPACTABILITY]
+      ,[ISIMPACTRELATIONSHIP]		 = src.[ISIMPACTRELATIONSHIP]
+      ,[ISIMPACTJOBSATISIFACTION]	 = src.[ISIMPACTJOBSATISIFACTION]
+      ,[ISIMPACTMOTIVATION]			 = src.[ISIMPACTMOTIVATION]
+      ,[ISIMPACTMANAGERRELATIONSHIP] = src.[ISIMPACTMANAGERRELATIONSHIP]
+      ,[ISIMPACTFREQUENTERRORS]		 = src.[ISIMPACTFREQUENTERRORS]
+      ,[ISIMPACTDEADLINES]			 = src.[ISIMPACTDEADLINES]
+      ,[ISIMPACTWORKFUNCTIONING]	 = src.[ISIMPACTWORKFUNCTIONING]
+      ,[ISIMPACTCONCENTRATIONLEVELS] = src.[ISIMPACTCONCENTRATIONLEVELS]
+      ,[CREATEDBY]					 = src.[CREATEDBY]
+      ,[CREATEDDATE]				 = src.[CREATEDDATE]
+      ,[CASEID]						 = src.[CASEID]
+      ,[CASESERVICEID]				 = src.[CASESERVICEID]
+      ,[ETLExecutionKey]			 = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[PROBLEMCATEGORYID]
+      ,[PROBLEMTYPEID]
+      ,[RISKTYPEID]
+      ,[RISKLEVELID]
+      ,[RISKDEFINITIONID]
+      ,[EMOTIONALSTATEID]
+      ,[WORKIMPACTID]
+      ,[ISIMPACTFUNCTION]
+      ,[ISIMPACTATTENDANCE]
+      ,[ISIMPACTABILITY]
+      ,[ISIMPACTRELATIONSHIP]
+      ,[ISIMPACTJOBSATISIFACTION]
+      ,[ISIMPACTMOTIVATION]
+      ,[ISIMPACTMANAGERRELATIONSHIP]
+      ,[ISIMPACTFREQUENTERRORS]
+      ,[ISIMPACTDEADLINES]
+      ,[ISIMPACTWORKFUNCTIONING]
+      ,[ISIMPACTCONCENTRATIONLEVELS]
+      ,[CREATEDBY]
+      ,[CREATEDDATE]
+      ,[CASEID]
+      ,[CASESERVICEID]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[PROBLEMCATEGORYID]
+      ,[PROBLEMTYPEID]
+      ,[RISKTYPEID]
+      ,[RISKLEVELID]
+      ,[RISKDEFINITIONID]
+      ,[EMOTIONALSTATEID]
+      ,[WORKIMPACTID]
+      ,[ISIMPACTFUNCTION]
+      ,[ISIMPACTATTENDANCE]
+      ,[ISIMPACTABILITY]
+      ,[ISIMPACTRELATIONSHIP]
+      ,[ISIMPACTJOBSATISIFACTION]
+      ,[ISIMPACTMOTIVATION]
+      ,[ISIMPACTMANAGERRELATIONSHIP]
+      ,[ISIMPACTFREQUENTERRORS]
+      ,[ISIMPACTDEADLINES]
+      ,[ISIMPACTWORKFUNCTIONING]
+      ,[ISIMPACTCONCENTRATIONLEVELS]
+      ,[CREATEDBY]
+      ,[CREATEDDATE]
+      ,[CASEID]
+      ,[CASESERVICEID]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+if (select object_id('Persist.prc_load_BasicStatus')) is not null
+drop procedure Persist.prc_load_BasicStatus 
+go 
+create procedure [Persist].[prc_load_BasicStatus]
+as
+begin
+	merge Persist.BasicStatus as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+	  ,[ISCOMPLETED]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_5IF_BASICSTATUS]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	  AND ISNULL(tgt.[ISCOMPLETED], 0) = ISNULL(src.[ISCOMPLETED], 0)
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]			 = src.[ORDER]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+	  ,[ISCOMPLETED]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+	  ,[ISCOMPLETED]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+if (select object_id('Persist.prc_load_CallerRoleType')) is not null
+drop procedure Persist.prc_load_CallerRoleType 
+go 
+create procedure [Persist].[prc_load_CallerRoleType]
+as
+begin
+	merge Persist.CallerRoleType as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_5IF_CALLERROLETYPE]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]			 = src.[ORDER]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+if (select object_id('Persist.prc_load_CaseClosure')) is not null
+drop procedure Persist.prc_load_CaseClosure 
+go 
+create procedure [Persist].[prc_load_CaseClosure]
+as
+begin
+	merge Persist.CaseClosure as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+	  ,[ISBILLABLE]
+      ,[IS_EVENT]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_5IF_CASECLOSURE]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	  AND ISNULL(tgt.[ISBILLABLE], 0) = ISNULL(src.[ISBILLABLE], 0)
+	  AND ISNULL(tgt.[IS_EVENT], 0) = ISNULL(src.[IS_EVENT], 0)
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]			 = src.[ORDER]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+	  ,[ISBILLABLE]		 = src.[ISBILLABLE]
+	  ,[IS_EVENT]		 = src.[IS_EVENT]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+	  ,[ISBILLABLE]
+      ,[IS_EVENT]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+	  ,[ISBILLABLE]
+      ,[IS_EVENT]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+if (select object_id('Persist.prc_load_CaseFiles')) is not null
+drop procedure Persist.prc_load_CaseFiles 
+go 
+create procedure [Persist].[prc_load_CaseFiles]
+as
+begin
+	merge Persist.[Case] as tgt
+	using
+		(
+		 SELECT  
+	   [ID]
+      ,[OPENDATETIME]
+      ,[OPENUSERID]
+      ,[CLOSEDATETIME]
+      ,[CLOSEUSERID]
+      ,[STATUS]
+      ,[CONTRACTID]
+      ,[CREATEDATETIME]
+      ,[CREATEUSERID]
+      ,[AUTHNUMBER]
+      ,[CASETYPEID]
+      ,[EMPLOYEEID]
+      ,[UPDATEUSERID]
+      ,[UPDATEDATETIME]
+      ,[CASECATEGORYID]
+      ,[CASESTATUSID]
+      ,[PREFERLANGUAGE]
+      ,[PREFERGENDER]
+      ,[NEWINTAKEASSESMENTID]
+      ,[ICARE_CATEGORYID]
+      ,[CASEREFERENCE]
+      ,[EMPLOYEEDEPENDANTID]
+      ,[ICARE_SERVICEID]
+      ,[INTAKEASSESSMENTID]
+      ,[DESCRIPTION]
+      ,[COMPANYID]
+      ,[COMPANYSITEID]
+      ,[EMPLOYEELEVELID]
+      ,[TENUREID]
+      ,[PROBLEMCATEGORYID]
+      ,[PROBLEMTYPEID]
+      ,[RISKTYPEID]
+      ,[RISKLEVELID]
+      ,[RISKDEFINITIONID]
+      ,[CASECLOSUREID]
+      ,[INTAKEPERSONID]
+      ,[CLOSURENOTES]
+      ,[TRACKINGSTATUSID]
+      ,[REQUESTACTIONID]
+      ,[CASEMANAGER]
+      ,[TEAMLEADER]
+      ,[ISOPTOUT]
+      ,[PROJECTCODE]
+      ,[CASEUSERID]
+      ,[ISMAINCASE]
+      ,[SENDNOTIFICATIONS]
+      ,[CASENUMBER]
+      ,[CASEMANAGERID]
+      ,[TEAMLEADERID]
+      ,[RISKCONSULTANTID]
+      ,[CARECONSULTANTID]
+      ,[EXTERNALPROVIDERID]
+      ,[CLINICALADMINID]
+      ,[HASCASEMANAGERACCEPT]
+      ,[HASTEAMLEADERACCEPT]
+      ,[HASRISKCONSULTANTACCEPT]
+      ,[HASCARECONSULTANTACCEPT]
+      ,[HASEXTERNALPROVIDERACCEPT]
+      ,[HASCLINICALADMINACCEPT]
+      ,[ISALLCASEMANAGERS]
+      ,[ISALLTEAMLEADERS]
+      ,[ISALLRISKCONSULTANT]
+      ,[ISALLCARECONSULTANT]
+      ,[ISALLCLINICALADMIN]
+      ,[REASONFORESCALATIONID]
+      ,[NOTESFORESCALATIONORASSIGN]
+      ,[REASONFORASSIGMENTID]
+      ,[ISALLLEGALAFFILIATES]
+      ,[LEGALUSERID]
+      ,[HASLEGALUSERACCEPT]
+      ,[ISALLFINANCIALAFFILIATES]
+      ,[FINANCIALUSERID]
+      ,[HASFINANCIALUSERACCEPT]
+      ,[WORKSTAGEID]
+      ,[ASSIGNMENTSTATUSID]
+      ,[QA_DONE]
+      ,[ISALLBUSINESSMANAGER]
+      ,[BUSINESSMANAGERID]
+      ,[HASBUSINESSMANAGERACCEPT]
+      ,[CASEREFTEXT]
+      ,[ISELIGIBLE]
+      ,[CLASSIFICATIONID]
+      ,[CLINICID]
+      ,[HASSPECIALRATE]
+      ,[RATE]
+      ,[SERVICESTATUSID]
+      ,[BUSINESSUNITID]
+      ,[REGIONID]
+      ,[DEPARTMENTID]
+      ,[RISKLEVELCHANGEDON]
+      ,[CASELINKID]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_5IF_CASEFILE]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[OPENDATETIME]					,'') = ISNULL(src.[OPENDATETIME],'')
+      AND ISNULL(tgt.[OPENUSERID]					,0) = ISNULL(src.[OPENUSERID],0)
+      AND ISNULL(tgt.[CLOSEDATETIME]				,'') = ISNULL(src.[CLOSEDATETIME],'')
+      AND ISNULL(tgt.[CLOSEUSERID]					,0) = ISNULL(src.[CLOSEUSERID],0)
+      AND ISNULL(tgt.[STATUS]						,0) = ISNULL(src.[STATUS],0)
+      AND ISNULL(tgt.[CONTRACTID]					,0) = ISNULL(src.[CONTRACTID],0)
+      AND ISNULL(tgt.[CREATEDATETIME]				,'') = ISNULL(src.[CREATEDATETIME],'')
+      AND ISNULL(tgt.[CREATEUSERID]					,0) = ISNULL(src.[CREATEUSERID],0)
+      AND ISNULL(tgt.[AUTHNUMBER]					,0) = ISNULL(src.[AUTHNUMBER],0)
+      AND ISNULL(tgt.[CASETYPEID]					,0) = ISNULL(src.[CASETYPEID],0)
+      AND ISNULL(tgt.[EMPLOYEEID]					,0) = ISNULL(src.[EMPLOYEEID],0)
+      AND ISNULL(tgt.[UPDATEUSERID]					,0) = ISNULL(src.[UPDATEUSERID],0)
+      AND ISNULL(tgt.[UPDATEDATETIME]				,'') = ISNULL(src.[UPDATEDATETIME],'')
+      AND ISNULL(tgt.[CASECATEGORYID]				,0) = ISNULL(src.[CASECATEGORYID],0)
+      AND ISNULL(tgt.[CASESTATUSID]					,0) = ISNULL(src.[CASESTATUSID],0)
+      AND ISNULL(tgt.[PREFERLANGUAGE]				,0) = ISNULL(src.[PREFERLANGUAGE],0)
+      AND ISNULL(tgt.[PREFERGENDER]					,0) = ISNULL(src.[PREFERGENDER],0)
+      AND ISNULL(tgt.[NEWINTAKEASSESMENTID]			,0) = ISNULL(src.[NEWINTAKEASSESMENTID],0)
+      AND ISNULL(tgt.[ICARE_CATEGORYID]				,0) = ISNULL(src.[ICARE_CATEGORYID],0)
+      AND ISNULL(tgt.[CASEREFERENCE]				,'') = ISNULL(src.[CASEREFERENCE],'')
+      AND ISNULL(tgt.[EMPLOYEEDEPENDANTID]			,0) = ISNULL(src.[EMPLOYEEDEPENDANTID],0)
+      AND ISNULL(tgt.[ICARE_SERVICEID]				,0) = ISNULL(src.[ICARE_SERVICEID],0)
+      AND ISNULL(tgt.[INTAKEASSESSMENTID]			,0) = ISNULL(src.[INTAKEASSESSMENTID],0)
+      AND ISNULL(tgt.[DESCRIPTION]					,'') = ISNULL(src.[DESCRIPTION],'')
+      AND ISNULL(tgt.[COMPANYID]					,0) = ISNULL(src.[COMPANYID],0)
+      AND ISNULL(tgt.[COMPANYSITEID]				,0) = ISNULL(src.[COMPANYSITEID],0)
+      AND ISNULL(tgt.[EMPLOYEELEVELID]				,0) = ISNULL(src.[EMPLOYEELEVELID],0)
+      AND ISNULL(tgt.[TENUREID]						,0) = ISNULL(src.[TENUREID],0)
+      AND ISNULL(tgt.[PROBLEMCATEGORYID]			,0) = ISNULL(src.[PROBLEMCATEGORYID],0)
+      AND ISNULL(tgt.[PROBLEMTYPEID]				,0) = ISNULL(src.[PROBLEMTYPEID],0)
+      AND ISNULL(tgt.[RISKTYPEID]					,0) = ISNULL(src.[RISKTYPEID],0)
+      AND ISNULL(tgt.[RISKLEVELID]					,0) = ISNULL(src.[RISKLEVELID],0)
+      AND ISNULL(tgt.[RISKDEFINITIONID]				,0) = ISNULL(src.[RISKDEFINITIONID],0)
+      AND ISNULL(tgt.[CASECLOSUREID]				,0) = ISNULL(src.[CASECLOSUREID],0)
+      AND ISNULL(tgt.[INTAKEPERSONID]				,0) = ISNULL(src.[INTAKEPERSONID],0)
+      AND ISNULL(tgt.[CLOSURENOTES]					,'') = ISNULL(src.[CLOSURENOTES],'')
+      AND ISNULL(tgt.[TRACKINGSTATUSID]				,0) = ISNULL(src.[TRACKINGSTATUSID],0)
+      AND ISNULL(tgt.[REQUESTACTIONID]				,0) = ISNULL(src.[REQUESTACTIONID],0)
+      AND ISNULL(tgt.[CASEMANAGER]					,0) = ISNULL(src.[CASEMANAGER],0)
+      AND ISNULL(tgt.[TEAMLEADER]					,0) = ISNULL(src.[TEAMLEADER],0)
+      AND ISNULL(tgt.[ISOPTOUT]						,0) = ISNULL(src.[ISOPTOUT],0)
+      AND ISNULL(tgt.[PROJECTCODE]					,'') = ISNULL(src.[PROJECTCODE],'')
+      AND ISNULL(tgt.[CASEUSERID]					,0) = ISNULL(src.[CASEUSERID],0)
+      AND ISNULL(tgt.[ISMAINCASE]					,0) = ISNULL(src.[ISMAINCASE],0)
+      AND ISNULL(tgt.[SENDNOTIFICATIONS]			,0) = ISNULL(src.[SENDNOTIFICATIONS],0)
+      AND ISNULL(tgt.[CASENUMBER]					,0) = ISNULL(src.[CASENUMBER],0)
+      AND ISNULL(tgt.[CASEMANAGERID]				,0) = ISNULL(src.[CASEMANAGERID],0)
+      AND ISNULL(tgt.[TEAMLEADERID]					,0) = ISNULL(src.[TEAMLEADERID],0)
+      AND ISNULL(tgt.[RISKCONSULTANTID]				,0) = ISNULL(src.[RISKCONSULTANTID],0)
+      AND ISNULL(tgt.[CARECONSULTANTID]				,0) = ISNULL(src.[CARECONSULTANTID],0)
+      AND ISNULL(tgt.[EXTERNALPROVIDERID]			,0) = ISNULL(src.[EXTERNALPROVIDERID],0)
+      AND ISNULL(tgt.[CLINICALADMINID]				,0) = ISNULL(src.[CLINICALADMINID],0)
+      AND ISNULL(tgt.[HASCASEMANAGERACCEPT]			,0) = ISNULL(src.[HASCASEMANAGERACCEPT],0)
+      AND ISNULL(tgt.[HASTEAMLEADERACCEPT]			,0) = ISNULL(src.[HASTEAMLEADERACCEPT],0)
+      AND ISNULL(tgt.[HASRISKCONSULTANTACCEPT]		,0) = ISNULL(src.[HASRISKCONSULTANTACCEPT],0)
+      AND ISNULL(tgt.[HASCARECONSULTANTACCEPT]		,0) = ISNULL(src.[HASCARECONSULTANTACCEPT],0)
+      AND ISNULL(tgt.[HASEXTERNALPROVIDERACCEPT]	,0) = ISNULL(src.[HASEXTERNALPROVIDERACCEPT],0)
+      AND ISNULL(tgt.[HASCLINICALADMINACCEPT]		,0) = ISNULL(src.[HASCLINICALADMINACCEPT],0)
+      AND ISNULL(tgt.[ISALLCASEMANAGERS]			,0) = ISNULL(src.[ISALLCASEMANAGERS],0)
+      AND ISNULL(tgt.[ISALLTEAMLEADERS]				,0) = ISNULL(src.[ISALLTEAMLEADERS],0)
+      AND ISNULL(tgt.[ISALLRISKCONSULTANT]			,0) = ISNULL(src.[ISALLRISKCONSULTANT],0)
+      AND ISNULL(tgt.[ISALLCARECONSULTANT]			,0) = ISNULL(src.[ISALLCARECONSULTANT],0)
+      AND ISNULL(tgt.[ISALLCLINICALADMIN]			,0) = ISNULL(src.[ISALLCLINICALADMIN],0)
+      AND ISNULL(tgt.[REASONFORESCALATIONID]		,0) = ISNULL(src.[REASONFORESCALATIONID],0)
+      AND ISNULL(tgt.[NOTESFORESCALATIONORASSIGN]	,'') = ISNULL(src.[NOTESFORESCALATIONORASSIGN],'')
+      AND ISNULL(tgt.[REASONFORASSIGMENTID]			,0) = ISNULL(src.[REASONFORASSIGMENTID],0)
+      AND ISNULL(tgt.[ISALLLEGALAFFILIATES]			,0) = ISNULL(src.[ISALLLEGALAFFILIATES],0)
+      AND ISNULL(tgt.[LEGALUSERID]					,0) = ISNULL(src.[LEGALUSERID],0)
+      AND ISNULL(tgt.[HASLEGALUSERACCEPT]			,0) = ISNULL(src.[HASLEGALUSERACCEPT],0)
+      AND ISNULL(tgt.[ISALLFINANCIALAFFILIATES]		,0) = ISNULL(src.[ISALLFINANCIALAFFILIATES],0)
+      AND ISNULL(tgt.[FINANCIALUSERID]				,0) = ISNULL(src.[FINANCIALUSERID],0)
+      AND ISNULL(tgt.[HASFINANCIALUSERACCEPT]		,0) = ISNULL(src.[HASFINANCIALUSERACCEPT],0)
+      AND ISNULL(tgt.[WORKSTAGEID]					,0) = ISNULL(src.[WORKSTAGEID],0)
+      AND ISNULL(tgt.[ASSIGNMENTSTATUSID]			,0) = ISNULL(src.[ASSIGNMENTSTATUSID],0)
+      AND ISNULL(tgt.[QA_DONE]						,0) = ISNULL(src.[QA_DONE],0)
+      AND ISNULL(tgt.[ISALLBUSINESSMANAGER]			,0) = ISNULL(src.[ISALLBUSINESSMANAGER],0)
+      AND ISNULL(tgt.[BUSINESSMANAGERID]			,0) = ISNULL(src.[BUSINESSMANAGERID],0)
+      AND ISNULL(tgt.[HASBUSINESSMANAGERACCEPT]		,0) = ISNULL(src.[HASBUSINESSMANAGERACCEPT],0)
+      AND ISNULL(tgt.[CASEREFTEXT]					,'') = ISNULL(src.[CASEREFTEXT],'')
+      AND ISNULL(tgt.[ISELIGIBLE]					,0) = ISNULL(src.[ISELIGIBLE],0)
+      AND ISNULL(tgt.[CLASSIFICATIONID]				,0) = ISNULL(src.[CLASSIFICATIONID],0)
+      AND ISNULL(tgt.[CLINICID]						,0) = ISNULL(src.[CLINICID],0)
+      AND ISNULL(tgt.[HASSPECIALRATE]				,0) = ISNULL(src.[HASSPECIALRATE],0)
+      AND ISNULL(tgt.[RATE]							,0) = ISNULL(src.[RATE],0)
+      AND ISNULL(tgt.[SERVICESTATUSID]				,0) = ISNULL(src.[SERVICESTATUSID],0)
+      AND ISNULL(tgt.[BUSINESSUNITID]				,0) = ISNULL(src.[BUSINESSUNITID],0)
+      AND ISNULL(tgt.[REGIONID]						,0) = ISNULL(src.[REGIONID],0)
+      AND ISNULL(tgt.[DEPARTMENTID]					,0) = ISNULL(src.[DEPARTMENTID],0)
+      AND ISNULL(tgt.[RISKLEVELCHANGEDON]			,'') = ISNULL(src.[RISKLEVELCHANGEDON],'')
+      AND ISNULL(tgt.[CASELINKID]					,0) = ISNULL(src.[CASELINKID],0)
+	)
+	then
+	update set 
+	 [OPENDATETIME]					= src.[OPENDATETIME]
+	,[OPENUSERID]					= src.[OPENUSERID]
+	,[CLOSEDATETIME]				= src.[CLOSEDATETIME]
+	,[CLOSEUSERID]					= src.[CLOSEUSERID]
+	,[STATUS]						= src.[STATUS]
+	,[CONTRACTID]					= src.[CONTRACTID]
+	,[CREATEDATETIME]				= src.[CREATEDATETIME]
+	,[CREATEUSERID]					= src.[CREATEUSERID]
+	,[AUTHNUMBER]					= src.[AUTHNUMBER]
+	,[CASETYPEID]					= src.[CASETYPEID]
+	,[EMPLOYEEID]					= src.[EMPLOYEEID]
+	,[UPDATEUSERID]					= src.[UPDATEUSERID]
+	,[UPDATEDATETIME]				= src.[UPDATEDATETIME]
+	,[CASECATEGORYID]				= src.[CASECATEGORYID]
+	,[CASESTATUSID]					= src.[CASESTATUSID]
+	,[PREFERLANGUAGE]				= src.[PREFERLANGUAGE]
+	,[PREFERGENDER]					= src.[PREFERGENDER]
+	,[NEWINTAKEASSESMENTID]			= src.[NEWINTAKEASSESMENTID]
+	,[ICARE_CATEGORYID]				= src.[ICARE_CATEGORYID]
+	,[CASEREFERENCE]				= src.[CASEREFERENCE]
+	,[EMPLOYEEDEPENDANTID]			= src.[EMPLOYEEDEPENDANTID]
+	,[ICARE_SERVICEID]				= src.[ICARE_SERVICEID]
+	,[INTAKEASSESSMENTID]			= src.[INTAKEASSESSMENTID]
+	,[DESCRIPTION]					= src.[DESCRIPTION]
+	,[COMPANYID]					= src.[COMPANYID]
+	,[COMPANYSITEID]				= src.[COMPANYSITEID]
+	,[EMPLOYEELEVELID]				= src.[EMPLOYEELEVELID]
+	,[TENUREID]						= src.[TENUREID]
+	,[PROBLEMCATEGORYID]			= src.[PROBLEMCATEGORYID]
+	,[PROBLEMTYPEID]				= src.[PROBLEMTYPEID]
+	,[RISKTYPEID]					= src.[RISKTYPEID]
+	,[RISKLEVELID]					= src.[RISKLEVELID]
+	,[RISKDEFINITIONID]				= src.[RISKDEFINITIONID]
+	,[CASECLOSUREID]				= src.[CASECLOSUREID]
+	,[INTAKEPERSONID]				= src.[INTAKEPERSONID]
+	,[CLOSURENOTES]					= src.[CLOSURENOTES]
+	,[TRACKINGSTATUSID]				= src.[TRACKINGSTATUSID]
+	,[REQUESTACTIONID]				= src.[REQUESTACTIONID]
+	,[CASEMANAGER]					= src.[CASEMANAGER]
+	,[TEAMLEADER]					= src.[TEAMLEADER]
+	,[ISOPTOUT]						= src.[ISOPTOUT]
+	,[PROJECTCODE]					= src.[PROJECTCODE]
+	,[CASEUSERID]					= src.[CASEUSERID]
+	,[ISMAINCASE]					= src.[ISMAINCASE]
+	,[SENDNOTIFICATIONS]			= src.[SENDNOTIFICATIONS]
+	,[CASENUMBER]					= src.[CASENUMBER]
+	,[CASEMANAGERID]				= src.[CASEMANAGERID]
+	,[TEAMLEADERID]					= src.[TEAMLEADERID]
+	,[RISKCONSULTANTID]				= src.[RISKCONSULTANTID]
+	,[CARECONSULTANTID]				= src.[CARECONSULTANTID]
+	,[EXTERNALPROVIDERID]			= src.[EXTERNALPROVIDERID]
+	,[CLINICALADMINID]				= src.[CLINICALADMINID]
+	,[HASCASEMANAGERACCEPT]			= src.[HASCASEMANAGERACCEPT]
+	,[HASTEAMLEADERACCEPT]			= src.[HASTEAMLEADERACCEPT]
+	,[HASRISKCONSULTANTACCEPT]		= src.[HASRISKCONSULTANTACCEPT]
+	,[HASCARECONSULTANTACCEPT]		= src.[HASCARECONSULTANTACCEPT]
+	,[HASEXTERNALPROVIDERACCEPT]	= src.[HASEXTERNALPROVIDERACCEPT]
+	,[HASCLINICALADMINACCEPT]		= src.[HASCLINICALADMINACCEPT]
+	,[ISALLCASEMANAGERS]			= src.[ISALLCASEMANAGERS]
+	,[ISALLTEAMLEADERS]				= src.[ISALLTEAMLEADERS]
+	,[ISALLRISKCONSULTANT]			= src.[ISALLRISKCONSULTANT]
+	,[ISALLCARECONSULTANT]			= src.[ISALLCARECONSULTANT]
+	,[ISALLCLINICALADMIN]			= src.[ISALLCLINICALADMIN]
+	,[REASONFORESCALATIONID]		= src.[REASONFORESCALATIONID]
+	,[NOTESFORESCALATIONORASSIGN]	= src.[NOTESFORESCALATIONORASSIGN]
+	,[REASONFORASSIGMENTID]			= src.[REASONFORASSIGMENTID]
+	,[ISALLLEGALAFFILIATES]			= src.[ISALLLEGALAFFILIATES]
+	,[LEGALUSERID]					= src.[LEGALUSERID]
+	,[HASLEGALUSERACCEPT]			= src.[HASLEGALUSERACCEPT]
+	,[ISALLFINANCIALAFFILIATES]		= src.[ISALLFINANCIALAFFILIATES]
+	,[FINANCIALUSERID]				= src.[FINANCIALUSERID]
+	,[HASFINANCIALUSERACCEPT]		= src.[HASFINANCIALUSERACCEPT]
+	,[WORKSTAGEID]					= src.[WORKSTAGEID]
+	,[ASSIGNMENTSTATUSID]			= src.[ASSIGNMENTSTATUSID]
+	,[QA_DONE]						= src.[QA_DONE]
+	,[ISALLBUSINESSMANAGER]			= src.[ISALLBUSINESSMANAGER]
+	,[BUSINESSMANAGERID]			= src.[BUSINESSMANAGERID]
+	,[HASBUSINESSMANAGERACCEPT]		= src.[HASBUSINESSMANAGERACCEPT]
+	,[CASEREFTEXT]					= src.[CASEREFTEXT]
+	,[ISELIGIBLE]					= src.[ISELIGIBLE]
+	,[CLASSIFICATIONID]				= src.[CLASSIFICATIONID]
+	,[CLINICID]						= src.[CLINICID]
+	,[HASSPECIALRATE]				= src.[HASSPECIALRATE]
+	,[RATE]							= src.[RATE]
+	,[SERVICESTATUSID]				= src.[SERVICESTATUSID]
+	,[BUSINESSUNITID]				= src.[BUSINESSUNITID]
+	,[REGIONID]						= src.[REGIONID]
+	,[DEPARTMENTID]					= src.[DEPARTMENTID]
+	,[RISKLEVELCHANGEDON]			= src.[RISKLEVELCHANGEDON]
+	,[CASELINKID]					= src.[CASELINKID]
+	,[ETLExecutionKey]				= src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[OPENDATETIME]
+      ,[OPENUSERID]
+      ,[CLOSEDATETIME]
+      ,[CLOSEUSERID]
+      ,[STATUS]
+      ,[CONTRACTID]
+      ,[CREATEDATETIME]
+      ,[CREATEUSERID]
+      ,[AUTHNUMBER]
+      ,[CASETYPEID]
+      ,[EMPLOYEEID]
+      ,[UPDATEUSERID]
+      ,[UPDATEDATETIME]
+      ,[CASECATEGORYID]
+      ,[CASESTATUSID]
+      ,[PREFERLANGUAGE]
+      ,[PREFERGENDER]
+      ,[NEWINTAKEASSESMENTID]
+      ,[ICARE_CATEGORYID]
+      ,[CASEREFERENCE]
+      ,[EMPLOYEEDEPENDANTID]
+      ,[ICARE_SERVICEID]
+      ,[INTAKEASSESSMENTID]
+      ,[DESCRIPTION]
+      ,[COMPANYID]
+      ,[COMPANYSITEID]
+      ,[EMPLOYEELEVELID]
+      ,[TENUREID]
+      ,[PROBLEMCATEGORYID]
+      ,[PROBLEMTYPEID]
+      ,[RISKTYPEID]
+      ,[RISKLEVELID]
+      ,[RISKDEFINITIONID]
+      ,[CASECLOSUREID]
+      ,[INTAKEPERSONID]
+      ,[CLOSURENOTES]
+      ,[TRACKINGSTATUSID]
+      ,[REQUESTACTIONID]
+      ,[CASEMANAGER]
+      ,[TEAMLEADER]
+      ,[ISOPTOUT]
+      ,[PROJECTCODE]
+      ,[CASEUSERID]
+      ,[ISMAINCASE]
+      ,[SENDNOTIFICATIONS]
+      ,[CASENUMBER]
+      ,[CASEMANAGERID]
+      ,[TEAMLEADERID]
+      ,[RISKCONSULTANTID]
+      ,[CARECONSULTANTID]
+      ,[EXTERNALPROVIDERID]
+      ,[CLINICALADMINID]
+      ,[HASCASEMANAGERACCEPT]
+      ,[HASTEAMLEADERACCEPT]
+      ,[HASRISKCONSULTANTACCEPT]
+      ,[HASCARECONSULTANTACCEPT]
+      ,[HASEXTERNALPROVIDERACCEPT]
+      ,[HASCLINICALADMINACCEPT]
+      ,[ISALLCASEMANAGERS]
+      ,[ISALLTEAMLEADERS]
+      ,[ISALLRISKCONSULTANT]
+      ,[ISALLCARECONSULTANT]
+      ,[ISALLCLINICALADMIN]
+      ,[REASONFORESCALATIONID]
+      ,[NOTESFORESCALATIONORASSIGN]
+      ,[REASONFORASSIGMENTID]
+      ,[ISALLLEGALAFFILIATES]
+      ,[LEGALUSERID]
+      ,[HASLEGALUSERACCEPT]
+      ,[ISALLFINANCIALAFFILIATES]
+      ,[FINANCIALUSERID]
+      ,[HASFINANCIALUSERACCEPT]
+      ,[WORKSTAGEID]
+      ,[ASSIGNMENTSTATUSID]
+      ,[QA_DONE]
+      ,[ISALLBUSINESSMANAGER]
+      ,[BUSINESSMANAGERID]
+      ,[HASBUSINESSMANAGERACCEPT]
+      ,[CASEREFTEXT]
+      ,[ISELIGIBLE]
+      ,[CLASSIFICATIONID]
+      ,[CLINICID]
+      ,[HASSPECIALRATE]
+      ,[RATE]
+      ,[SERVICESTATUSID]
+      ,[BUSINESSUNITID]
+      ,[REGIONID]
+      ,[DEPARTMENTID]
+      ,[RISKLEVELCHANGEDON]
+      ,[CASELINKID]
+      ,[ETLExecutionKey])
+		values
+		(
+					[ID]
+      ,[OPENDATETIME]
+      ,[OPENUSERID]
+      ,[CLOSEDATETIME]
+      ,[CLOSEUSERID]
+      ,[STATUS]
+      ,[CONTRACTID]
+      ,[CREATEDATETIME]
+      ,[CREATEUSERID]
+      ,[AUTHNUMBER]
+      ,[CASETYPEID]
+      ,[EMPLOYEEID]
+      ,[UPDATEUSERID]
+      ,[UPDATEDATETIME]
+      ,[CASECATEGORYID]
+      ,[CASESTATUSID]
+      ,[PREFERLANGUAGE]
+      ,[PREFERGENDER]
+      ,[NEWINTAKEASSESMENTID]
+      ,[ICARE_CATEGORYID]
+      ,[CASEREFERENCE]
+      ,[EMPLOYEEDEPENDANTID]
+      ,[ICARE_SERVICEID]
+      ,[INTAKEASSESSMENTID]
+      ,[DESCRIPTION]
+      ,[COMPANYID]
+      ,[COMPANYSITEID]
+      ,[EMPLOYEELEVELID]
+      ,[TENUREID]
+      ,[PROBLEMCATEGORYID]
+      ,[PROBLEMTYPEID]
+      ,[RISKTYPEID]
+      ,[RISKLEVELID]
+      ,[RISKDEFINITIONID]
+      ,[CASECLOSUREID]
+      ,[INTAKEPERSONID]
+      ,[CLOSURENOTES]
+      ,[TRACKINGSTATUSID]
+      ,[REQUESTACTIONID]
+      ,[CASEMANAGER]
+      ,[TEAMLEADER]
+      ,[ISOPTOUT]
+      ,[PROJECTCODE]
+      ,[CASEUSERID]
+      ,[ISMAINCASE]
+      ,[SENDNOTIFICATIONS]
+      ,[CASENUMBER]
+      ,[CASEMANAGERID]
+      ,[TEAMLEADERID]
+      ,[RISKCONSULTANTID]
+      ,[CARECONSULTANTID]
+      ,[EXTERNALPROVIDERID]
+      ,[CLINICALADMINID]
+      ,[HASCASEMANAGERACCEPT]
+      ,[HASTEAMLEADERACCEPT]
+      ,[HASRISKCONSULTANTACCEPT]
+      ,[HASCARECONSULTANTACCEPT]
+      ,[HASEXTERNALPROVIDERACCEPT]
+      ,[HASCLINICALADMINACCEPT]
+      ,[ISALLCASEMANAGERS]
+      ,[ISALLTEAMLEADERS]
+      ,[ISALLRISKCONSULTANT]
+      ,[ISALLCARECONSULTANT]
+      ,[ISALLCLINICALADMIN]
+      ,[REASONFORESCALATIONID]
+      ,[NOTESFORESCALATIONORASSIGN]
+      ,[REASONFORASSIGMENTID]
+      ,[ISALLLEGALAFFILIATES]
+      ,[LEGALUSERID]
+      ,[HASLEGALUSERACCEPT]
+      ,[ISALLFINANCIALAFFILIATES]
+      ,[FINANCIALUSERID]
+      ,[HASFINANCIALUSERACCEPT]
+      ,[WORKSTAGEID]
+      ,[ASSIGNMENTSTATUSID]
+      ,[QA_DONE]
+      ,[ISALLBUSINESSMANAGER]
+      ,[BUSINESSMANAGERID]
+      ,[HASBUSINESSMANAGERACCEPT]
+      ,[CASEREFTEXT]
+      ,[ISELIGIBLE]
+      ,[CLASSIFICATIONID]
+      ,[CLINICID]
+      ,[HASSPECIALRATE]
+      ,[RATE]
+      ,[SERVICESTATUSID]
+      ,[BUSINESSUNITID]
+      ,[REGIONID]
+      ,[DEPARTMENTID]
+      ,[RISKLEVELCHANGEDON]
+      ,[CASELINKID]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+if (select object_id('Persist.prc_load_CaseInterventionAddress')) is not null
+drop procedure Persist.prc_load_CaseInterventionAddress 
+go 
+create procedure [Persist].[prc_load_CaseInterventionAddress]
+as
+begin
+	merge Persist.CaseInterventionAddress as tgt
+	using
+		(
+		SELECT [ID]
+      ,[INTAKEASSESSMENTID]
+      ,[CASEID]
+      ,[INTERVENTIONADDRESS]
+      ,[LOCATION]
+      ,[LATITUDE]
+      ,[LONGITUDE]
+      ,[UNITNUMBER]
+      ,[STREETNAME]
+      ,[PROVINCEID]
+      ,[COUNTRYID]
+      ,[HASCONTRACTSECURED]
+      ,[RATIONALFORNOCONTRACT]
+      ,[FACILITATORNAME]
+      ,[FACILITATORCONTACTNUMBER]
+      ,[FACILITATOREMAILADDRESS]
+      ,[EVENTFACILITATORID]
+      ,[CASEMANAGEMENTBY]
+      ,[WHOWILLARRANGEFACILITATOR]
+      ,[ASSIGNNOTES]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_EW4_CASEINTERVENTIONADDRESS]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[INTAKEASSESSMENTID]        , 0)  = ISNULL(src.[INTAKEASSESSMENTID]        , 0)
+      AND ISNULL(tgt.[CASEID]					 , 0)  = ISNULL(src.[CASEID]					 , 0)
+      AND ISNULL(tgt.[INTERVENTIONADDRESS]		 , '') = ISNULL(src.[INTERVENTIONADDRESS]		 , '')
+      AND ISNULL(tgt.[LOCATION]					 , '') = ISNULL(src.[LOCATION]					 , '')
+      AND ISNULL(tgt.[LATITUDE]					 , 0)  = ISNULL(src.[LATITUDE]					 , 0)
+      AND ISNULL(tgt.[LONGITUDE]				 , 0)  = ISNULL(src.[LONGITUDE]				 , 0)
+      AND ISNULL(tgt.[UNITNUMBER]				 , '') = ISNULL(src.[UNITNUMBER]				 , '')
+      AND ISNULL(tgt.[STREETNAME]				 , '') = ISNULL(src.[STREETNAME]				 , '')
+      AND ISNULL(tgt.[PROVINCEID]				 , 0)  = ISNULL(src.[PROVINCEID]				 , 0)
+      AND ISNULL(tgt.[COUNTRYID]				 , 0)  = ISNULL(src.[COUNTRYID]				 , 0)
+      AND ISNULL(tgt.[HASCONTRACTSECURED]		 , 0)  = ISNULL(src.[HASCONTRACTSECURED]		 , 0)
+      AND ISNULL(tgt.[RATIONALFORNOCONTRACT]	 , '') = ISNULL(src.[RATIONALFORNOCONTRACT]	 , '')
+      AND ISNULL(tgt.[FACILITATORNAME]			 , '') = ISNULL(src.[FACILITATORNAME]			 , '')
+      AND ISNULL(tgt.[FACILITATORCONTACTNUMBER]	 , '') = ISNULL(src.[FACILITATORCONTACTNUMBER]	 , '')
+      AND ISNULL(tgt.[FACILITATOREMAILADDRESS]	 , '') = ISNULL(src.[FACILITATOREMAILADDRESS]	 , '')
+      AND ISNULL(tgt.[EVENTFACILITATORID]		 , 0)  = ISNULL(src.[EVENTFACILITATORID]		 , 0)
+      AND ISNULL(tgt.[CASEMANAGEMENTBY]			 , '') = ISNULL(src.[CASEMANAGEMENTBY]			 , '')
+      AND ISNULL(tgt.[WHOWILLARRANGEFACILITATOR] , '') = ISNULL(src.[WHOWILLARRANGEFACILITATOR] , '')
+      AND ISNULL(tgt.[ASSIGNNOTES]				 , '') = ISNULL(src.[ASSIGNNOTES]				 , '')
+	)
+	then
+	update set 
+	   [INTAKEASSESSMENTID]        = src.[INTAKEASSESSMENTID]
+      ,[CASEID]					   = src.[CASEID]
+      ,[INTERVENTIONADDRESS]	   = src.[INTERVENTIONADDRESS]
+      ,[LOCATION]				   = src.[LOCATION]
+      ,[LATITUDE]				   = src.[LATITUDE]
+      ,[LONGITUDE]				   = src.[LONGITUDE]
+      ,[UNITNUMBER]				   = src.[UNITNUMBER]
+      ,[STREETNAME]				   = src.[STREETNAME]
+      ,[PROVINCEID]				   = src.[PROVINCEID]
+      ,[COUNTRYID]				   = src.[COUNTRYID]
+      ,[HASCONTRACTSECURED]		   = src.[HASCONTRACTSECURED]
+      ,[RATIONALFORNOCONTRACT]	   = src.[RATIONALFORNOCONTRACT]
+      ,[FACILITATORNAME]		   = src.[FACILITATORNAME]
+      ,[FACILITATORCONTACTNUMBER]  = src.[FACILITATORCONTACTNUMBER]
+      ,[FACILITATOREMAILADDRESS]   = src.[FACILITATOREMAILADDRESS]
+      ,[EVENTFACILITATORID]		   = src.[EVENTFACILITATORID]
+      ,[CASEMANAGEMENTBY]		   = src.[CASEMANAGEMENTBY]
+      ,[WHOWILLARRANGEFACILITATOR] = src.[WHOWILLARRANGEFACILITATOR]
+      ,[ASSIGNNOTES]			   = src.[ASSIGNNOTES]
+      ,[ETLExecutionKey]	  = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[INTAKEASSESSMENTID]
+      ,[CASEID]
+      ,[INTERVENTIONADDRESS]
+      ,[LOCATION]
+      ,[LATITUDE]
+      ,[LONGITUDE]
+      ,[UNITNUMBER]
+      ,[STREETNAME]
+      ,[PROVINCEID]
+      ,[COUNTRYID]
+      ,[HASCONTRACTSECURED]
+      ,[RATIONALFORNOCONTRACT]
+      ,[FACILITATORNAME]
+      ,[FACILITATORCONTACTNUMBER]
+      ,[FACILITATOREMAILADDRESS]
+      ,[EVENTFACILITATORID]
+      ,[CASEMANAGEMENTBY]
+      ,[WHOWILLARRANGEFACILITATOR]
+      ,[ASSIGNNOTES]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[INTAKEASSESSMENTID]
+      ,[CASEID]
+      ,[INTERVENTIONADDRESS]
+      ,[LOCATION]
+      ,[LATITUDE]
+      ,[LONGITUDE]
+      ,[UNITNUMBER]
+      ,[STREETNAME]
+      ,[PROVINCEID]
+      ,[COUNTRYID]
+      ,[HASCONTRACTSECURED]
+      ,[RATIONALFORNOCONTRACT]
+      ,[FACILITATORNAME]
+      ,[FACILITATORCONTACTNUMBER]
+      ,[FACILITATOREMAILADDRESS]
+      ,[EVENTFACILITATORID]
+      ,[CASEMANAGEMENTBY]
+      ,[WHOWILLARRANGEFACILITATOR]
+      ,[ASSIGNNOTES]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+if (select object_id('Persist.prc_load_CaseLink')) is not null
+drop procedure Persist.prc_load_CaseLink 
+go 
+create procedure [Persist].[prc_load_CaseLink]
+as
+begin
+	merge Persist.CaseLink as tgt
+	using
+		(
+		SELECT [ID]
+      ,[CREATEDBY]
+      ,[CREATEDON]
+      ,[ISACTIVE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_EW4_CASELINK]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+          ISNULL(tgt.[CREATEDBY], 0) = ISNULL(src.[CREATEDBY], 0)
+	  and ISNULL(tgt.[CREATEDON], '') = ISNULL(src.[CREATEDON], '')
+      AND ISNULL(tgt.[ISACTIVE], 0) = ISNULL(src.[ISACTIVE], 0)
+	)
+	then
+	update set 
+	   [CREATEDBY]			 = src.[CREATEDBY]
+      ,[CREATEDON]			 = src.[CREATEDON]
+      ,[ISACTIVE]		 = src.[ISACTIVE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[CREATEDBY]
+      ,[CREATEDON]
+      ,[ISACTIVE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[CREATEDBY]
+      ,[CREATEDON]
+      ,[ISACTIVE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+if (select object_id('Persist.prc_load_CasePreferenceCriteria')) is not null
+drop procedure Persist.prc_load_CasePreferenceCriteria 
+go 
+create procedure [Persist].[prc_load_CasePreferenceCriteria]
+as
+begin
+	merge Persist.CasePreferenceCriteria as tgt
+	using
+		(
+		SELECT [ID]
+      ,[CASEID]
+      ,[DELIVERYMETHODID]
+      ,[LOCATION]
+      ,[LATITUDE]
+      ,[LONGITUDE]
+      ,[PREFERGENDERID]
+      ,[PREFERLANGUAGEID]
+      ,[ETHNICITYID]
+      ,[PROVINCEID]
+      ,[AFFILIATEAGE]
+      ,[DEPENDENTAGE]
+      ,[CREATEDUSERID]
+      ,[CREATED]
+      ,[CASESESSIONID]
+      ,[ISGENDERFACTOR]
+      ,[ISLANGUAGEFACTOR]
+      ,[ISETHNICITYFACTOR]
+      ,[ADDITIONALSESSIONSNEEDED]
+      ,[RECOMMENDATION]
+      ,[ISRELIGIONFACTOR]
+      ,[RELIGIONID]
+      ,[SERVICETYPEID]
+      ,[PROVIDERTYPENAME]
+      ,[LOCATION_1]
+      ,[LATITUDE_1]
+      ,[LONGITUDE_1]
+      ,[LOCATION_2]
+      ,[LATITUDE_2]
+      ,[LONGITUDE_2]
+      ,[LOCATION_3]
+      ,[LATITUDE_3]
+      ,[LONGITUDE_3]
+      ,[EXCLUDEAGEGROUPID]
+      ,[EXCLUDECOUNSELLINGMETHODID]
+      ,[EXCLUDEPROVIDERTYPEID]
+      ,[EXCLUDEPROVIDERTYPENAME]
+      ,[PROVIDERTYPEID]
+      ,[HCSERVICEID]
+      ,[SPECIALITYTYPEID]
+      ,[EXCLUDESPECIALITYTYPEID]
+      ,[EXCLUDESPECIALITYTYPENAME]
+      ,[USELOCATION1]
+      ,[USELOCATION2]
+      ,[USELOCATION3]
+      ,[DAYOFWEEKID]
+      ,[OTHERTIMESLOT]
+      ,[ISANYWEEKDAY]
+      ,[ISONLYWEEKENDS]
+      ,[OTHERNOTES]
+      ,[TIMESLOTSID]
+      ,[INTAKEASSESSMENTID]
+      ,[CLINICID]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_5if_CasePreferenceCriteria]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[CASEID]				      , 0)  = ISNULL(src.[CASEID]				      , 0)
+      AND ISNULL(tgt.[DELIVERYMETHODID]		      , 0)	= ISNULL(src.[DELIVERYMETHODID]		      , 0)
+      AND ISNULL(tgt.[LOCATION]				      , '')	= ISNULL(src.[LOCATION]				      , '')
+      AND ISNULL(tgt.[LATITUDE]				      , 0)	= ISNULL(src.[LATITUDE]				      , 0)
+      AND ISNULL(tgt.[LONGITUDE]			      , 0)	= ISNULL(src.[LONGITUDE]			      , 0)
+      AND ISNULL(tgt.[PREFERGENDERID]		      , 0)	= ISNULL(src.[PREFERGENDERID]		      , 0)
+      AND ISNULL(tgt.[PREFERLANGUAGEID]		      , 0)	= ISNULL(src.[PREFERLANGUAGEID]		      , 0)
+      AND ISNULL(tgt.[ETHNICITYID]				  , 0)	= ISNULL(src.[ETHNICITYID]				  , 0)
+      AND ISNULL(tgt.[PROVINCEID]				  , 0)	= ISNULL(src.[PROVINCEID]				  , 0)
+      AND ISNULL(tgt.[AFFILIATEAGE]			      , 0)	= ISNULL(src.[AFFILIATEAGE]			      , 0)
+      AND ISNULL(tgt.[DEPENDENTAGE]			      , 0)	= ISNULL(src.[DEPENDENTAGE]			      , 0)
+      AND ISNULL(tgt.[CREATEDUSERID]			  , 0)	= ISNULL(src.[CREATEDUSERID]			  , 0)
+      AND ISNULL(tgt.[CREATED]					  , '')	= ISNULL(src.[CREATED]					  , '')
+      AND ISNULL(tgt.[CASESESSIONID]			  , 0)	= ISNULL(src.[CASESESSIONID]			  , 0)
+      AND ISNULL(tgt.[ISGENDERFACTOR]			  , 0)	= ISNULL(src.[ISGENDERFACTOR]			  , 0)
+      AND ISNULL(tgt.[ISLANGUAGEFACTOR]		      , 0)	= ISNULL(src.[ISLANGUAGEFACTOR]		      , 0)
+      AND ISNULL(tgt.[ISETHNICITYFACTOR]		  , 0)	= ISNULL(src.[ISETHNICITYFACTOR]		  , 0)
+      AND ISNULL(tgt.[ADDITIONALSESSIONSNEEDED]   , 0)	= ISNULL(src.[ADDITIONALSESSIONSNEEDED]   , 0)
+      AND ISNULL(tgt.[RECOMMENDATION]			  , '')	= ISNULL(src.[RECOMMENDATION]			  , '')
+      AND ISNULL(tgt.[ISRELIGIONFACTOR]			  , 0)	= ISNULL(src.[ISRELIGIONFACTOR]			  , 0)
+      AND ISNULL(tgt.[RELIGIONID]				  , 0)	= ISNULL(src.[RELIGIONID]				  , 0)
+      AND ISNULL(tgt.[SERVICETYPEID]			  , 0)	= ISNULL(src.[SERVICETYPEID]			  , 0)
+      AND ISNULL(tgt.[PROVIDERTYPENAME]		      , '')	= ISNULL(src.[PROVIDERTYPENAME]		      , '')
+      AND ISNULL(tgt.[LOCATION_1]				  , '')	= ISNULL(src.[LOCATION_1]				  , '')
+      AND ISNULL(tgt.[LATITUDE_1]				  , 0)	= ISNULL(src.[LATITUDE_1]				  , 0)
+      AND ISNULL(tgt.[LONGITUDE_1]				  , 0)	= ISNULL(src.[LONGITUDE_1]				  , 0)
+      AND ISNULL(tgt.[LOCATION_2]				  , '')	= ISNULL(src.[LOCATION_2]				  , '')
+      AND ISNULL(tgt.[LATITUDE_2]				  , 0)	= ISNULL(src.[LATITUDE_2]				  , 0)
+      AND ISNULL(tgt.[LONGITUDE_2]				  , 0)	= ISNULL(src.[LONGITUDE_2]				  , 0)
+      AND ISNULL(tgt.[LOCATION_3]				  , '')	= ISNULL(src.[LOCATION_3]				  , '')
+      AND ISNULL(tgt.[LATITUDE_3]				  , 0)	= ISNULL(src.[LATITUDE_3]				  , 0)
+      AND ISNULL(tgt.[LONGITUDE_3]				  , 0)	= ISNULL(src.[LONGITUDE_3]				  , 0)
+      AND ISNULL(tgt.[EXCLUDEAGEGROUPID]		  , 0)	= ISNULL(src.[EXCLUDEAGEGROUPID]		  , 0)
+      AND ISNULL(tgt.[EXCLUDECOUNSELLINGMETHODID] , 0)	= ISNULL(src.[EXCLUDECOUNSELLINGMETHODID] , 0)
+      AND ISNULL(tgt.[EXCLUDEPROVIDERTYPEID]	  , 0)	= ISNULL(src.[EXCLUDEPROVIDERTYPEID]	  , 0)
+      AND ISNULL(tgt.[EXCLUDEPROVIDERTYPENAME]	  , '')	= ISNULL(src.[EXCLUDEPROVIDERTYPENAME]	  , '')
+      AND ISNULL(tgt.[PROVIDERTYPEID]			  , 0)	= ISNULL(src.[PROVIDERTYPEID]			  , 0)
+      AND ISNULL(tgt.[HCSERVICEID]				  , 0)	= ISNULL(src.[HCSERVICEID]				  , 0)
+      AND ISNULL(tgt.[SPECIALITYTYPEID]			  , 0)	= ISNULL(src.[SPECIALITYTYPEID]			  , 0)
+      AND ISNULL(tgt.[EXCLUDESPECIALITYTYPEID]	  , 0)	= ISNULL(src.[EXCLUDESPECIALITYTYPEID]	  , 0)
+      AND ISNULL(tgt.[EXCLUDESPECIALITYTYPENAME]  , '')	= ISNULL(src.[EXCLUDESPECIALITYTYPENAME]  , '')
+      AND ISNULL(tgt.[USELOCATION1]				  , 0)	= ISNULL(src.[USELOCATION1]				  , 0)
+      AND ISNULL(tgt.[USELOCATION2]				  , 0)	= ISNULL(src.[USELOCATION2]				  , 0)
+      AND ISNULL(tgt.[USELOCATION3]				  , 0)	= ISNULL(src.[USELOCATION3]				  , 0)
+      AND ISNULL(tgt.[DAYOFWEEKID]				  , 0)	= ISNULL(src.[DAYOFWEEKID]				  , 0)
+      AND ISNULL(tgt.[OTHERTIMESLOT]			  , '')	= ISNULL(src.[OTHERTIMESLOT]			  , '')
+      AND ISNULL(tgt.[ISANYWEEKDAY]				  , 0)	= ISNULL(src.[ISANYWEEKDAY]				  , 0)
+      AND ISNULL(tgt.[ISONLYWEEKENDS]			  , 0)	= ISNULL(src.[ISONLYWEEKENDS]			  , 0)
+      AND ISNULL(tgt.[OTHERNOTES]				  , '')	= ISNULL(src.[OTHERNOTES]				  , '')
+      AND ISNULL(tgt.[TIMESLOTSID]				  , 0)	= ISNULL(src.[TIMESLOTSID]				  , 0)
+      AND ISNULL(tgt.[INTAKEASSESSMENTID]		  , 0)	= ISNULL(src.[INTAKEASSESSMENTID]		  , 0)
+      AND ISNULL(tgt.[CLINICID]				      , 0)	= ISNULL(src.[CLINICID]				      , 0)
+	)
+	then
+	update set 
+	   [CASEID]					    = src.[CASEID]
+      ,[DELIVERYMETHODID]		    = src.[DELIVERYMETHODID]
+      ,[LOCATION]				    = src.[LOCATION]
+      ,[LATITUDE]				    = src.[LATITUDE]
+      ,[LONGITUDE]				    = src.[LONGITUDE]
+      ,[PREFERGENDERID]			    = src.[PREFERGENDERID]
+      ,[PREFERLANGUAGEID]		    = src.[PREFERLANGUAGEID]
+      ,[ETHNICITYID]			    = src.[ETHNICITYID]
+      ,[PROVINCEID]				    = src.[PROVINCEID]
+      ,[AFFILIATEAGE]			    = src.[AFFILIATEAGE]
+      ,[DEPENDENTAGE]			    = src.[DEPENDENTAGE]
+      ,[CREATEDUSERID]			    = src.[CREATEDUSERID]
+      ,[CREATED]				    = src.[CREATED]
+      ,[CASESESSIONID]			    = src.[CASESESSIONID]
+      ,[ISGENDERFACTOR]			    = src.[ISGENDERFACTOR]
+      ,[ISLANGUAGEFACTOR]		    = src.[ISLANGUAGEFACTOR]
+      ,[ISETHNICITYFACTOR]		    = src.[ISETHNICITYFACTOR]
+      ,[ADDITIONALSESSIONSNEEDED]   = src.[ADDITIONALSESSIONSNEEDED]
+      ,[RECOMMENDATION]			    = src.[RECOMMENDATION]
+      ,[ISRELIGIONFACTOR]		    = src.[ISRELIGIONFACTOR]
+      ,[RELIGIONID]				    = src.[RELIGIONID]
+      ,[SERVICETYPEID]			    = src.[SERVICETYPEID]
+      ,[PROVIDERTYPENAME]		    = src.[PROVIDERTYPENAME]
+      ,[LOCATION_1]				    = src.[LOCATION_1]
+      ,[LATITUDE_1]				    = src.[LATITUDE_1]
+      ,[LONGITUDE_1]			    = src.[LONGITUDE_1]
+      ,[LOCATION_2]				    = src.[LOCATION_2]
+      ,[LATITUDE_2]				    = src.[LATITUDE_2]
+      ,[LONGITUDE_2]			    = src.[LONGITUDE_2]
+      ,[LOCATION_3]				    = src.[LOCATION_3]
+      ,[LATITUDE_3]				    = src.[LATITUDE_3]
+      ,[LONGITUDE_3]			    = src.[LONGITUDE_3]
+      ,[EXCLUDEAGEGROUPID]		    = src.[EXCLUDEAGEGROUPID]
+      ,[EXCLUDECOUNSELLINGMETHODID] = src.[EXCLUDECOUNSELLINGMETHODID]
+      ,[EXCLUDEPROVIDERTYPEID]	    = src.[EXCLUDEPROVIDERTYPEID]
+      ,[EXCLUDEPROVIDERTYPENAME]    = src.[EXCLUDEPROVIDERTYPENAME]
+      ,[PROVIDERTYPEID]			    = src.[PROVIDERTYPEID]
+      ,[HCSERVICEID]			    = src.[HCSERVICEID]
+      ,[SPECIALITYTYPEID]		    = src.[SPECIALITYTYPEID]
+      ,[EXCLUDESPECIALITYTYPEID]    = src.[EXCLUDESPECIALITYTYPEID]
+      ,[EXCLUDESPECIALITYTYPENAME]  = src.[EXCLUDESPECIALITYTYPENAME]
+      ,[USELOCATION1]			    = src.[USELOCATION1]
+      ,[USELOCATION2]			    = src.[USELOCATION2]
+      ,[USELOCATION3]			    = src.[USELOCATION3]
+      ,[DAYOFWEEKID]			    = src.[DAYOFWEEKID]
+      ,[OTHERTIMESLOT]			    = src.[OTHERTIMESLOT]
+      ,[ISANYWEEKDAY]			    = src.[ISANYWEEKDAY]
+      ,[ISONLYWEEKENDS]			    = src.[ISONLYWEEKENDS]
+      ,[OTHERNOTES]				    = src.[OTHERNOTES]
+      ,[TIMESLOTSID]			    = src.[TIMESLOTSID]
+      ,[INTAKEASSESSMENTID]		    = src.[INTAKEASSESSMENTID]
+      ,[CLINICID]				    = src.[CLINICID]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[CASEID]
+      ,[DELIVERYMETHODID]
+      ,[LOCATION]
+      ,[LATITUDE]
+      ,[LONGITUDE]
+      ,[PREFERGENDERID]
+      ,[PREFERLANGUAGEID]
+      ,[ETHNICITYID]
+      ,[PROVINCEID]
+      ,[AFFILIATEAGE]
+      ,[DEPENDENTAGE]
+      ,[CREATEDUSERID]
+      ,[CREATED]
+      ,[CASESESSIONID]
+      ,[ISGENDERFACTOR]
+      ,[ISLANGUAGEFACTOR]
+      ,[ISETHNICITYFACTOR]
+      ,[ADDITIONALSESSIONSNEEDED]
+      ,[RECOMMENDATION]
+      ,[ISRELIGIONFACTOR]
+      ,[RELIGIONID]
+      ,[SERVICETYPEID]
+      ,[PROVIDERTYPENAME]
+      ,[LOCATION_1]
+      ,[LATITUDE_1]
+      ,[LONGITUDE_1]
+      ,[LOCATION_2]
+      ,[LATITUDE_2]
+      ,[LONGITUDE_2]
+      ,[LOCATION_3]
+      ,[LATITUDE_3]
+      ,[LONGITUDE_3]
+      ,[EXCLUDEAGEGROUPID]
+      ,[EXCLUDECOUNSELLINGMETHODID]
+      ,[EXCLUDEPROVIDERTYPEID]
+      ,[EXCLUDEPROVIDERTYPENAME]
+      ,[PROVIDERTYPEID]
+      ,[HCSERVICEID]
+      ,[SPECIALITYTYPEID]
+      ,[EXCLUDESPECIALITYTYPEID]
+      ,[EXCLUDESPECIALITYTYPENAME]
+      ,[USELOCATION1]
+      ,[USELOCATION2]
+      ,[USELOCATION3]
+      ,[DAYOFWEEKID]
+      ,[OTHERTIMESLOT]
+      ,[ISANYWEEKDAY]
+      ,[ISONLYWEEKENDS]
+      ,[OTHERNOTES]
+      ,[TIMESLOTSID]
+      ,[INTAKEASSESSMENTID]
+      ,[CLINICID]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[CASEID]
+      ,[DELIVERYMETHODID]
+      ,[LOCATION]
+      ,[LATITUDE]
+      ,[LONGITUDE]
+      ,[PREFERGENDERID]
+      ,[PREFERLANGUAGEID]
+      ,[ETHNICITYID]
+      ,[PROVINCEID]
+      ,[AFFILIATEAGE]
+      ,[DEPENDENTAGE]
+      ,[CREATEDUSERID]
+      ,[CREATED]
+      ,[CASESESSIONID]
+      ,[ISGENDERFACTOR]
+      ,[ISLANGUAGEFACTOR]
+      ,[ISETHNICITYFACTOR]
+      ,[ADDITIONALSESSIONSNEEDED]
+      ,[RECOMMENDATION]
+      ,[ISRELIGIONFACTOR]
+      ,[RELIGIONID]
+      ,[SERVICETYPEID]
+      ,[PROVIDERTYPENAME]
+      ,[LOCATION_1]
+      ,[LATITUDE_1]
+      ,[LONGITUDE_1]
+      ,[LOCATION_2]
+      ,[LATITUDE_2]
+      ,[LONGITUDE_2]
+      ,[LOCATION_3]
+      ,[LATITUDE_3]
+      ,[LONGITUDE_3]
+      ,[EXCLUDEAGEGROUPID]
+      ,[EXCLUDECOUNSELLINGMETHODID]
+      ,[EXCLUDEPROVIDERTYPEID]
+      ,[EXCLUDEPROVIDERTYPENAME]
+      ,[PROVIDERTYPEID]
+      ,[HCSERVICEID]
+      ,[SPECIALITYTYPEID]
+      ,[EXCLUDESPECIALITYTYPEID]
+      ,[EXCLUDESPECIALITYTYPENAME]
+      ,[USELOCATION1]
+      ,[USELOCATION2]
+      ,[USELOCATION3]
+      ,[DAYOFWEEKID]
+      ,[OTHERTIMESLOT]
+      ,[ISANYWEEKDAY]
+      ,[ISONLYWEEKENDS]
+      ,[OTHERNOTES]
+      ,[TIMESLOTSID]
+      ,[INTAKEASSESSMENTID]
+      ,[CLINICID]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+if (select object_id('Persist.prc_load_CaseService')) is not null
+drop procedure Persist.prc_load_CaseService 
+go 
+create procedure [Persist].[prc_load_CaseService]
+as
+begin
+	merge Persist.CaseService as tgt
+	using
+		(
+		SELECT [ID]
+      ,[CASEID]
+      ,[DATEREQUESTED]
+      ,[ISACCEPTED]
+      ,[ICARE_SERVICEID]
+      ,[ISPREFERONSITE]
+      ,[EXTERNALPROVIDERID]
+      ,[EXTERNALREQUESTED]
+      ,[EXTERNALSERVICEREQUEST]
+      ,[EXTERNALSERVICEREQUESTID]
+      ,[REQUESSTATUSID]
+      ,[ACCEPTED]
+      ,[ATTRIBUTE1]
+      ,[NOSESSIONAUTHORISED]
+      ,[REQUIRESAUTHORISATION]
+      ,[NOSESSIONUSED]
+      ,[CONTRACTENTITLEMENTID]
+      ,[EXTERNALPROVIDERNAME]
+      ,[SESSIONNO]
+      ,[CREATEDUSERID]
+      ,[CREATED]
+      ,[REQUESTNO]
+      ,[PROVIDERUSERID]
+      ,[REQUESTSTATUSID]
+      ,[SERVICETYPE]
+      ,[SERVICETYPEID]
+      ,[PROVIDERTYPENAME]
+      ,[ISEXTERNALREPORTED]
+      ,[EXTERNALREPORTED]
+      ,[ISFINALEXTERNALREPORTED]
+      ,[FINALEXTERNALREPORTED]
+      ,[PPMESSAGE]
+      ,[PPISSUCCESSFUL]
+      ,[PPMESSAGE_REPORT1]
+      ,[PPISSUCCESSFUL_REPORT1]
+      ,[PPMESSAGE_REPORT2]
+      ,[PPISSUCCESSFUL_REPORT2]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_5if_Request]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[CASEID]					 ,0)  = ISNULL(src.[CASEID]					 ,0)
+      AND ISNULL(tgt.[DATEREQUESTED]			 ,'') = ISNULL(src.[DATEREQUESTED]			 ,'')
+      AND ISNULL(tgt.[ISACCEPTED]				 ,0)  = ISNULL(src.[ISACCEPTED]				 ,0)
+      AND ISNULL(tgt.[ICARE_SERVICEID]			 ,0)  = ISNULL(src.[ICARE_SERVICEID]			 ,0)
+      AND ISNULL(tgt.[ISPREFERONSITE]			 ,0)  = ISNULL(src.[ISPREFERONSITE]			 ,0)
+      AND ISNULL(tgt.[EXTERNALPROVIDERID]		 ,0)  = ISNULL(src.[EXTERNALPROVIDERID]		 ,0)
+      AND ISNULL(tgt.[EXTERNALREQUESTED]		 ,0)  = ISNULL(src.[EXTERNALREQUESTED]		 ,0)
+      AND ISNULL(tgt.[EXTERNALSERVICEREQUEST]	 ,'') = ISNULL(src.[EXTERNALSERVICEREQUEST]	 ,'')
+      AND ISNULL(tgt.[EXTERNALSERVICEREQUESTID]	 ,0)  = ISNULL(src.[EXTERNALSERVICEREQUESTID]	 ,0)
+      AND ISNULL(tgt.[REQUESSTATUSID]			 ,0)  = ISNULL(src.[REQUESSTATUSID]			 ,0)
+      AND ISNULL(tgt.[ACCEPTED]					 ,'') = ISNULL(src.[ACCEPTED]					 ,'')
+      AND ISNULL(tgt.[ATTRIBUTE1]				 ,'') = ISNULL(src.[ATTRIBUTE1]				 ,'')
+      AND ISNULL(tgt.[NOSESSIONAUTHORISED]		 ,0)  = ISNULL(src.[NOSESSIONAUTHORISED]		 ,0)
+      AND ISNULL(tgt.[REQUIRESAUTHORISATION]	 ,0)  = ISNULL(src.[REQUIRESAUTHORISATION]	 ,0)
+      AND ISNULL(tgt.[NOSESSIONUSED]			 ,0)  = ISNULL(src.[NOSESSIONUSED]			 ,0)
+      AND ISNULL(tgt.[CONTRACTENTITLEMENTID]	 ,0)  = ISNULL(src.[CONTRACTENTITLEMENTID]	 ,0)
+      AND ISNULL(tgt.[EXTERNALPROVIDERNAME]		 ,'') = ISNULL(src.[EXTERNALPROVIDERNAME]		 ,'')
+      AND ISNULL(tgt.[SESSIONNO]				 ,'') = ISNULL(src.[SESSIONNO]				 ,'')
+      AND ISNULL(tgt.[CREATEDUSERID]			 ,0)  = ISNULL(src.[CREATEDUSERID]			 ,0)
+      AND ISNULL(tgt.[CREATED]					 ,'') = ISNULL(src.[CREATED]					 ,'')
+      AND ISNULL(tgt.[REQUESTNO]				 ,'') = ISNULL(src.[REQUESTNO]				 ,'')
+      AND ISNULL(tgt.[PROVIDERUSERID]			 ,0)  = ISNULL(src.[PROVIDERUSERID]			 ,0)
+      AND ISNULL(tgt.[REQUESTSTATUSID]			 ,0)  = ISNULL(src.[REQUESTSTATUSID]			 ,0)
+      AND ISNULL(tgt.[SERVICETYPE]				 ,0)  = ISNULL(src.[SERVICETYPE]				 ,0)
+      AND ISNULL(tgt.[SERVICETYPEID]			 ,0)  = ISNULL(src.[SERVICETYPEID]			 ,0)
+      AND ISNULL(tgt.[PROVIDERTYPENAME]			 ,'') = ISNULL(src.[PROVIDERTYPENAME]			 ,'')
+      AND ISNULL(tgt.[ISEXTERNALREPORTED]		 ,0)  = ISNULL(src.[ISEXTERNALREPORTED]		 ,0)
+      AND ISNULL(tgt.[EXTERNALREPORTED]			 ,'') = ISNULL(src.[EXTERNALREPORTED]			 ,'')
+      AND ISNULL(tgt.[ISFINALEXTERNALREPORTED]	 ,0)  = ISNULL(src.[ISFINALEXTERNALREPORTED]	 ,0)
+      AND ISNULL(tgt.[FINALEXTERNALREPORTED]	 ,'') = ISNULL(src.[FINALEXTERNALREPORTED]	 ,'')
+      AND ISNULL(tgt.[PPMESSAGE]				 ,'') = ISNULL(src.[PPMESSAGE]				 ,'')
+      AND ISNULL(tgt.[PPISSUCCESSFUL]			 ,0)  = ISNULL(src.[PPISSUCCESSFUL]			 ,0)
+      AND ISNULL(tgt.[PPMESSAGE_REPORT1]		 ,'') = ISNULL(src.[PPMESSAGE_REPORT1]		 ,'')
+      AND ISNULL(tgt.[PPISSUCCESSFUL_REPORT1]	 ,0)  = ISNULL(src.[PPISSUCCESSFUL_REPORT1]	 ,0)
+      AND ISNULL(tgt.[PPMESSAGE_REPORT2]		 ,'') = ISNULL(src.[PPMESSAGE_REPORT2]		 ,'')
+      AND ISNULL(tgt.[PPISSUCCESSFUL_REPORT2]	 ,0)  = ISNULL(src.[PPISSUCCESSFUL_REPORT2]	 ,0)
+	)
+	then
+	update set 
+	   [CASEID]						= src.[CASEID]
+      ,[DATEREQUESTED]				= src.[DATEREQUESTED]
+      ,[ISACCEPTED]					= src.[ISACCEPTED]
+      ,[ICARE_SERVICEID]			= src.[ICARE_SERVICEID]
+      ,[ISPREFERONSITE]				= src.[ISPREFERONSITE]
+      ,[EXTERNALPROVIDERID]			= src.[EXTERNALPROVIDERID]
+      ,[EXTERNALREQUESTED]			= src.[EXTERNALREQUESTED]
+      ,[EXTERNALSERVICEREQUEST]		= src.[EXTERNALSERVICEREQUEST]
+      ,[EXTERNALSERVICEREQUESTID]	= src.[EXTERNALSERVICEREQUESTID]
+      ,[REQUESSTATUSID]				= src.[REQUESSTATUSID]
+      ,[ACCEPTED]					= src.[ACCEPTED]
+      ,[ATTRIBUTE1]					= src.[ATTRIBUTE1]
+      ,[NOSESSIONAUTHORISED]		= src.[NOSESSIONAUTHORISED]
+      ,[REQUIRESAUTHORISATION]		= src.[REQUIRESAUTHORISATION]
+      ,[NOSESSIONUSED]				= src.[NOSESSIONUSED]
+      ,[CONTRACTENTITLEMENTID]		= src.[CONTRACTENTITLEMENTID]
+      ,[EXTERNALPROVIDERNAME]		= src.[EXTERNALPROVIDERNAME]
+      ,[SESSIONNO]					= src.[SESSIONNO]
+      ,[CREATEDUSERID]				= src.[CREATEDUSERID]
+      ,[CREATED]					= src.[CREATED]
+      ,[REQUESTNO]					= src.[REQUESTNO]
+      ,[PROVIDERUSERID]				= src.[PROVIDERUSERID]
+      ,[REQUESTSTATUSID]			= src.[REQUESTSTATUSID]
+      ,[SERVICETYPE]				= src.[SERVICETYPE]
+      ,[SERVICETYPEID]				= src.[SERVICETYPEID]
+      ,[PROVIDERTYPENAME]			= src.[PROVIDERTYPENAME]
+      ,[ISEXTERNALREPORTED]			= src.[ISEXTERNALREPORTED]
+      ,[EXTERNALREPORTED]			= src.[EXTERNALREPORTED]
+      ,[ISFINALEXTERNALREPORTED]	= src.[ISFINALEXTERNALREPORTED]
+      ,[FINALEXTERNALREPORTED]		= src.[FINALEXTERNALREPORTED]
+      ,[PPMESSAGE]					= src.[PPMESSAGE]
+      ,[PPISSUCCESSFUL]				= src.[PPISSUCCESSFUL]
+      ,[PPMESSAGE_REPORT1]			= src.[PPMESSAGE_REPORT1]
+      ,[PPISSUCCESSFUL_REPORT1]		= src.[PPISSUCCESSFUL_REPORT1]
+      ,[PPMESSAGE_REPORT2]			= src.[PPMESSAGE_REPORT2]
+      ,[PPISSUCCESSFUL_REPORT2]		= src.[PPISSUCCESSFUL_REPORT2]
+      ,[ETLExecutionKey]			= src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[CASEID]
+      ,[DATEREQUESTED]
+      ,[ISACCEPTED]
+      ,[ICARE_SERVICEID]
+      ,[ISPREFERONSITE]
+      ,[EXTERNALPROVIDERID]
+      ,[EXTERNALREQUESTED]
+      ,[EXTERNALSERVICEREQUEST]
+      ,[EXTERNALSERVICEREQUESTID]
+      ,[REQUESSTATUSID]
+      ,[ACCEPTED]
+      ,[ATTRIBUTE1]
+      ,[NOSESSIONAUTHORISED]
+      ,[REQUIRESAUTHORISATION]
+      ,[NOSESSIONUSED]
+      ,[CONTRACTENTITLEMENTID]
+      ,[EXTERNALPROVIDERNAME]
+      ,[SESSIONNO]
+      ,[CREATEDUSERID]
+      ,[CREATED]
+      ,[REQUESTNO]
+      ,[PROVIDERUSERID]
+      ,[REQUESTSTATUSID]
+      ,[SERVICETYPE]
+      ,[SERVICETYPEID]
+      ,[PROVIDERTYPENAME]
+      ,[ISEXTERNALREPORTED]
+      ,[EXTERNALREPORTED]
+      ,[ISFINALEXTERNALREPORTED]
+      ,[FINALEXTERNALREPORTED]
+      ,[PPMESSAGE]
+      ,[PPISSUCCESSFUL]
+      ,[PPMESSAGE_REPORT1]
+      ,[PPISSUCCESSFUL_REPORT1]
+      ,[PPMESSAGE_REPORT2]
+      ,[PPISSUCCESSFUL_REPORT2]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[CASEID]
+      ,[DATEREQUESTED]
+      ,[ISACCEPTED]
+      ,[ICARE_SERVICEID]
+      ,[ISPREFERONSITE]
+      ,[EXTERNALPROVIDERID]
+      ,[EXTERNALREQUESTED]
+      ,[EXTERNALSERVICEREQUEST]
+      ,[EXTERNALSERVICEREQUESTID]
+      ,[REQUESSTATUSID]
+      ,[ACCEPTED]
+      ,[ATTRIBUTE1]
+      ,[NOSESSIONAUTHORISED]
+      ,[REQUIRESAUTHORISATION]
+      ,[NOSESSIONUSED]
+      ,[CONTRACTENTITLEMENTID]
+      ,[EXTERNALPROVIDERNAME]
+      ,[SESSIONNO]
+      ,[CREATEDUSERID]
+      ,[CREATED]
+      ,[REQUESTNO]
+      ,[PROVIDERUSERID]
+      ,[REQUESTSTATUSID]
+      ,[SERVICETYPE]
+      ,[SERVICETYPEID]
+      ,[PROVIDERTYPENAME]
+      ,[ISEXTERNALREPORTED]
+      ,[EXTERNALREPORTED]
+      ,[ISFINALEXTERNALREPORTED]
+      ,[FINALEXTERNALREPORTED]
+      ,[PPMESSAGE]
+      ,[PPISSUCCESSFUL]
+      ,[PPMESSAGE_REPORT1]
+      ,[PPISSUCCESSFUL_REPORT1]
+      ,[PPMESSAGE_REPORT2]
+      ,[PPISSUCCESSFUL_REPORT2]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+
+if (select object_id('Persist.prc_load_CaseSession')) is not null
+drop procedure Persist.prc_load_CaseSession 
+go 
+create procedure [Persist].[prc_load_CaseSession]
+as
+begin
+	merge Persist.CaseSession as tgt
+	using
+		(
+		SELECT [ID]
+      ,[FA_DETAIL]
+      ,[CONTACTMETHOD]
+      ,[SESSIONDATE]
+      ,[SESSIONTIME]
+      ,[SESSIONSTATUS]
+      ,[CASE]
+      ,[SESSIONCLOSEDDATETIME]
+      ,[UPDATEUSERID]
+      ,[UPDATEDATETIME]
+      ,[CREATEDUSERID]
+      ,[CREATEDDATETIME]
+      ,[CASEID]
+      ,[SESSIONSTATUSID]
+      ,[SESSIONNO]
+      ,[SESSIONREF]
+      ,[SESSIONINTERNAL]
+      ,[SESSIONUSERID]
+      ,[EMOTIONALSTATEID]
+      ,[RECOMENDATIONID]
+      ,[RECOMMENDATIONID]
+      ,[CASESERVICEID]
+      ,[PROVIDERNAME]
+      ,[NOTE]
+      ,[PROBLEMCATEGORYID]
+      ,[PROBLEMTYPEID]
+      ,[RISKTYPEID]
+      ,[WORKIMPACTID]
+      ,[ASSESSMENTID]
+      ,[PROBLEMTYPEDESCRIPTION]
+      ,[REASONFORESCALATIONID]
+      ,[REFERENTITYID]
+      ,[NOTESFORESCALATION]
+      ,[TREATMENTSUGGESTIONID]
+      ,[SESSIONDURATIONID]
+      ,[ADDITIONALSESSIONSNEEDED]
+      ,[RECOMMENDATION]
+      ,[CASEMANAGERID]
+      ,[CM_ACCEPT]
+      ,[CM_REASSIGN]
+      ,[TEAMLEADERID]
+      ,[BILLINGCODE]
+      ,[ISLATEST]
+      ,[HASATTENDED]
+      ,[SESSIONUSERNO]
+      ,[SESSIONEXTERNAL]
+      ,[DELIVERYMETHODID]
+      ,[SESSIONCLOSUREID]
+      ,[CLOSURENOTES]
+      ,[SESSIONOUTCOMEID]
+      ,[RISKLEVELID]
+      ,[HASRISKLEVELCHANGED]
+      ,[CONTACTATTEMPTCOUNT]
+      ,[QA_DONE]
+      ,[SESSIONCLOSEDBY]
+      ,[ISCONSENTFORMSIGNED]
+      ,[ISREFERRALFORMSIGNED]
+      ,[CONSENTFORMOPTIONID]
+      ,[CLINICID]
+      ,[HASSPECIALRATE]
+      ,[RATE]
+      ,[LOCATIONID]
+      ,[REASONNOTSIGNEDID]
+      ,[ISSTATEMENTSIGNED]
+      ,[ISSIGNEDID]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_5if_FA_Case_Session]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[FA_DETAIL]				, 0)   = ISNULL(src.[FA_DETAIL]				, 0)
+      AND ISNULL(tgt.[CONTACTMETHOD]			, 0)   = ISNULL(src.[CONTACTMETHOD]			, 0)
+      AND ISNULL(tgt.[SESSIONDATE]				, '')  = ISNULL(src.[SESSIONDATE]				, '')
+      AND ISNULL(tgt.[SESSIONTIME]				, '')  = ISNULL(src.[SESSIONTIME]				, '')
+      AND ISNULL(tgt.[SESSIONSTATUS]			, 0)   = ISNULL(src.[SESSIONSTATUS]			, 0)
+      AND ISNULL(tgt.[CASE]						, 0)   = ISNULL(src.[CASE]						, 0)
+      AND ISNULL(tgt.[SESSIONCLOSEDDATETIME]	, '')  = ISNULL(src.[SESSIONCLOSEDDATETIME]	, '')
+      AND ISNULL(tgt.[UPDATEUSERID]				, 0)   = ISNULL(src.[UPDATEUSERID]				, 0)
+      AND ISNULL(tgt.[UPDATEDATETIME]			, '')  = ISNULL(src.[UPDATEDATETIME]			, '')
+      AND ISNULL(tgt.[CREATEDUSERID]			, 0)   = ISNULL(src.[CREATEDUSERID]			, 0)
+      AND ISNULL(tgt.[CREATEDDATETIME]			, '')  = ISNULL(src.[CREATEDDATETIME]			, '')
+      AND ISNULL(tgt.[CASEID]					, 0)   = ISNULL(src.[CASEID]					, 0)
+      AND ISNULL(tgt.[SESSIONSTATUSID]			, 0)   = ISNULL(src.[SESSIONSTATUSID]			, 0)
+      AND ISNULL(tgt.[SESSIONNO]				, 0)   = ISNULL(src.[SESSIONNO]				, 0)
+      AND ISNULL(tgt.[SESSIONREF]				, '')  = ISNULL(src.[SESSIONREF]				, '')
+      AND ISNULL(tgt.[SESSIONINTERNAL]			, 0)   = ISNULL(src.[SESSIONINTERNAL]			, 0)
+      AND ISNULL(tgt.[SESSIONUSERID]			, 0)   = ISNULL(src.[SESSIONUSERID]			, 0)
+      AND ISNULL(tgt.[EMOTIONALSTATEID]			, 0)   = ISNULL(src.[EMOTIONALSTATEID]			, 0)
+      AND ISNULL(tgt.[RECOMENDATIONID]			, 0)   = ISNULL(src.[RECOMENDATIONID]			, 0)
+      AND ISNULL(tgt.[RECOMMENDATIONID]			, 0)   = ISNULL(src.[RECOMMENDATIONID]			, 0)
+      AND ISNULL(tgt.[CASESERVICEID]			, 0)   = ISNULL(src.[CASESERVICEID]			, 0)
+      AND ISNULL(tgt.[PROVIDERNAME]				, '')  = ISNULL(src.[PROVIDERNAME]				, '')
+      AND ISNULL(tgt.[NOTE]						, '')  = ISNULL(src.[NOTE]						, '')
+      AND ISNULL(tgt.[PROBLEMCATEGORYID]		, 0)   = ISNULL(src.[PROBLEMCATEGORYID]		, 0)
+      AND ISNULL(tgt.[PROBLEMTYPEID]			, 0)   = ISNULL(src.[PROBLEMTYPEID]			, 0)
+      AND ISNULL(tgt.[RISKTYPEID]				, 0)   = ISNULL(src.[RISKTYPEID]				, 0)
+      AND ISNULL(tgt.[WORKIMPACTID]				, 0)   = ISNULL(src.[WORKIMPACTID]				, 0)
+      AND ISNULL(tgt.[ASSESSMENTID]				, 0)   = ISNULL(src.[ASSESSMENTID]				, 0)
+      AND ISNULL(tgt.[PROBLEMTYPEDESCRIPTION]	, '')  = ISNULL(src.[PROBLEMTYPEDESCRIPTION]	, '')
+      AND ISNULL(tgt.[REASONFORESCALATIONID]	, 0)   = ISNULL(src.[REASONFORESCALATIONID]	, 0)
+      AND ISNULL(tgt.[REFERENTITYID]			, 0)   = ISNULL(src.[REFERENTITYID]			, 0)
+      AND ISNULL(tgt.[NOTESFORESCALATION]		, '')  = ISNULL(src.[NOTESFORESCALATION]		, '')
+      AND ISNULL(tgt.[TREATMENTSUGGESTIONID]	, 0)   = ISNULL(src.[TREATMENTSUGGESTIONID]	, 0)
+      AND ISNULL(tgt.[SESSIONDURATIONID]		, 0)   = ISNULL(src.[SESSIONDURATIONID]		, 0)
+      AND ISNULL(tgt.[ADDITIONALSESSIONSNEEDED]	, 0)   = ISNULL(src.[ADDITIONALSESSIONSNEEDED]	, 0)
+      AND ISNULL(tgt.[RECOMMENDATION]			, '')  = ISNULL(src.[RECOMMENDATION]			, '')
+      AND ISNULL(tgt.[CASEMANAGERID]			, 0)   = ISNULL(src.[CASEMANAGERID]			, 0)
+      AND ISNULL(tgt.[CM_ACCEPT]				, 0)   = ISNULL(src.[CM_ACCEPT]				, 0)
+      AND ISNULL(tgt.[CM_REASSIGN]				, 0)   = ISNULL(src.[CM_REASSIGN]				, 0)
+      AND ISNULL(tgt.[TEAMLEADERID]				, 0)   = ISNULL(src.[TEAMLEADERID]				, 0)
+      AND ISNULL(tgt.[BILLINGCODE]				, '')  = ISNULL(src.[BILLINGCODE]				, '')
+      AND ISNULL(tgt.[ISLATEST]					, 0)   = ISNULL(src.[ISLATEST]					, 0)
+      AND ISNULL(tgt.[HASATTENDED]				, 0)   = ISNULL(src.[HASATTENDED]				, 0)
+      AND ISNULL(tgt.[SESSIONUSERNO]			, 0)   = ISNULL(src.[SESSIONUSERNO]			, 0)
+      AND ISNULL(tgt.[SESSIONEXTERNAL]			, 0)   = ISNULL(src.[SESSIONEXTERNAL]			, 0)
+      AND ISNULL(tgt.[DELIVERYMETHODID]			, 0)   = ISNULL(src.[DELIVERYMETHODID]			, 0)
+      AND ISNULL(tgt.[SESSIONCLOSUREID]			, 0)   = ISNULL(src.[SESSIONCLOSUREID]			, 0)
+      AND ISNULL(tgt.[CLOSURENOTES]				, '')  = ISNULL(src.[CLOSURENOTES]				, '')
+      AND ISNULL(tgt.[SESSIONOUTCOMEID]			, 0)   = ISNULL(src.[SESSIONOUTCOMEID]			, 0)
+      AND ISNULL(tgt.[RISKLEVELID]				, 0)   = ISNULL(src.[RISKLEVELID]				, 0)
+      AND ISNULL(tgt.[HASRISKLEVELCHANGED]		, 0)   = ISNULL(src.[HASRISKLEVELCHANGED]		, 0)
+      AND ISNULL(tgt.[CONTACTATTEMPTCOUNT]		, 0)   = ISNULL(src.[CONTACTATTEMPTCOUNT]		, 0)
+      AND ISNULL(tgt.[QA_DONE]					, 0)   = ISNULL(src.[QA_DONE]					, 0)
+      AND ISNULL(tgt.[SESSIONCLOSEDBY]			, 0)   = ISNULL(src.[SESSIONCLOSEDBY]			, 0)
+      AND ISNULL(tgt.[ISCONSENTFORMSIGNED]		, 0)   = ISNULL(src.[ISCONSENTFORMSIGNED]		, 0)
+      AND ISNULL(tgt.[ISREFERRALFORMSIGNED]		, 0)   = ISNULL(src.[ISREFERRALFORMSIGNED]		, 0)
+      AND ISNULL(tgt.[CONSENTFORMOPTIONID]		, 0)   = ISNULL(src.[CONSENTFORMOPTIONID]		, 0)
+      AND ISNULL(tgt.[CLINICID]					, 0)   = ISNULL(src.[CLINICID]					, 0)
+      AND ISNULL(tgt.[HASSPECIALRATE]			, 0)   = ISNULL(src.[HASSPECIALRATE]			, 0)
+      AND ISNULL(tgt.[RATE]						, 0)   = ISNULL(src.[RATE]						, 0)
+      AND ISNULL(tgt.[LOCATIONID]				, 0)   = ISNULL(src.[LOCATIONID]				, 0)
+      AND ISNULL(tgt.[REASONNOTSIGNEDID]		, 0)   = ISNULL(src.[REASONNOTSIGNEDID]		, 0)
+      AND ISNULL(tgt.[ISSTATEMENTSIGNED]		, 0)   = ISNULL(src.[ISSTATEMENTSIGNED]		, 0)
+      AND ISNULL(tgt.[ISSIGNEDID]				, 0)   = ISNULL(src.[ISSIGNEDID]				, 0)
+	)
+	then
+	update set 
+	   [FA_DETAIL]                = src.[FA_DETAIL]
+      ,[CONTACTMETHOD]			  = src.[CONTACTMETHOD]
+      ,[SESSIONDATE]			  = src.[SESSIONDATE]
+      ,[SESSIONTIME]			  = src.[SESSIONTIME]
+      ,[SESSIONSTATUS]			  = src.[SESSIONSTATUS]
+      ,[CASE]					  = src.[CASE]
+      ,[SESSIONCLOSEDDATETIME]	  = src.[SESSIONCLOSEDDATETIME]
+      ,[UPDATEUSERID]			  = src.[UPDATEUSERID]
+      ,[UPDATEDATETIME]			  = src.[UPDATEDATETIME]
+      ,[CREATEDUSERID]			  = src.[CREATEDUSERID]
+      ,[CREATEDDATETIME]		  = src.[CREATEDDATETIME]
+      ,[CASEID]					  = src.[CASEID]
+      ,[SESSIONSTATUSID]		  = src.[SESSIONSTATUSID]
+      ,[SESSIONNO]				  = src.[SESSIONNO]
+      ,[SESSIONREF]				  = src.[SESSIONREF]
+      ,[SESSIONINTERNAL]		  = src.[SESSIONINTERNAL]
+      ,[SESSIONUSERID]			  = src.[SESSIONUSERID]
+      ,[EMOTIONALSTATEID]		  = src.[EMOTIONALSTATEID]
+      ,[RECOMENDATIONID]		  = src.[RECOMENDATIONID]
+      ,[RECOMMENDATIONID]		  = src.[RECOMMENDATIONID]
+      ,[CASESERVICEID]			  = src.[CASESERVICEID]
+      ,[PROVIDERNAME]			  = src.[PROVIDERNAME]
+      ,[NOTE]					  = src.[NOTE]
+      ,[PROBLEMCATEGORYID]		  = src.[PROBLEMCATEGORYID]
+      ,[PROBLEMTYPEID]			  = src.[PROBLEMTYPEID]
+      ,[RISKTYPEID]				  = src.[RISKTYPEID]
+      ,[WORKIMPACTID]			  = src.[WORKIMPACTID]
+      ,[ASSESSMENTID]			  = src.[ASSESSMENTID]
+      ,[PROBLEMTYPEDESCRIPTION]	  = src.[PROBLEMTYPEDESCRIPTION]
+      ,[REASONFORESCALATIONID]	  = src.[REASONFORESCALATIONID]
+      ,[REFERENTITYID]			  = src.[REFERENTITYID]
+      ,[NOTESFORESCALATION]		  = src.[NOTESFORESCALATION]
+      ,[TREATMENTSUGGESTIONID]	  = src.[TREATMENTSUGGESTIONID]
+      ,[SESSIONDURATIONID]		  = src.[SESSIONDURATIONID]
+      ,[ADDITIONALSESSIONSNEEDED] = src.[ADDITIONALSESSIONSNEEDED]
+      ,[RECOMMENDATION]			  = src.[RECOMMENDATION]
+      ,[CASEMANAGERID]			  = src.[CASEMANAGERID]
+      ,[CM_ACCEPT]				  = src.[CM_ACCEPT]
+      ,[CM_REASSIGN]			  = src.[CM_REASSIGN]
+      ,[TEAMLEADERID]			  = src.[TEAMLEADERID]
+      ,[BILLINGCODE]			  = src.[BILLINGCODE]
+      ,[ISLATEST]				  = src.[ISLATEST]
+      ,[HASATTENDED]			  = src.[HASATTENDED]
+      ,[SESSIONUSERNO]			  = src.[SESSIONUSERNO]
+      ,[SESSIONEXTERNAL]		  = src.[SESSIONEXTERNAL]
+      ,[DELIVERYMETHODID]		  = src.[DELIVERYMETHODID]
+      ,[SESSIONCLOSUREID]		  = src.[SESSIONCLOSUREID]
+      ,[CLOSURENOTES]			  = src.[CLOSURENOTES]
+      ,[SESSIONOUTCOMEID]		  = src.[SESSIONOUTCOMEID]
+      ,[RISKLEVELID]			  = src.[RISKLEVELID]
+      ,[HASRISKLEVELCHANGED]	  = src.[HASRISKLEVELCHANGED]
+      ,[CONTACTATTEMPTCOUNT]	  = src.[CONTACTATTEMPTCOUNT]
+      ,[QA_DONE]				  = src.[QA_DONE]
+      ,[SESSIONCLOSEDBY]		  = src.[SESSIONCLOSEDBY]
+      ,[ISCONSENTFORMSIGNED]	  = src.[ISCONSENTFORMSIGNED]
+      ,[ISREFERRALFORMSIGNED]	  = src.[ISREFERRALFORMSIGNED]
+      ,[CONSENTFORMOPTIONID]	  = src.[CONSENTFORMOPTIONID]
+      ,[CLINICID]				  = src.[CLINICID]
+      ,[HASSPECIALRATE]			  = src.[HASSPECIALRATE]
+      ,[RATE]					  = src.[RATE]
+      ,[LOCATIONID]				  = src.[LOCATIONID]
+      ,[REASONNOTSIGNEDID]		  = src.[REASONNOTSIGNEDID]
+      ,[ISSTATEMENTSIGNED]		  = src.[ISSTATEMENTSIGNED]
+      ,[ISSIGNEDID]				  = src.[ISSIGNEDID]
+      ,[ETLExecutionKey]	  = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[FA_DETAIL]
+      ,[CONTACTMETHOD]
+      ,[SESSIONDATE]
+      ,[SESSIONTIME]
+      ,[SESSIONSTATUS]
+      ,[CASE]
+      ,[SESSIONCLOSEDDATETIME]
+      ,[UPDATEUSERID]
+      ,[UPDATEDATETIME]
+      ,[CREATEDUSERID]
+      ,[CREATEDDATETIME]
+      ,[CASEID]
+      ,[SESSIONSTATUSID]
+      ,[SESSIONNO]
+      ,[SESSIONREF]
+      ,[SESSIONINTERNAL]
+      ,[SESSIONUSERID]
+      ,[EMOTIONALSTATEID]
+      ,[RECOMENDATIONID]
+      ,[RECOMMENDATIONID]
+      ,[CASESERVICEID]
+      ,[PROVIDERNAME]
+      ,[NOTE]
+      ,[PROBLEMCATEGORYID]
+      ,[PROBLEMTYPEID]
+      ,[RISKTYPEID]
+      ,[WORKIMPACTID]
+      ,[ASSESSMENTID]
+      ,[PROBLEMTYPEDESCRIPTION]
+      ,[REASONFORESCALATIONID]
+      ,[REFERENTITYID]
+      ,[NOTESFORESCALATION]
+      ,[TREATMENTSUGGESTIONID]
+      ,[SESSIONDURATIONID]
+      ,[ADDITIONALSESSIONSNEEDED]
+      ,[RECOMMENDATION]
+      ,[CASEMANAGERID]
+      ,[CM_ACCEPT]
+      ,[CM_REASSIGN]
+      ,[TEAMLEADERID]
+      ,[BILLINGCODE]
+      ,[ISLATEST]
+      ,[HASATTENDED]
+      ,[SESSIONUSERNO]
+      ,[SESSIONEXTERNAL]
+      ,[DELIVERYMETHODID]
+      ,[SESSIONCLOSUREID]
+      ,[CLOSURENOTES]
+      ,[SESSIONOUTCOMEID]
+      ,[RISKLEVELID]
+      ,[HASRISKLEVELCHANGED]
+      ,[CONTACTATTEMPTCOUNT]
+      ,[QA_DONE]
+      ,[SESSIONCLOSEDBY]
+      ,[ISCONSENTFORMSIGNED]
+      ,[ISREFERRALFORMSIGNED]
+      ,[CONSENTFORMOPTIONID]
+      ,[CLINICID]
+      ,[HASSPECIALRATE]
+      ,[RATE]
+      ,[LOCATIONID]
+      ,[REASONNOTSIGNEDID]
+      ,[ISSTATEMENTSIGNED]
+      ,[ISSIGNEDID]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[FA_DETAIL]
+      ,[CONTACTMETHOD]
+      ,[SESSIONDATE]
+      ,[SESSIONTIME]
+      ,[SESSIONSTATUS]
+      ,[CASE]
+      ,[SESSIONCLOSEDDATETIME]
+      ,[UPDATEUSERID]
+      ,[UPDATEDATETIME]
+      ,[CREATEDUSERID]
+      ,[CREATEDDATETIME]
+      ,[CASEID]
+      ,[SESSIONSTATUSID]
+      ,[SESSIONNO]
+      ,[SESSIONREF]
+      ,[SESSIONINTERNAL]
+      ,[SESSIONUSERID]
+      ,[EMOTIONALSTATEID]
+      ,[RECOMENDATIONID]
+      ,[RECOMMENDATIONID]
+      ,[CASESERVICEID]
+      ,[PROVIDERNAME]
+      ,[NOTE]
+      ,[PROBLEMCATEGORYID]
+      ,[PROBLEMTYPEID]
+      ,[RISKTYPEID]
+      ,[WORKIMPACTID]
+      ,[ASSESSMENTID]
+      ,[PROBLEMTYPEDESCRIPTION]
+      ,[REASONFORESCALATIONID]
+      ,[REFERENTITYID]
+      ,[NOTESFORESCALATION]
+      ,[TREATMENTSUGGESTIONID]
+      ,[SESSIONDURATIONID]
+      ,[ADDITIONALSESSIONSNEEDED]
+      ,[RECOMMENDATION]
+      ,[CASEMANAGERID]
+      ,[CM_ACCEPT]
+      ,[CM_REASSIGN]
+      ,[TEAMLEADERID]
+      ,[BILLINGCODE]
+      ,[ISLATEST]
+      ,[HASATTENDED]
+      ,[SESSIONUSERNO]
+      ,[SESSIONEXTERNAL]
+      ,[DELIVERYMETHODID]
+      ,[SESSIONCLOSUREID]
+      ,[CLOSURENOTES]
+      ,[SESSIONOUTCOMEID]
+      ,[RISKLEVELID]
+      ,[HASRISKLEVELCHANGED]
+      ,[CONTACTATTEMPTCOUNT]
+      ,[QA_DONE]
+      ,[SESSIONCLOSEDBY]
+      ,[ISCONSENTFORMSIGNED]
+      ,[ISREFERRALFORMSIGNED]
+      ,[CONSENTFORMOPTIONID]
+      ,[CLINICID]
+      ,[HASSPECIALRATE]
+      ,[RATE]
+      ,[LOCATIONID]
+      ,[REASONNOTSIGNEDID]
+      ,[ISSTATEMENTSIGNED]
+      ,[ISSIGNEDID]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+if (select object_id('Persist.prc_load_CaseSessionIntervention')) is not null
+drop procedure Persist.prc_load_CaseSessionIntervention 
+go 
+create procedure [Persist].[prc_load_CaseSessionIntervention]
+as
+begin
+	merge Persist.CaseSessionIntervention as tgt
+	using
+		(
+		SELECT [ID]
+      ,[INTAKEASSESSMENTID]
+      ,[CASEID]
+      ,[CASESESSIONID]
+      ,[INTERVENTIONNO]
+      ,[REASONFORCISD]
+      ,[PROPOSEDINTERVENTIONDATE]
+      ,[PROPOSEDINTERVENTIONTIME]
+      ,[EXPECTEDNOOFPEOPLE]
+      ,[ACTUALNOOFPEOPLE]
+      ,[ALTERNATIVECONTACTPERSON]
+      ,[ALTERNATIVECONTACTNUMBER]
+      ,[TITLEOFEVENT]
+      ,[TARGETEDWELLNESSTYPEID]
+      ,[REQUIREMENTS]
+      ,[ALLATTENDEESSIGNEDREGISTER]
+      ,[ATTENDENCEREGISTER]
+      ,[STATUSID]
+      ,[CREATEDDATETIME]
+      ,[REASONFORATTENDEESNOTSIGN]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_EW4_CASESESSIONINTERVENTION]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[INTAKEASSESSMENTID]         , 0)  = ISNULL(src.[INTAKEASSESSMENTID]         , 0) 
+      AND ISNULL(tgt.[CASEID]					  , 0)  = ISNULL(src.[CASEID]					  , 0) 
+      AND ISNULL(tgt.[CASESESSIONID]			  , 0)  = ISNULL(src.[CASESESSIONID]			  , 0) 
+      AND ISNULL(tgt.[INTERVENTIONNO]			  , 0)  = ISNULL(src.[INTERVENTIONNO]			  , 0) 
+      AND ISNULL(tgt.[REASONFORCISD]			  , '') = ISNULL(src.[REASONFORCISD]			  , '')
+      AND ISNULL(tgt.[PROPOSEDINTERVENTIONDATE]	  , '') = ISNULL(src.[PROPOSEDINTERVENTIONDATE]	  , '')
+      AND ISNULL(tgt.[PROPOSEDINTERVENTIONTIME]	  , '') = ISNULL(src.[PROPOSEDINTERVENTIONTIME]	  , '')
+      AND ISNULL(tgt.[EXPECTEDNOOFPEOPLE]		  , 0)  = ISNULL(src.[EXPECTEDNOOFPEOPLE]		  , 0) 
+      AND ISNULL(tgt.[ACTUALNOOFPEOPLE]			  , 0)  = ISNULL(src.[ACTUALNOOFPEOPLE]			  , 0) 
+      AND ISNULL(tgt.[ALTERNATIVECONTACTPERSON]	  , '') = ISNULL(src.[ALTERNATIVECONTACTPERSON]	  , '')
+      AND ISNULL(tgt.[ALTERNATIVECONTACTNUMBER]	  , '') = ISNULL(src.[ALTERNATIVECONTACTNUMBER]	  , '')
+      AND ISNULL(tgt.[TITLEOFEVENT]				  , '') = ISNULL(src.[TITLEOFEVENT]				  , '')
+      AND ISNULL(tgt.[TARGETEDWELLNESSTYPEID]	  , 0)  = ISNULL(src.[TARGETEDWELLNESSTYPEID]	  , 0) 
+      AND ISNULL(tgt.[REQUIREMENTS]				  , '') = ISNULL(src.[REQUIREMENTS]				  , '')
+      AND ISNULL(tgt.[ALLATTENDEESSIGNEDREGISTER] , 0)  = ISNULL(src.[ALLATTENDEESSIGNEDREGISTER] , 0) 
+      AND ISNULL(tgt.[ATTENDENCEREGISTER]		  , 0)  = ISNULL(src.[ATTENDENCEREGISTER]		  , 0) 
+      AND ISNULL(tgt.[STATUSID]					  , 0)  = ISNULL(src.[STATUSID]					  , 0) 
+      AND ISNULL(tgt.[CREATEDDATETIME]			  , '') = ISNULL(src.[CREATEDDATETIME]			  , '')
+      AND ISNULL(tgt.[REASONFORATTENDEESNOTSIGN]  , '') = ISNULL(src.[REASONFORATTENDEESNOTSIGN]  , '')
+	)
+	then
+	update set 
+	   [INTAKEASSESSMENTID]         = src.[INTAKEASSESSMENTID]
+      ,[CASEID]						= src.[CASEID]
+      ,[CASESESSIONID]				= src.[CASESESSIONID]
+      ,[INTERVENTIONNO]				= src.[INTERVENTIONNO]
+      ,[REASONFORCISD]				= src.[REASONFORCISD]
+      ,[PROPOSEDINTERVENTIONDATE]	= src.[PROPOSEDINTERVENTIONDATE]
+      ,[PROPOSEDINTERVENTIONTIME]	= src.[PROPOSEDINTERVENTIONTIME]
+      ,[EXPECTEDNOOFPEOPLE]			= src.[EXPECTEDNOOFPEOPLE]
+      ,[ACTUALNOOFPEOPLE]			= src.[ACTUALNOOFPEOPLE]
+      ,[ALTERNATIVECONTACTPERSON]	= src.[ALTERNATIVECONTACTPERSON]
+      ,[ALTERNATIVECONTACTNUMBER]	= src.[ALTERNATIVECONTACTNUMBER]
+      ,[TITLEOFEVENT]				= src.[TITLEOFEVENT]
+      ,[TARGETEDWELLNESSTYPEID]		= src.[TARGETEDWELLNESSTYPEID]
+      ,[REQUIREMENTS]				= src.[REQUIREMENTS]
+      ,[ALLATTENDEESSIGNEDREGISTER]	= src.[ALLATTENDEESSIGNEDREGISTER]
+      ,[ATTENDENCEREGISTER]			= src.[ATTENDENCEREGISTER]
+      ,[STATUSID]					= src.[STATUSID]
+      ,[CREATEDDATETIME]			= src.[CREATEDDATETIME]
+      ,[REASONFORATTENDEESNOTSIGN]	= src.[REASONFORATTENDEESNOTSIGN]
+      ,[ETLExecutionKey]			= src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[INTAKEASSESSMENTID]
+      ,[CASEID]
+      ,[CASESESSIONID]
+      ,[INTERVENTIONNO]
+      ,[REASONFORCISD]
+      ,[PROPOSEDINTERVENTIONDATE]
+      ,[PROPOSEDINTERVENTIONTIME]
+      ,[EXPECTEDNOOFPEOPLE]
+      ,[ACTUALNOOFPEOPLE]
+      ,[ALTERNATIVECONTACTPERSON]
+      ,[ALTERNATIVECONTACTNUMBER]
+      ,[TITLEOFEVENT]
+      ,[TARGETEDWELLNESSTYPEID]
+      ,[REQUIREMENTS]
+      ,[ALLATTENDEESSIGNEDREGISTER]
+      ,[ATTENDENCEREGISTER]
+      ,[STATUSID]
+      ,[CREATEDDATETIME]
+      ,[REASONFORATTENDEESNOTSIGN]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[INTAKEASSESSMENTID]
+      ,[CASEID]
+      ,[CASESESSIONID]
+      ,[INTERVENTIONNO]
+      ,[REASONFORCISD]
+      ,[PROPOSEDINTERVENTIONDATE]
+      ,[PROPOSEDINTERVENTIONTIME]
+      ,[EXPECTEDNOOFPEOPLE]
+      ,[ACTUALNOOFPEOPLE]
+      ,[ALTERNATIVECONTACTPERSON]
+      ,[ALTERNATIVECONTACTNUMBER]
+      ,[TITLEOFEVENT]
+      ,[TARGETEDWELLNESSTYPEID]
+      ,[REQUIREMENTS]
+      ,[ALLATTENDEESSIGNEDREGISTER]
+      ,[ATTENDENCEREGISTER]
+      ,[STATUSID]
+      ,[CREATEDDATETIME]
+      ,[REASONFORATTENDEESNOTSIGN]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_CaseSessionNotes')) is not null
+drop procedure Persist.prc_load_CaseSessionNotes 
+go 
+CREATE PROCEDURE [Persist].[prc_load_CaseSessionNotes]
+AS
+BEGIN
+	MERGE [Persist].[CaseSessionNotes] as tgt
+	USING
+		(
+			SELECT 
+				[ID]
+				,[CASEID]
+				,[CASESESSIONID]
+				,[NOTE]
+				,[CREATED]
+				,[CREATEDUSERID]
+				,[ISDELETED]
+				,[ISLOCKED]
+				,[SESSIONNOTETYPEID]
+				,[CASENOTETYPEID]
+				,[DELETEDBY]
+				,[DELETEDON]
+				,[CONTACTNUMBERS]
+				,[ISPRIVATE]
+				,[OUTBOUNDREQUESTID]
+				,[ETLExecutionKey]
+			FROM [OutSystems].[OSUSR_5if_CaseSessionNotes]
+		) AS src
+	ON
+		tgt.[ID] = src.[ID]
+
+	WHEN MATCHED AND NOT
+	(
+		ISNULL(tgt.[CASEID], 0) = ISNULL(src.[CASEID], 0)
+		AND ISNULL(tgt.[CASESESSIONID], 0) = ISNULL(src.[CASESESSIONID], 0)
+		AND ISNULL(tgt.[NOTE], '') = ISNULL(src.[NOTE], '')
+		AND ISNULL(tgt.[CREATED], '1900-01-01') = ISNULL(src.[CREATED], '1900-01-01')
+		AND ISNULL(tgt.[CREATEDUSERID], 0) = ISNULL(src.[CREATEDUSERID], 0)
+		AND ISNULL(tgt.[ISDELETED], 0) = ISNULL(src.[ISDELETED], 0)
+		AND ISNULL(tgt.[ISLOCKED], 0) = ISNULL(src.[ISLOCKED], 0)
+		AND ISNULL(tgt.[SESSIONNOTETYPEID], 0) = ISNULL(src.[SESSIONNOTETYPEID], 0)
+		AND ISNULL(tgt.[CASENOTETYPEID], 0) = ISNULL(src.[CASENOTETYPEID], 0)
+		AND ISNULL(tgt.[DELETEDBY], 0) = ISNULL(src.[DELETEDBY], 0)
+		AND ISNULL(tgt.[DELETEDON], '1900-01-01') = ISNULL(src.[DELETEDON], '1900-01-01')
+		AND ISNULL(tgt.[CONTACTNUMBERS], '') = ISNULL(src.[CONTACTNUMBERS], '')
+		AND ISNULL(tgt.[ISPRIVATE], 0) = ISNULL(src.[ISPRIVATE], 0)
+		AND ISNULL(tgt.[OUTBOUNDREQUESTID], 0) = ISNULL(src.[OUTBOUNDREQUESTID], 0)
+	)
+	THEN
+		UPDATE SET 
+			[CASEID] = src.[CASEID]
+			,[CASESESSIONID] = src.[CASESESSIONID]
+			,[NOTE] = src.[NOTE]
+			,[CREATED] = src.[CREATED]
+			,[CREATEDUSERID] = src.[CREATEDUSERID]
+			,[ISDELETED] = src.[ISDELETED]
+			,[ISLOCKED] = src.[ISLOCKED]
+			,[SESSIONNOTETYPEID] = src.[SESSIONNOTETYPEID]
+			,[CASENOTETYPEID] = src.[CASENOTETYPEID]
+			,[DELETEDBY] = src.[DELETEDBY]
+			,[DELETEDON] = src.[DELETEDON]
+			,[CONTACTNUMBERS] = src.[CONTACTNUMBERS]
+			,[ISPRIVATE] = src.[ISPRIVATE]
+			,[OUTBOUNDREQUESTID] = src.[OUTBOUNDREQUESTID]
+	WHEN NOT MATCHED
+	THEN
+		INSERT 
+			( 
+				[ID]
+				,[CASEID]
+				,[CASESESSIONID]
+				,[NOTE]
+				,[CREATED]
+				,[CREATEDUSERID]
+				,[ISDELETED]
+				,[ISLOCKED]
+				,[SESSIONNOTETYPEID]
+				,[CASENOTETYPEID]
+				,[DELETEDBY]
+				,[DELETEDON]
+				,[CONTACTNUMBERS]
+				,[ISPRIVATE]
+				,[OUTBOUNDREQUESTID]
+				,[ETLExecutionKey]
+			)
+		VALUES
+			(
+				[ID]
+				,[CASEID]
+				,[CASESESSIONID]
+				,[NOTE]
+				,[CREATED]
+				,[CREATEDUSERID]
+				,[ISDELETED]
+				,[ISLOCKED]
+				,[SESSIONNOTETYPEID]
+				,[CASENOTETYPEID]
+				,[DELETEDBY]
+				,[DELETEDON]
+				,[CONTACTNUMBERS]
+				,[ISPRIVATE]
+				,[OUTBOUNDREQUESTID]
+				,[ETLExecutionKey]
+			)
+	;
+END
+;
+GO
+
+
+
+if (select object_id('Persist.prc_load_CaseUser')) is not null
+drop procedure Persist.prc_load_CaseUser 
+go 
+/*---------------------------------------------------------------------------------------------------*/
+/*-----------------------------Create Stored Procedure prc_load_CaseUser-----------------------------*/
+/*---------------------------------------------Version 1---------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------*/
+CREATE PROCEDURE [Persist].[prc_load_CaseUser]
+AS
+/*Begin Logic*/
+BEGIN
+	/*Merge Source with Target*/
+	MERGE [Persist].[CaseUser] as tgt
+	USING
+		(
+			SELECT 
+				[ID]
+				,[CASEID]
+				,[ROLEID]
+				,[USERID]
+				,[ISACCEPTED]
+				,[LOCATIONID]
+				,[ACCEPTEDON]
+				,[CREATEDON]
+				,[ISWATCHERONLY]
+				,[ISEVENTFACILITATOR]
+				,[ISREASSIGNED]
+				,[ASSIGNEDBY]
+				,[ISESCALATED]
+				,[CREATEDBY]
+				,[ISCREATEDUSER]
+				,[ISCASEMANAGER]
+				,[ETLExecutionKey]
+			FROM [OutSystems].[OSUSR_EW4_CASEUSER]
+		) AS src
+	ON
+		tgt.[ID] = src.[ID]
+	/*If Data is to be updated at Target*/
+	WHEN MATCHED AND NOT
+	(
+		ISNULL(tgt.[CASEID], 0) = ISNULL(src.[CASEID], 0)
+		AND ISNULL(tgt.[ROLEID], 0) = ISNULL(src.[ROLEID], 0)
+		AND ISNULL(tgt.[USERID], 0) = ISNULL(src.[USERID], 0)
+		AND ISNULL(tgt.[ISACCEPTED], 0) = ISNULL(src.[ISACCEPTED], 0)
+		AND ISNULL(tgt.[LOCATIONID], 0) = ISNULL(src.[LOCATIONID], 0)
+		AND ISNULL(tgt.[ACCEPTEDON], '1900-01-01') = ISNULL(src.[ACCEPTEDON], '1900-01-01')
+		AND ISNULL(tgt.[CREATEDON], '1900-01-01') = ISNULL(src.[CREATEDON], '1900-01-01')
+		AND ISNULL(tgt.[ISWATCHERONLY], 0) = ISNULL(src.[ISWATCHERONLY], 0)
+		AND ISNULL(tgt.[ISEVENTFACILITATOR], 0) = ISNULL(src.[ISEVENTFACILITATOR], 0)
+		AND ISNULL(tgt.[ISREASSIGNED], 0) = ISNULL(src.[ISREASSIGNED], 0)
+		AND ISNULL(tgt.[ASSIGNEDBY], 0) = ISNULL(src.[ASSIGNEDBY], 0)
+		AND ISNULL(tgt.[ISESCALATED], 0) = ISNULL(src.[ISESCALATED], 0)
+		AND ISNULL(tgt.[CREATEDBY], 0) = ISNULL(src.[CREATEDBY], 0)
+		AND ISNULL(tgt.[ISCREATEDUSER], 0) = ISNULL(src.[ISCREATEDUSER], 0)
+		AND ISNULL(tgt.[ISCASEMANAGER], 0) = ISNULL(src.[ISCASEMANAGER], 0)
+	)
+	/*Update Data at Target*/
+	THEN
+		UPDATE SET 
+			[CASEID] = src.[CASEID]
+			,[ROLEID] = src.[ROLEID]
+			,[USERID] = src.[USERID]
+			,[ISACCEPTED] = src.[ISACCEPTED]
+			,[LOCATIONID] = src.[LOCATIONID]
+			,[ACCEPTEDON] = src.[ACCEPTEDON]
+			,[CREATEDON] = src.[CREATEDON]
+			,[ISWATCHERONLY] = src.[ISWATCHERONLY]
+			,[ISEVENTFACILITATOR] = src.[ISEVENTFACILITATOR]
+			,[ISREASSIGNED] = src.[ISREASSIGNED]
+			,[ASSIGNEDBY] = src.[ASSIGNEDBY]
+			,[ISESCALATED] = src.[ISESCALATED]
+			,[CREATEDBY] = src.[CREATEDBY]
+			,[ISCREATEDUSER] = src.[ISCREATEDUSER]
+			,[ISCASEMANAGER] = src.[ISCASEMANAGER]
+	/*If Data is to be Inserted into Target*/
+	WHEN NOT MATCHED
+	/*Insert Data into Target*/
+	THEN
+		INSERT 
+			( 
+				[ID]
+				,[CASEID]
+				,[ROLEID]
+				,[USERID]
+				,[ISACCEPTED]
+				,[LOCATIONID]
+				,[ACCEPTEDON]
+				,[CREATEDON]
+				,[ISWATCHERONLY]
+				,[ISEVENTFACILITATOR]
+				,[ISREASSIGNED]
+				,[ASSIGNEDBY]
+				,[ISESCALATED]
+				,[CREATEDBY]
+				,[ISCREATEDUSER]
+				,[ISCASEMANAGER]
+				,[ETLExecutionKey] 
+			)
+		VALUES
+			(
+				[ID]
+				,[CASEID]
+				,[ROLEID]
+				,[USERID]
+				,[ISACCEPTED]
+				,[LOCATIONID]
+				,[ACCEPTEDON]
+				,[CREATEDON]
+				,[ISWATCHERONLY]
+				,[ISEVENTFACILITATOR]
+				,[ISREASSIGNED]
+				,[ASSIGNEDBY]
+				,[ISESCALATED]
+				,[CREATEDBY]
+				,[ISCREATEDUSER]
+				,[ISCASEMANAGER]
+				,[ETLExecutionKey]
+			)
+	;
+/*End Logic*/
+END
+;
+GO
+
+
+
+
+
+if (select object_id('Persist.prc_load_ClientSatisfactionSurvey')) is not null
+drop procedure Persist.prc_load_ClientSatisfactionSurvey 
+go 
+create procedure [Persist].[prc_load_ClientSatisfactionSurvey]
+as
+begin
+	merge Persist.CaseClientSatisfactionSurvey as tgt
+	using
+		(
+		SELECT [ID]
+      ,[CASEID]
+      ,[SERVICE_NEUTRAL]
+      ,[SERVIC_SATISFIED]
+      ,[PROBLEM_DECLINE]
+      ,[COPINGBETTER_WORSE]
+      ,[COPINGBETTER_SAME]
+      ,[COPINGBETTER_BETTER]
+      ,[FUTURESERVICE_NO]
+      ,[CREATEDON]
+      ,[COPING_WORSE]
+      ,[RECOMMENDSERVICE_YES]
+      ,[SERVICE]
+      ,[PROBLEM]
+      ,[COPING]
+      ,[FUTURESERVICE]
+      ,[RECOMMENDSERVICE]
+      ,[COMPLETEDBY]
+      ,[COMPLETEDON]
+      ,[KNOWLEDGESKILL]
+      ,[COMMENT]
+      ,[SCORE]
+      ,[ISSENDTOCLIENT]
+      ,[INTAKEPERSONID]
+      ,[INTAKEPERSONNAME]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_5IF_CASECLIENTSTATISFACTIONSURVEY]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[CASEID]               ,0)  = ISNULL(src.[CASEID]               ,0)
+      AND ISNULL(tgt.[SERVICE_NEUTRAL]		,0)	 = ISNULL(src.[SERVICE_NEUTRAL]		,0)
+      AND ISNULL(tgt.[SERVIC_SATISFIED]		,0)	 = ISNULL(src.[SERVIC_SATISFIED]		,0)
+      AND ISNULL(tgt.[PROBLEM_DECLINE]		,0)	 = ISNULL(src.[PROBLEM_DECLINE]		,0)
+      AND ISNULL(tgt.[COPINGBETTER_WORSE]	,0)	 = ISNULL(src.[COPINGBETTER_WORSE]	,0)
+      AND ISNULL(tgt.[COPINGBETTER_SAME]	,0)	 = ISNULL(src.[COPINGBETTER_SAME]	,0)
+      AND ISNULL(tgt.[COPINGBETTER_BETTER]	,0)	 = ISNULL(src.[COPINGBETTER_BETTER]	,0)
+      AND ISNULL(tgt.[FUTURESERVICE_NO]		,0)	 = ISNULL(src.[FUTURESERVICE_NO]		,0)
+      AND ISNULL(tgt.[CREATEDON]			,'') = ISNULL(src.[CREATEDON]			,'')
+      AND ISNULL(tgt.[COPING_WORSE]			,0)	 = ISNULL(src.[COPING_WORSE]			,0)
+      AND ISNULL(tgt.[RECOMMENDSERVICE_YES]	,0)	 = ISNULL(src.[RECOMMENDSERVICE_YES]	,0)
+      AND ISNULL(tgt.[SERVICE]				,'') = ISNULL(src.[SERVICE]				,'')
+      AND ISNULL(tgt.[PROBLEM]				,'') = ISNULL(src.[PROBLEM]				,'')
+      AND ISNULL(tgt.[COPING]				,'') = ISNULL(src.[COPING]				,'')
+      AND ISNULL(tgt.[FUTURESERVICE]		,'') = ISNULL(src.[FUTURESERVICE]		,'')
+      AND ISNULL(tgt.[RECOMMENDSERVICE]		,'') = ISNULL(src.[RECOMMENDSERVICE]		,'')
+      AND ISNULL(tgt.[COMPLETEDBY]			,0)	 = ISNULL(src.[COMPLETEDBY]			,0)
+      AND ISNULL(tgt.[COMPLETEDON]			,'') = ISNULL(src.[COMPLETEDON]			,'')
+      AND ISNULL(tgt.[KNOWLEDGESKILL]		,'') = ISNULL(src.[KNOWLEDGESKILL]		,'')
+      AND ISNULL(tgt.[COMMENT]				,'') = ISNULL(src.[COMMENT]				,'')
+      AND ISNULL(tgt.[SCORE]				,0)	 = ISNULL(src.[SCORE]				,0)
+      AND ISNULL(tgt.[ISSENDTOCLIENT]		,0)	 = ISNULL(src.[ISSENDTOCLIENT]		,0)
+      AND ISNULL(tgt.[INTAKEPERSONID]		,0)	 = ISNULL(src.[INTAKEPERSONID]		,0)
+      AND ISNULL(tgt.[INTAKEPERSONNAME]		,'') = ISNULL(src.[INTAKEPERSONNAME]		,'')
+	)
+	then
+	update set 
+	   [CASEID]               = src.[CASEID]
+      ,[SERVICE_NEUTRAL]	  = src.[SERVICE_NEUTRAL]
+      ,[SERVIC_SATISFIED]	  = src.[SERVIC_SATISFIED]
+      ,[PROBLEM_DECLINE]	  = src.[PROBLEM_DECLINE]
+      ,[COPINGBETTER_WORSE]	  = src.[COPINGBETTER_WORSE]
+      ,[COPINGBETTER_SAME]	  = src.[COPINGBETTER_SAME]
+      ,[COPINGBETTER_BETTER]  = src.[COPINGBETTER_BETTER]
+      ,[FUTURESERVICE_NO]	  = src.[FUTURESERVICE_NO]
+      ,[CREATEDON]			  = src.[CREATEDON]
+      ,[COPING_WORSE]		  = src.[COPING_WORSE]
+      ,[RECOMMENDSERVICE_YES] = src.[RECOMMENDSERVICE_YES]
+      ,[SERVICE]			  = src.[SERVICE]
+      ,[PROBLEM]			  = src.[PROBLEM]
+      ,[COPING]				  = src.[COPING]
+      ,[FUTURESERVICE]		  = src.[FUTURESERVICE]
+      ,[RECOMMENDSERVICE]	  = src.[RECOMMENDSERVICE]
+      ,[COMPLETEDBY]		  = src.[COMPLETEDBY]
+      ,[COMPLETEDON]		  = src.[COMPLETEDON]
+      ,[KNOWLEDGESKILL]		  = src.[KNOWLEDGESKILL]
+      ,[COMMENT]			  = src.[COMMENT]
+      ,[SCORE]				  = src.[SCORE]
+      ,[ISSENDTOCLIENT]		  = src.[ISSENDTOCLIENT]
+      ,[INTAKEPERSONID]		  = src.[INTAKEPERSONID]
+      ,[INTAKEPERSONNAME]	  = src.[INTAKEPERSONNAME]
+      ,[ETLExecutionKey]	  = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[CASEID]
+      ,[SERVICE_NEUTRAL]
+      ,[SERVIC_SATISFIED]
+      ,[PROBLEM_DECLINE]
+      ,[COPINGBETTER_WORSE]
+      ,[COPINGBETTER_SAME]
+      ,[COPINGBETTER_BETTER]
+      ,[FUTURESERVICE_NO]
+      ,[CREATEDON]
+      ,[COPING_WORSE]
+      ,[RECOMMENDSERVICE_YES]
+      ,[SERVICE]
+      ,[PROBLEM]
+      ,[COPING]
+      ,[FUTURESERVICE]
+      ,[RECOMMENDSERVICE]
+      ,[COMPLETEDBY]
+      ,[COMPLETEDON]
+      ,[KNOWLEDGESKILL]
+      ,[COMMENT]
+      ,[SCORE]
+      ,[ISSENDTOCLIENT]
+      ,[INTAKEPERSONID]
+      ,[INTAKEPERSONNAME]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[CASEID]
+      ,[SERVICE_NEUTRAL]
+      ,[SERVIC_SATISFIED]
+      ,[PROBLEM_DECLINE]
+      ,[COPINGBETTER_WORSE]
+      ,[COPINGBETTER_SAME]
+      ,[COPINGBETTER_BETTER]
+      ,[FUTURESERVICE_NO]
+      ,[CREATEDON]
+      ,[COPING_WORSE]
+      ,[RECOMMENDSERVICE_YES]
+      ,[SERVICE]
+      ,[PROBLEM]
+      ,[COPING]
+      ,[FUTURESERVICE]
+      ,[RECOMMENDSERVICE]
+      ,[COMPLETEDBY]
+      ,[COMPLETEDON]
+      ,[KNOWLEDGESKILL]
+      ,[COMMENT]
+      ,[SCORE]
+      ,[ISSENDTOCLIENT]
+      ,[INTAKEPERSONID]
+      ,[INTAKEPERSONNAME]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+
+
+if (select object_id('Persist.prc_load_Clinic')) is not null
+drop procedure Persist.prc_load_Clinic 
+go 
+create procedure [Persist].[prc_load_Clinic]
+as
+begin
+	merge Persist.Clinic as tgt
+	using
+		(
+		SELECT [ID]
+      ,[NAME]
+      ,[LINKEDAFFILIATES]
+      ,[ADDRESS]
+      ,[LATITUDE]
+      ,[LONGITUDE]
+      ,[CREATEDBY]
+      ,[CREATEDON]
+      ,[ISACTIVE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_GYR_CLINIC]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[NAME], '') = ISNULL(src.[NAME], '')
+      AND ISNULL(tgt.[LINKEDAFFILIATES], 0) = ISNULL(src.[LINKEDAFFILIATES], 0)
+	  AND ISNULL(tgt.[ADDRESS], '') = ISNULL(src.[ADDRESS], '')
+      AND ISNULL(tgt.[LATITUDE], 0) = ISNULL(src.[LATITUDE], 0)
+	  AND ISNULL(tgt.[LONGITUDE], 0) = ISNULL(src.[LONGITUDE], 0)
+	  AND ISNULL(tgt.[CREATEDBY], 0) = ISNULL(src.[CREATEDBY], 0)
+	  AND ISNULL(tgt.[CREATEDON], '') = ISNULL(src.[CREATEDON], '')
+	  AND ISNULL(tgt.[ISACTIVE], 0) = ISNULL(src.[ISACTIVE], 0)
+	)
+	then
+	update set 
+	   [NAME]             = src.[NAME]
+      ,[LINKEDAFFILIATES] = src.[LINKEDAFFILIATES]
+      ,[ADDRESS]		  = src.[ADDRESS]
+      ,[LATITUDE]		  = src.[LATITUDE]
+      ,[LONGITUDE]		  = src.[LONGITUDE]
+      ,[CREATEDBY]		  = src.[CREATEDBY]
+      ,[CREATEDON]		  = src.[CREATEDON]
+      ,[ISACTIVE]		  = src.[ISACTIVE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[NAME]
+      ,[LINKEDAFFILIATES]
+      ,[ADDRESS]
+      ,[LATITUDE]
+      ,[LONGITUDE]
+      ,[CREATEDBY]
+      ,[CREATEDON]
+      ,[ISACTIVE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[NAME]
+      ,[LINKEDAFFILIATES]
+      ,[ADDRESS]
+      ,[LATITUDE]
+      ,[LONGITUDE]
+      ,[CREATEDBY]
+      ,[CREATEDON]
+      ,[ISACTIVE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+if (select object_id('Persist.prc_load_ClinicCompanyContract')) is not null
+drop procedure Persist.prc_load_ClinicCompanyContract 
+go 
+CREATE PROCEDURE [Persist].[prc_load_ClinicCompanyContract]
+AS
+BEGIN
+	MERGE [Persist].[ClinicCompanyContract] as tgt
+	USING
+		(
+			SELECT 
+				[ID]
+				,[CLINICID]
+				,[COMPANYID]
+				,[CONTRACTID]
+				,[STARTDATE]
+				,[ENDDATE]
+				,[CLINICSTATUSID]
+				,[ETLExexutionKey]
+			FROM 
+				[OutSystems].[OSUSR_gyr_ClinicCompanyContract1]
+		) AS src
+	ON
+		tgt.[ID] = src.[ID]
+
+	WHEN MATCHED AND NOT
+	(
+		ISNULL(tgt.[CLINICID], 0) = ISNULL(src.[CLINICID], 0)
+		AND ISNULL(tgt.[COMPANYID], 0) = ISNULL(src.[COMPANYID], 0)
+		AND ISNULL(tgt.[CONTRACTID], 0) = ISNULL(src.[CONTRACTID], 0)
+		AND ISNULL(tgt.[STARTDATE], '1900-01-01') = ISNULL(src.[STARTDATE], '1900-01-01')
+		AND ISNULL(tgt.[ENDDATE], '1900-01-01') = ISNULL(src.[ENDDATE], '1900-01-01')
+		AND ISNULL(tgt.[CLINICSTATUSID], 0) = ISNULL(src.[CLINICSTATUSID], 0)
+	)
+	THEN
+		UPDATE SET 
+			[CLINICID] = src.[CLINICID]
+			,[COMPANYID] = src.[COMPANYID]
+			,[CONTRACTID] = src.[CONTRACTID]
+			,[STARTDATE] = src.[STARTDATE]
+			,[ENDDATE] = src.[ENDDATE]
+			,[CLINICSTATUSID] = src.[CLINICSTATUSID]
+	WHEN NOT MATCHED
+	THEN
+		INSERT 
+			( 
+				[ID]
+				,[CLINICID]
+				,[COMPANYID]
+				,[CONTRACTID]
+				,[STARTDATE]
+				,[ENDDATE]
+				,[CLINICSTATUSID]
+				,[ETLExexutionKey]
+			)
+		VALUES
+			(
+				[ID]
+				,[CLINICID]
+				,[COMPANYID]
+				,[CONTRACTID]
+				,[STARTDATE]
+				,[ENDDATE]
+				,[CLINICSTATUSID]
+				,[ETLExexutionKey]
+			)
+	;
+END
+;
+GO
+
+
+if (select object_id('Persist.prc_load_Company')) is not null
+drop procedure Persist.prc_load_Company 
+go 
+create procedure [Persist].[prc_load_Company]
+as
+begin
+	merge Persist.Company as tgt
+	using
+		(
+		SELECT [ID]
+      ,[NAME]
+      ,[VATNUMBER]
+      ,[REGISTRATIONNUMBER]
+      ,[ADDRESS]
+      ,[ISACTIVE]
+      ,[CREATEUSERID]
+      ,[CREATEDATETIME]
+      ,[MODIFYUSERID]
+      ,[MODIFYDATETIME]
+      ,[INDUSTRYSECTORID]
+      ,[HOLDINGCOMPANYID]
+      ,[FINYEARENDMONTH]
+      ,[HEADCOUNT]
+      ,[INDUSTRYID]
+      ,[SECTORID]
+      ,[BROKERCOMPANYID]
+      ,[PARENTCOMPANYID]
+      ,[BUSINESSMANAGERSTAFFID]
+      ,[ALERT]
+      ,[ISHOLDINGCOMPANY]
+      ,[ISBROKER]
+      ,[OVERALLCOMPANYHEADCOUNT]
+      ,[COMPANYTYPEID]
+      ,[ISEMPTY]
+      ,[CHILDTOTALHEADCOUNT]
+      ,[RECORDSTATUSID]
+      ,[ISDELETED]
+      ,[COMPANYCODE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_26Y_COMPANY]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[NAME]						,'') = ISNULL(src.[NAME]						,'')
+      AND ISNULL(tgt.[VATNUMBER]				,'') = ISNULL(src.[VATNUMBER]				,'')
+      AND ISNULL(tgt.[REGISTRATIONNUMBER]		,'') = ISNULL(src.[REGISTRATIONNUMBER]		,'')
+      AND ISNULL(tgt.[ADDRESS]					,'') = ISNULL(src.[ADDRESS]					,'')
+      AND ISNULL(tgt.[ISACTIVE]					,0)	 = ISNULL(src.[ISACTIVE]					,0)
+      AND ISNULL(tgt.[CREATEUSERID]				,0)	 = ISNULL(src.[CREATEUSERID]				,0)
+      AND ISNULL(tgt.[CREATEDATETIME]			,'') = ISNULL(src.[CREATEDATETIME]			,'')
+      AND ISNULL(tgt.[MODIFYUSERID]				,0)	 = ISNULL(src.[MODIFYUSERID]				,0)
+      AND ISNULL(tgt.[MODIFYDATETIME]			,'') = ISNULL(src.[MODIFYDATETIME]			,'')
+      AND ISNULL(tgt.[INDUSTRYSECTORID]			,0)	 = ISNULL(src.[INDUSTRYSECTORID]			,0)
+      AND ISNULL(tgt.[HOLDINGCOMPANYID]			,0)	 = ISNULL(src.[HOLDINGCOMPANYID]			,0)
+      AND ISNULL(tgt.[FINYEARENDMONTH]			,0)	 = ISNULL(src.[FINYEARENDMONTH]			,0)
+      AND ISNULL(tgt.[HEADCOUNT]				,0)	 = ISNULL(src.[HEADCOUNT]				,0)
+      AND ISNULL(tgt.[INDUSTRYID]				,0)	 = ISNULL(src.[INDUSTRYID]				,0)
+      AND ISNULL(tgt.[SECTORID]					,0)	 = ISNULL(src.[SECTORID]					,0)
+      AND ISNULL(tgt.[BROKERCOMPANYID]			,0)	 = ISNULL(src.[BROKERCOMPANYID]			,0)
+      AND ISNULL(tgt.[PARENTCOMPANYID]			,0)	 = ISNULL(src.[PARENTCOMPANYID]			,0)
+      AND ISNULL(tgt.[BUSINESSMANAGERSTAFFID]	,0)	 = ISNULL(src.[BUSINESSMANAGERSTAFFID]	,0)
+      AND ISNULL(tgt.[ALERT]					,'') = ISNULL(src.[ALERT]					,'')
+      AND ISNULL(tgt.[ISHOLDINGCOMPANY]			,0)	 = ISNULL(src.[ISHOLDINGCOMPANY]			,0)
+      AND ISNULL(tgt.[ISBROKER]					,0)	 = ISNULL(src.[ISBROKER]					,0)
+      AND ISNULL(tgt.[OVERALLCOMPANYHEADCOUNT]	,0)	 = ISNULL(src.[OVERALLCOMPANYHEADCOUNT]	,0)
+      AND ISNULL(tgt.[COMPANYTYPEID]			,0)	 = ISNULL(src.[COMPANYTYPEID]			,0)
+      AND ISNULL(tgt.[ISEMPTY]					,0)	 = ISNULL(src.[ISEMPTY]					,0)
+      AND ISNULL(tgt.[CHILDTOTALHEADCOUNT]		,0)	 = ISNULL(src.[CHILDTOTALHEADCOUNT]		,0)
+      AND ISNULL(tgt.[RECORDSTATUSID]			,0)	 = ISNULL(src.[RECORDSTATUSID]			,0)
+      AND ISNULL(tgt.[ISDELETED]				,0)	 = ISNULL(src.[ISDELETED]				,0)
+      AND ISNULL(tgt.[COMPANYCODE]				,'') = ISNULL(src.[COMPANYCODE]				,'')
+	)
+	then
+	update set 
+	   [NAME]					 = src.[NAME]
+      ,[VATNUMBER]				 = src.[VATNUMBER]
+      ,[REGISTRATIONNUMBER]		 = src.[REGISTRATIONNUMBER]
+      ,[ADDRESS]				 = src.[ADDRESS]
+      ,[ISACTIVE]				 = src.[ISACTIVE]
+      ,[CREATEUSERID]			 = src.[CREATEUSERID]
+      ,[CREATEDATETIME]			 = src.[CREATEDATETIME]
+      ,[MODIFYUSERID]			 = src.[MODIFYUSERID]
+      ,[MODIFYDATETIME]			 = src.[MODIFYDATETIME]
+      ,[INDUSTRYSECTORID]		 = src.[INDUSTRYSECTORID]
+      ,[HOLDINGCOMPANYID]		 = src.[HOLDINGCOMPANYID]
+      ,[FINYEARENDMONTH]		 = src.[FINYEARENDMONTH]
+      ,[HEADCOUNT]				 = src.[HEADCOUNT]
+      ,[INDUSTRYID]				 = src.[INDUSTRYID]
+      ,[SECTORID]				 = src.[SECTORID]
+      ,[BROKERCOMPANYID]		 = src.[BROKERCOMPANYID]
+      ,[PARENTCOMPANYID]		 = src.[PARENTCOMPANYID]
+      ,[BUSINESSMANAGERSTAFFID]	 = src.[BUSINESSMANAGERSTAFFID]
+      ,[ALERT]					 = src.[ALERT]
+      ,[ISHOLDINGCOMPANY]		 = src.[ISHOLDINGCOMPANY]
+      ,[ISBROKER]				 = src.[ISBROKER]
+      ,[OVERALLCOMPANYHEADCOUNT] = src.[OVERALLCOMPANYHEADCOUNT]
+      ,[COMPANYTYPEID]			 = src.[COMPANYTYPEID]
+      ,[ISEMPTY]				 = src.[ISEMPTY]
+      ,[CHILDTOTALHEADCOUNT]	 = src.[CHILDTOTALHEADCOUNT]
+      ,[RECORDSTATUSID]			 = src.[RECORDSTATUSID]
+      ,[ISDELETED]				 = src.[ISDELETED]
+      ,[COMPANYCODE]			 = src.[COMPANYCODE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[NAME]
+      ,[VATNUMBER]
+      ,[REGISTRATIONNUMBER]
+      ,[ADDRESS]
+      ,[ISACTIVE]
+      ,[CREATEUSERID]
+      ,[CREATEDATETIME]
+      ,[MODIFYUSERID]
+      ,[MODIFYDATETIME]
+      ,[INDUSTRYSECTORID]
+      ,[HOLDINGCOMPANYID]
+      ,[FINYEARENDMONTH]
+      ,[HEADCOUNT]
+      ,[INDUSTRYID]
+      ,[SECTORID]
+      ,[BROKERCOMPANYID]
+      ,[PARENTCOMPANYID]
+      ,[BUSINESSMANAGERSTAFFID]
+      ,[ALERT]
+      ,[ISHOLDINGCOMPANY]
+      ,[ISBROKER]
+      ,[OVERALLCOMPANYHEADCOUNT]
+      ,[COMPANYTYPEID]
+      ,[ISEMPTY]
+      ,[CHILDTOTALHEADCOUNT]
+      ,[RECORDSTATUSID]
+      ,[ISDELETED]
+      ,[COMPANYCODE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[NAME]
+      ,[VATNUMBER]
+      ,[REGISTRATIONNUMBER]
+      ,[ADDRESS]
+      ,[ISACTIVE]
+      ,[CREATEUSERID]
+      ,[CREATEDATETIME]
+      ,[MODIFYUSERID]
+      ,[MODIFYDATETIME]
+      ,[INDUSTRYSECTORID]
+      ,[HOLDINGCOMPANYID]
+      ,[FINYEARENDMONTH]
+      ,[HEADCOUNT]
+      ,[INDUSTRYID]
+      ,[SECTORID]
+      ,[BROKERCOMPANYID]
+      ,[PARENTCOMPANYID]
+      ,[BUSINESSMANAGERSTAFFID]
+      ,[ALERT]
+      ,[ISHOLDINGCOMPANY]
+      ,[ISBROKER]
+      ,[OVERALLCOMPANYHEADCOUNT]
+      ,[COMPANYTYPEID]
+      ,[ISEMPTY]
+      ,[CHILDTOTALHEADCOUNT]
+      ,[RECORDSTATUSID]
+      ,[ISDELETED]
+      ,[COMPANYCODE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_CompanyBusinessUnit')) is not null
+drop procedure Persist.prc_load_CompanyBusinessUnit 
+go 
+create procedure [Persist].[prc_load_CompanyBusinessUnit]
+as
+begin
+	merge Persist.CompanyBusinessUnit as tgt
+	using
+		(
+		SELECT [ID]
+      ,[BUSINESSUNITNAME]
+      ,[COMPANYID]
+      ,[HEADCOUNT]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_BZW_COMPANYBUSINESSUNIT]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[BUSINESSUNITNAME]						,'') = ISNULL(src.[BUSINESSUNITNAME]						,'')
+      AND ISNULL(tgt.[COMPANYID]				,0) = ISNULL(src.[COMPANYID]				,0)
+      AND ISNULL(tgt.[HEADCOUNT]		,0) = ISNULL(src.[HEADCOUNT]		,0)
+	)
+	then
+	update set 
+	   [BUSINESSUNITNAME]					 = src.[BUSINESSUNITNAME]
+      ,[COMPANYID]				 = src.[COMPANYID]
+      ,[HEADCOUNT]		 = src.[HEADCOUNT]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[BUSINESSUNITNAME]
+      ,[COMPANYID]
+      ,[HEADCOUNT]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[BUSINESSUNITNAME]
+      ,[COMPANYID]
+      ,[HEADCOUNT]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_CompanyDepartment')) is not null
+drop procedure Persist.prc_load_CompanyDepartment 
+go 
+create procedure [Persist].[prc_load_CompanyDepartment]
+as
+begin
+	merge Persist.CompanyDepartment as tgt
+	using
+		(
+		SELECT [ID]
+      ,[DIVISIONNAME]
+      ,[DEPARTMENTNAME]
+      ,[COMPANYID]
+      ,[HEADCOUNT]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].OSUSR_bzw_CompanyDivision 
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[DIVISIONNAME]						,'') = ISNULL(src.[DIVISIONNAME]						,'')
+      AND ISNULL(tgt.[DEPARTMENTNAME]						,'') = ISNULL(src.[DEPARTMENTNAME]						,'')
+      AND ISNULL(tgt.[COMPANYID]				,0) = ISNULL(src.[COMPANYID]				,0)
+      AND ISNULL(tgt.[HEADCOUNT]		,0) = ISNULL(src.[HEADCOUNT]		,0)
+	)
+	then
+	update set 
+	   [DIVISIONNAME]					 = src.[DIVISIONNAME]
+	  ,[DEPARTMENTNAME]					 = src.[DEPARTMENTNAME]
+      ,[COMPANYID]				 = src.[COMPANYID]
+      ,[HEADCOUNT]		 = src.[HEADCOUNT]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[DIVISIONNAME]
+      ,[DEPARTMENTNAME]
+      ,[COMPANYID]
+      ,[HEADCOUNT]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[DIVISIONNAME]
+      ,[DEPARTMENTNAME]
+      ,[COMPANYID]
+      ,[HEADCOUNT]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_CompanyRegion')) is not null
+drop procedure Persist.prc_load_CompanyRegion 
+go 
+create procedure [Persist].[prc_load_CompanyRegion]
+as
+begin
+	merge Persist.CompanyRegion as tgt
+	using
+		(
+		SELECT [ID]
+      ,[REGIONNAME]
+      ,[COMPANYID]
+      ,[HEADCOUNT]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_BZW_COMPANYREGION]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[REGIONNAME]						,'') = ISNULL(src.[REGIONNAME]						,'')
+      AND ISNULL(tgt.[COMPANYID]				,0) = ISNULL(src.[COMPANYID]				,0)
+      AND ISNULL(tgt.[HEADCOUNT]		,0) = ISNULL(src.[HEADCOUNT]		,0)
+	)
+	then
+	update set 
+	   [REGIONNAME]					 = src.[REGIONNAME]
+      ,[COMPANYID]				 = src.[COMPANYID]
+      ,[HEADCOUNT]		 = src.[HEADCOUNT]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[REGIONNAME]
+      ,[COMPANYID]
+      ,[HEADCOUNT]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[REGIONNAME]
+      ,[COMPANYID]
+      ,[HEADCOUNT]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_CompanySite')) is not null
+drop procedure Persist.prc_load_CompanySite 
+go 
+create procedure [Persist].[prc_load_CompanySite]
+as
+begin
+	merge Persist.CompanySite as tgt
+	using
+		(
+		SELECT [ID]
+      ,[COMPANYID]
+      ,[HEADCOUNT]
+      ,[SITENAME]
+      ,[ADDRESS]
+      ,[LATITUDE]
+      ,[LONGITUDE]
+      ,[CREATEDUSERID]
+      ,[CREATEDDATETIME]
+      ,[MODIFIEDUSERID]
+      ,[MODIFIEDDATETIME]
+      ,[MAPURL]
+      ,[COMPANYREGIONID]
+      ,[COMPANYDIVISIONID]
+      ,[ISACTIVE]
+      ,[BUSINESSMANAGERSTAFFID]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].OSUSR_26Y_COMPANYSITE
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[COMPANYID]              , 0)  = ISNULL(src.[COMPANYID]              , 0)
+      AND ISNULL(tgt.[HEADCOUNT]			  , 0)	= ISNULL(src.[HEADCOUNT]			  , 0)
+      AND ISNULL(tgt.[SITENAME]				  , '')	= ISNULL(src.[SITENAME]				  , '')
+      AND ISNULL(tgt.[ADDRESS]				  , '')	= ISNULL(src.[ADDRESS]				  , '')
+      AND ISNULL(tgt.[LATITUDE]				  , 0)	= ISNULL(src.[LATITUDE]				  , 0)
+      AND ISNULL(tgt.[LONGITUDE]			  , 0)	= ISNULL(src.[LONGITUDE]			  , 0)
+      AND ISNULL(tgt.[CREATEDUSERID]		  , 0)	= ISNULL(src.[CREATEDUSERID]		  , 0)
+      AND ISNULL(tgt.[CREATEDDATETIME]		  , '')	= ISNULL(src.[CREATEDDATETIME]		  , '')
+      AND ISNULL(tgt.[MODIFIEDUSERID]		  , 0)	= ISNULL(src.[MODIFIEDUSERID]		  , 0)
+      AND ISNULL(tgt.[MODIFIEDDATETIME]		  , '')	= ISNULL(src.[MODIFIEDDATETIME]		  , '')
+      AND ISNULL(tgt.[MAPURL]				  , '')	= ISNULL(src.[MAPURL]				  , '')
+      AND ISNULL(tgt.[COMPANYREGIONID]		  , 0)	= ISNULL(src.[COMPANYREGIONID]		  , 0)
+      AND ISNULL(tgt.[COMPANYDIVISIONID]	  , 0)	= ISNULL(src.[COMPANYDIVISIONID]	  , 0)
+      AND ISNULL(tgt.[ISACTIVE]				  , 0)	= ISNULL(src.[ISACTIVE]				  , 0)
+      AND ISNULL(tgt.[BUSINESSMANAGERSTAFFID] , 0)	= ISNULL(src.[BUSINESSMANAGERSTAFFID] , 0)
+	)
+	then
+	update set 
+	   [COMPANYID]              = src.[COMPANYID] 
+      ,[HEADCOUNT]			    = src.[HEADCOUNT]
+      ,[SITENAME]			    = src.[SITENAME]
+      ,[ADDRESS]			    = src.[ADDRESS]
+      ,[LATITUDE]			    = src.[LATITUDE]
+      ,[LONGITUDE]			    = src.[LONGITUDE]
+      ,[CREATEDUSERID]		    = src.[CREATEDUSERID]
+      ,[CREATEDDATETIME]	    = src.[CREATEDDATETIME]
+      ,[MODIFIEDUSERID]		    = src.[MODIFIEDUSERID]
+      ,[MODIFIEDDATETIME]	    = src.[MODIFIEDDATETIME]
+      ,[MAPURL]				    = src.[MAPURL]
+      ,[COMPANYREGIONID]	    = src.[COMPANYREGIONID]
+      ,[COMPANYDIVISIONID]	    = src.[COMPANYDIVISIONID]
+      ,[ISACTIVE]			    = src.[ISACTIVE]
+      ,[BUSINESSMANAGERSTAFFID] = src.[BUSINESSMANAGERSTAFFID]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[COMPANYID]
+      ,[HEADCOUNT]
+      ,[SITENAME]
+      ,[ADDRESS]
+      ,[LATITUDE]
+      ,[LONGITUDE]
+      ,[CREATEDUSERID]
+      ,[CREATEDDATETIME]
+      ,[MODIFIEDUSERID]
+      ,[MODIFIEDDATETIME]
+      ,[MAPURL]
+      ,[COMPANYREGIONID]
+      ,[COMPANYDIVISIONID]
+      ,[ISACTIVE]
+      ,[BUSINESSMANAGERSTAFFID]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[COMPANYID]
+      ,[HEADCOUNT]
+      ,[SITENAME]
+      ,[ADDRESS]
+      ,[LATITUDE]
+      ,[LONGITUDE]
+      ,[CREATEDUSERID]
+      ,[CREATEDDATETIME]
+      ,[MODIFIEDUSERID]
+      ,[MODIFIEDDATETIME]
+      ,[MAPURL]
+      ,[COMPANYREGIONID]
+      ,[COMPANYDIVISIONID]
+      ,[ISACTIVE]
+      ,[BUSINESSMANAGERSTAFFID]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_ContractEntitlement')) is not null
+drop procedure Persist.prc_load_ContractEntitlement 
+go 
+create procedure [Persist].[prc_load_ContractEntitlement]
+as
+begin
+	merge Persist.ContractEntitlement as tgt
+	using
+		(
+		SELECT [ID]
+      ,[CONTRACTID]
+      ,[SERVICEID]
+      ,[DEFAULTSESSIONCOUNT]
+      ,[DESCRIPTION]
+      ,[CREATEDBY]
+      ,[DATETIMECREATED]
+      ,[UPDATEDBY]
+      ,[DATETIMEUPDATED]
+      ,[ISACTIVE]
+      ,[ICARE_SERVICEID]
+      ,[SESSIONLIMIT]
+      ,[ANNUALLIMIT]
+      ,[FEEFORSERVICE]
+      ,[CASESESSIONLIMIT]
+      ,[FEEFORSERVICERATE]
+      ,[FEEFORSERVICEANNUALLIMIT]
+      ,[ADHOCRATE]
+      ,[HCSERVICEID]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].OSUSR_BZW_CONTRACTSERVICE
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[CONTRACTID]				,0)  = ISNULL(src.[CONTRACTID]				,0)
+      AND ISNULL(tgt.[SERVICEID]				,0)	 = ISNULL(src.[SERVICEID]				,0)
+      AND ISNULL(tgt.[DEFAULTSESSIONCOUNT]		,0)	 = ISNULL(src.[DEFAULTSESSIONCOUNT]		,0)
+      AND ISNULL(tgt.[DESCRIPTION]				,'') = ISNULL(src.[DESCRIPTION]				,'')
+      AND ISNULL(tgt.[CREATEDBY]				,0)	 = ISNULL(src.[CREATEDBY]				,0)
+      AND ISNULL(tgt.[DATETIMECREATED]			,'') = ISNULL(src.[DATETIMECREATED]			,'')
+      AND ISNULL(tgt.[UPDATEDBY]				,0)	 = ISNULL(src.[UPDATEDBY]				,0)
+      AND ISNULL(tgt.[DATETIMEUPDATED]			,'') = ISNULL(src.[DATETIMEUPDATED]			,'')
+      AND ISNULL(tgt.[ISACTIVE]					,0)	 = ISNULL(src.[ISACTIVE]					,0)
+      AND ISNULL(tgt.[ICARE_SERVICEID]			,0)	 = ISNULL(src.[ICARE_SERVICEID]			,0)
+      AND ISNULL(tgt.[SESSIONLIMIT]				,0)	 = ISNULL(src.[SESSIONLIMIT]				,0)
+      AND ISNULL(tgt.[ANNUALLIMIT]				,0)	 = ISNULL(src.[ANNUALLIMIT]				,0)
+      AND ISNULL(tgt.[FEEFORSERVICE]			,0)	 = ISNULL(src.[FEEFORSERVICE]			,0)
+      AND ISNULL(tgt.[CASESESSIONLIMIT]			,0)	 = ISNULL(src.[CASESESSIONLIMIT]			,0)
+      AND ISNULL(tgt.[FEEFORSERVICERATE]		,0)	 = ISNULL(src.[FEEFORSERVICERATE]		,0)
+      AND ISNULL(tgt.[FEEFORSERVICEANNUALLIMIT]	,0)	 = ISNULL(src.[FEEFORSERVICEANNUALLIMIT]	,0)
+      AND ISNULL(tgt.[ADHOCRATE]				,0)	 = ISNULL(src.[ADHOCRATE]				,0)
+      AND ISNULL(tgt.[HCSERVICEID]				,0)	 = ISNULL(src.[HCSERVICEID]				,0)
+	)
+	then
+	update set 
+	   [CONTRACTID]               = src.[CONTRACTID]
+      ,[SERVICEID]				  = src.[SERVICEID]
+      ,[DEFAULTSESSIONCOUNT]	  = src.[DEFAULTSESSIONCOUNT]
+      ,[DESCRIPTION]			  = src.[DESCRIPTION]
+      ,[CREATEDBY]				  = src.[CREATEDBY]
+      ,[DATETIMECREATED]		  = src.[DATETIMECREATED]
+      ,[UPDATEDBY]				  = src.[UPDATEDBY]
+      ,[DATETIMEUPDATED]		  = src.[DATETIMEUPDATED]
+      ,[ISACTIVE]				  = src.[ISACTIVE]
+      ,[ICARE_SERVICEID]		  = src.[ICARE_SERVICEID]
+      ,[SESSIONLIMIT]			  = src.[SESSIONLIMIT]
+      ,[ANNUALLIMIT]			  = src.[ANNUALLIMIT]
+      ,[FEEFORSERVICE]			  = src.[FEEFORSERVICE]
+      ,[CASESESSIONLIMIT]		  = src.[CASESESSIONLIMIT]
+      ,[FEEFORSERVICERATE]		  = src.[FEEFORSERVICERATE]
+      ,[FEEFORSERVICEANNUALLIMIT] = src.[FEEFORSERVICEANNUALLIMIT]
+      ,[ADHOCRATE]				  = src.[ADHOCRATE]
+      ,[HCSERVICEID]			  = src.[HCSERVICEID]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[CONTRACTID]
+      ,[SERVICEID]
+      ,[DEFAULTSESSIONCOUNT]
+      ,[DESCRIPTION]
+      ,[CREATEDBY]
+      ,[DATETIMECREATED]
+      ,[UPDATEDBY]
+      ,[DATETIMEUPDATED]
+      ,[ISACTIVE]
+      ,[ICARE_SERVICEID]
+      ,[SESSIONLIMIT]
+      ,[ANNUALLIMIT]
+      ,[FEEFORSERVICE]
+      ,[CASESESSIONLIMIT]
+      ,[FEEFORSERVICERATE]
+      ,[FEEFORSERVICEANNUALLIMIT]
+      ,[ADHOCRATE]
+      ,[HCSERVICEID]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[CONTRACTID]
+      ,[SERVICEID]
+      ,[DEFAULTSESSIONCOUNT]
+      ,[DESCRIPTION]
+      ,[CREATEDBY]
+      ,[DATETIMECREATED]
+      ,[UPDATEDBY]
+      ,[DATETIMEUPDATED]
+      ,[ISACTIVE]
+      ,[ICARE_SERVICEID]
+      ,[SESSIONLIMIT]
+      ,[ANNUALLIMIT]
+      ,[FEEFORSERVICE]
+      ,[CASESESSIONLIMIT]
+      ,[FEEFORSERVICERATE]
+      ,[FEEFORSERVICEANNUALLIMIT]
+      ,[ADHOCRATE]
+      ,[HCSERVICEID]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_DeliveryMethod')) is not null
+drop procedure Persist.prc_load_DeliveryMethod
+go 
+create procedure [Persist].[prc_load_DeliveryMethod]
+as
+begin
+	merge Persist.DeliveryMethod as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_5if_DeliveryMethod1]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]			 = src.[ORDER]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_EmotionalState')) is not null
+drop procedure Persist.prc_load_EmotionalState 
+go 
+create procedure [Persist].[prc_load_EmotionalState]
+as
+begin
+	merge Persist.EmotionalState as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_5if_EmotionalState]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]			 = src.[ORDER]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+
+
+if (select object_id('Persist.prc_load_Employee')) is not null
+drop procedure Persist.prc_load_Employee 
+go 
+
+/*---------------------------------------------------------------------------------------------------*/
+/*-------------------------------Create Stored Procedure prc_load_Employee---------------------------*/
+/*---------------------------------------------Version 1---------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------*/
+CREATE PROCEDURE [Persist].[prc_load_Employee]
+AS
+/*Begin Logic*/
+BEGIN
+	/*Merge Source with Target*/
+	MERGE [Persist].[Employee] as tgt
+	USING
+		(
+			SELECT 
+				[ID]
+				,[COMPANYID]
+				,[EMPLOYEETYPEID]
+				,[EMPLOYMENTTYPEID]
+				,[TITLEID]
+				,[EMPLOYEENUMBER]
+				,[INITIALS]
+				,[FIRSTNAME]
+				,[LASTNAME]
+				,[IDNUMBER]
+				,[NUMBEROFDEPENDANTS]
+				,[TAXNUMBER]
+				,[ADDRESS_PRIMARY]
+				,[LATITUDE]
+				,[LONGITUDE]
+				,[ADDRESS_SECONDARY]
+				,[LANGUAGEID]
+				,[ETHNICITYID]
+				,[MARITALSTATUSID]
+				,[BUSINESSUNIT]
+				,[REGION]
+				,[DEPARTMENT]
+				,[GENDERID]
+				,[DOB]
+				,[TELEPHONE]
+				,[TELEPHONE_WORK]
+				,[TELEPHONE_AIT]
+				,[TELEPHONE_FAX]
+				,[TELEPHONE_MOBILE]
+				,[EMAIL]
+				,[MEDICALAIDNAME]
+				,[MEDICALAIDNUMBER]
+				,[RELATIONSHIPID]
+				,[EDUCATIONLEVELID]
+				,[EMPLOMENTSTARTDATE]
+				,[EMPLOMENTENDDATE]
+				,[CREATEUSERID]
+				,[CREATEDATETIME]
+				,[MODIFYUSERID]
+				,[MODIFYDATETIME]
+				,[ISACTIVE]
+				,[COMPANYSITEID]
+				,[BUSINESSUNITID]
+				,[REGIONID]
+				,[DEPARTMENTID]
+				,[PICTURE]
+				,[PASSPORTNUMBER]
+				,[REQUIRESREVIEW]
+				,[INTAKECREATED]
+				,[DISPLAYNAME]
+				,[ISANONYMOUS]
+				,[EMPLOYEELEVELID]
+				,[TENUREID]
+				,[EMPLOYEEGRADEID]
+				,[ISDEPENDANT]
+				,[AGEGROUPID]
+				,[ETLExecutionKey]
+			FROM [OutSystems].[OSUSR_26y_EMPLOYEE]
+		) AS src
+	ON
+		tgt.[ID] = src.[ID]
+	/*If Data is to be updated at Target*/
+	WHEN MATCHED AND NOT
+	(
+		ISNULL(tgt.[COMPANYID], 0) = ISNULL(src.[COMPANYID], 0)
+		AND ISNULL(tgt.[EMPLOYEETYPEID], 0) = ISNULL(src.[EMPLOYEETYPEID], 0)
+		AND ISNULL(tgt.[EMPLOYMENTTYPEID], 0) = ISNULL(src.[EMPLOYMENTTYPEID], 0)
+		AND ISNULL(tgt.[TITLEID], 0) = ISNULL(src.[TITLEID], 0)
+		AND ISNULL(tgt.[EMPLOYEENUMBER], '') = ISNULL(src.[EMPLOYEENUMBER],'')
+		AND ISNULL(tgt.[INITIALS], '') = ISNULL(src.[INITIALS], '')
+		AND ISNULL(tgt.[FIRSTNAME], '') = ISNULL(src.[FIRSTNAME], '')
+		AND ISNULL(tgt.[LASTNAME], '') = ISNULL(src.[LASTNAME],'')
+		AND ISNULL(tgt.[IDNUMBER], '') = ISNULL(src.[IDNUMBER], '')
+		AND ISNULL(tgt.[NUMBEROFDEPENDANTS], 0) = ISNULL(src.[NUMBEROFDEPENDANTS], 0)
+		AND ISNULL(tgt.[TAXNUMBER], '') = ISNULL(src.[TAXNUMBER], '')
+		AND ISNULL(tgt.[ADDRESS_PRIMARY], '') = ISNULL(src.[ADDRESS_PRIMARY], '')
+		AND ISNULL(tgt.[LATITUDE], 0.0) = ISNULL(src.[LATITUDE], 0.0)
+		AND ISNULL(tgt.[LONGITUDE], 0.0) = ISNULL(src.[LONGITUDE], 0.0)
+		AND ISNULL(tgt.[ADDRESS_SECONDARY], '') = ISNULL(src.[ADDRESS_SECONDARY], '')
+		AND ISNULL(tgt.[LANGUAGEID], 0) = ISNULL(src.[LANGUAGEID], 0)
+		AND ISNULL(tgt.[ETHNICITYID], 0) = ISNULL(src.[ETHNICITYID], 0)
+		AND ISNULL(tgt.[MARITALSTATUSID], 0) = ISNULL(src.[MARITALSTATUSID], 0)
+		AND ISNULL(tgt.[BUSINESSUNIT], '') = ISNULL(src.[BUSINESSUNIT], '')
+		AND ISNULL(tgt.[REGION], '') = ISNULL(src.[REGION], '')
+		AND ISNULL(tgt.[DEPARTMENT], '') = ISNULL(src.[DEPARTMENT], '')
+		AND ISNULL(tgt.[GENDERID], 0) = ISNULL(src.[GENDERID], 0)
+		AND ISNULL(tgt.[DOB], '1900-01-01') = ISNULL(src.[DOB], '1900-01-01')
+		AND ISNULL(tgt.[TELEPHONE], '') = ISNULL(src.[TELEPHONE], '')
+		AND ISNULL(tgt.[TELEPHONE_WORK], '') = ISNULL(src.[TELEPHONE_WORK], '')
+		AND ISNULL(tgt.[TELEPHONE_AIT], '') = ISNULL(src.[TELEPHONE_AIT], '')
+		AND ISNULL(tgt.[TELEPHONE_FAX], '') = ISNULL(src.[TELEPHONE_FAX], '')
+		AND ISNULL(tgt.[TELEPHONE_MOBILE], '') = ISNULL(src.[TELEPHONE_MOBILE], '')
+		AND ISNULL(tgt.[EMAIL], '') = ISNULL(src.[EMAIL], '')
+		AND ISNULL(tgt.[MEDICALAIDNAME], '') = ISNULL(src.[MEDICALAIDNAME], '')
+		AND ISNULL(tgt.[MEDICALAIDNUMBER], '') = ISNULL(src.[MEDICALAIDNUMBER], '')
+		AND ISNULL(tgt.[RELATIONSHIPID], 0) = ISNULL(src.[RELATIONSHIPID], 0)
+		AND ISNULL(tgt.[EDUCATIONLEVELID], 0) = ISNULL(src.[EDUCATIONLEVELID], 0)
+		AND ISNULL(tgt.[EMPLOMENTSTARTDATE], '1900-01-01') = ISNULL(src.[EMPLOMENTSTARTDATE], '1900-01-01')
+		AND ISNULL(tgt.[EMPLOMENTENDDATE], '1900-01-01') = ISNULL(src.[EMPLOMENTENDDATE], '1900-01-01')
+		AND ISNULL(tgt.[CREATEUSERID], 0) = ISNULL(src.[CREATEUSERID], 0)
+		AND ISNULL(tgt.[CREATEDATETIME], '1900-01-01') = ISNULL(src.[CREATEDATETIME], '1900-01-01')
+		AND ISNULL(tgt.[MODIFYUSERID], 0) = ISNULL(src.[MODIFYUSERID], 0)
+		AND ISNULL(tgt.[MODIFYDATETIME], '1900-01-01') = ISNULL(src.[MODIFYDATETIME], '1900-01-01')
+		AND ISNULL(tgt.[ISACTIVE], 0) = ISNULL(src.[ISACTIVE], 0)
+		AND ISNULL(tgt.[COMPANYSITEID], 0) = ISNULL(src.[COMPANYSITEID], 0)
+		AND ISNULL(tgt.[BUSINESSUNITID], 0) = ISNULL(src.[BUSINESSUNITID], 0)
+		AND ISNULL(tgt.[REGIONID], 0) = ISNULL(src.[REGIONID], 0)
+		AND ISNULL(tgt.[DEPARTMENTID], 0) = ISNULL(src.[DEPARTMENTID], 0)
+		AND ISNULL(tgt.[PICTURE], 0) = ISNULL(src.[PICTURE], 0)
+		AND ISNULL(tgt.[PASSPORTNUMBER], '') = ISNULL(src.[PASSPORTNUMBER], '')
+		AND ISNULL(tgt.[REQUIRESREVIEW], 0) = ISNULL(src.[REQUIRESREVIEW], 0)
+		AND ISNULL(tgt.[INTAKECREATED], 0) = ISNULL(src.[INTAKECREATED], 0)
+		AND ISNULL(tgt.[DISPLAYNAME], '') = ISNULL(src.[DISPLAYNAME], '')
+		AND ISNULL(tgt.[ISANONYMOUS], 0) = ISNULL(src.[ISANONYMOUS], 0)
+		AND ISNULL(tgt.[EMPLOYEELEVELID], 0) = ISNULL(src.[EMPLOYEELEVELID], 0)
+		AND ISNULL(tgt.[TENUREID], 0) = ISNULL(src.[TENUREID], 0)
+		AND ISNULL(tgt.[EMPLOYEEGRADEID], 0) = ISNULL(src.[EMPLOYEEGRADEID], 0)
+		AND ISNULL(tgt.[ISDEPENDANT], 0) = ISNULL(src.[ISDEPENDANT], 0)
+		AND ISNULL(tgt.[AGEGROUPID], 0) = ISNULL(src.[AGEGROUPID], 0)
+	)
+	/*Update Data at Target*/
+	THEN
+		UPDATE SET 
+			[COMPANYID] = src.[COMPANYID]
+			,[EMPLOYEETYPEID] = src.[EMPLOYEETYPEID]
+			,[EMPLOYMENTTYPEID] = src.[EMPLOYMENTTYPEID]
+			,[TITLEID] = src.[TITLEID]
+			,[EMPLOYEENUMBER] = src.[EMPLOYEENUMBER]
+			,[INITIALS] = src.[INITIALS]
+			,[FIRSTNAME] = src.[FIRSTNAME]
+			,[LASTNAME] = src.[LASTNAME]
+			,[IDNUMBER] = src.[IDNUMBER]
+			,[NUMBEROFDEPENDANTS] = src.[NUMBEROFDEPENDANTS]
+			,[TAXNUMBER] = src.[TAXNUMBER]
+			,[ADDRESS_PRIMARY] = src.[ADDRESS_PRIMARY]
+			,[LATITUDE] = src.[LATITUDE]
+			,[LONGITUDE] = src.[LONGITUDE]
+			,[ADDRESS_SECONDARY] = src.[ADDRESS_SECONDARY]
+			,[LANGUAGEID] = src.[LANGUAGEID]
+			,[ETHNICITYID] = src.[ETHNICITYID]
+			,[MARITALSTATUSID] = src.[MARITALSTATUSID]
+			,[BUSINESSUNIT] = src.[BUSINESSUNIT]
+			,[REGION] = src.[REGION]
+			,[DEPARTMENT] = src.[DEPARTMENT]
+			,[GENDERID] = src.[GENDERID]
+			,[DOB] = src.[DOB]
+			,[TELEPHONE] = src.[TELEPHONE]
+			,[TELEPHONE_WORK] = src.[TELEPHONE_WORK]
+			,[TELEPHONE_AIT] = src.[TELEPHONE_AIT]
+			,[TELEPHONE_FAX] = src.[TELEPHONE_FAX]
+			,[TELEPHONE_MOBILE] = src.[TELEPHONE_MOBILE]
+			,[EMAIL] = src.[EMAIL]
+			,[MEDICALAIDNAME] = src.[MEDICALAIDNAME]
+			,[MEDICALAIDNUMBER] = src.[MEDICALAIDNUMBER]
+			,[RELATIONSHIPID] = src.[RELATIONSHIPID]
+			,[EDUCATIONLEVELID] = src.[EDUCATIONLEVELID]
+			,[EMPLOMENTSTARTDATE] = src.[EMPLOMENTSTARTDATE]
+			,[EMPLOMENTENDDATE] = src.[EMPLOMENTENDDATE]
+			,[CREATEUSERID] = src.[CREATEUSERID]
+			,[CREATEDATETIME] = src.[CREATEDATETIME]
+			,[MODIFYUSERID] = src.[MODIFYUSERID]
+			,[MODIFYDATETIME] = src.[MODIFYDATETIME]
+			,[ISACTIVE] = src.[ISACTIVE]
+			,[COMPANYSITEID] = src.[COMPANYSITEID]
+			,[BUSINESSUNITID] = src.[BUSINESSUNITID]
+			,[REGIONID] = src.[REGIONID]
+			,[DEPARTMENTID] = src.[DEPARTMENTID]
+			,[PICTURE] = src.[PICTURE]
+			,[PASSPORTNUMBER] = src.[PASSPORTNUMBER]
+			,[REQUIRESREVIEW] = src.[REQUIRESREVIEW]
+			,[INTAKECREATED] = src.[INTAKECREATED]
+			,[DISPLAYNAME] = src.[DISPLAYNAME]
+			,[ISANONYMOUS] = src.[ISANONYMOUS]
+			,[EMPLOYEELEVELID] = src.[EMPLOYEELEVELID]
+			,[TENUREID] = src.[TENUREID]
+			,[EMPLOYEEGRADEID] = src.[EMPLOYEEGRADEID]
+			,[ISDEPENDANT] = src.[ISDEPENDANT]
+			,[AGEGROUPID] = src.[AGEGROUPID]
+	/*If Data is to be Inserted into Target*/
+	WHEN NOT MATCHED
+	/*Insert Data into Target*/
+	THEN
+		INSERT 
+			( 
+				[ID]
+				,[COMPANYID]
+				,[EMPLOYEETYPEID]
+				,[EMPLOYMENTTYPEID]
+				,[TITLEID]
+				,[EMPLOYEENUMBER]
+				,[INITIALS]
+				,[FIRSTNAME]
+				,[LASTNAME]
+				,[IDNUMBER]
+				,[NUMBEROFDEPENDANTS]
+				,[TAXNUMBER]
+				,[ADDRESS_PRIMARY]
+				,[LATITUDE]
+				,[LONGITUDE]
+				,[ADDRESS_SECONDARY]
+				,[LANGUAGEID]
+				,[ETHNICITYID]
+				,[MARITALSTATUSID]
+				,[BUSINESSUNIT]
+				,[REGION]
+				,[DEPARTMENT]
+				,[GENDERID]
+				,[DOB]
+				,[TELEPHONE]
+				,[TELEPHONE_WORK]
+				,[TELEPHONE_AIT]
+				,[TELEPHONE_FAX]
+				,[TELEPHONE_MOBILE]
+				,[EMAIL]
+				,[MEDICALAIDNAME]
+				,[MEDICALAIDNUMBER]
+				,[RELATIONSHIPID]
+				,[EDUCATIONLEVELID]
+				,[EMPLOMENTSTARTDATE]
+				,[EMPLOMENTENDDATE]
+				,[CREATEUSERID]
+				,[CREATEDATETIME]
+				,[MODIFYUSERID]
+				,[MODIFYDATETIME]
+				,[ISACTIVE]
+				,[COMPANYSITEID]
+				,[BUSINESSUNITID]
+				,[REGIONID]
+				,[DEPARTMENTID]
+				,[PICTURE]
+				,[PASSPORTNUMBER]
+				,[REQUIRESREVIEW]
+				,[INTAKECREATED]
+				,[DISPLAYNAME]
+				,[ISANONYMOUS]
+				,[EMPLOYEELEVELID]
+				,[TENUREID]
+				,[EMPLOYEEGRADEID]
+				,[ISDEPENDANT]
+				,[AGEGROUPID]
+				,[ETLExecutionKey]
+			)
+		VALUES
+			(
+				[ID]
+				,[COMPANYID]
+				,[EMPLOYEETYPEID]
+				,[EMPLOYMENTTYPEID]
+				,[TITLEID] 
+				,[EMPLOYEENUMBER]
+				,[INITIALS]
+				,[FIRSTNAME]
+				,[LASTNAME]
+				,[IDNUMBER]
+				,[NUMBEROFDEPENDANTS]
+				,[TAXNUMBER]
+				,[ADDRESS_PRIMARY]
+				,[LATITUDE]
+				,[LONGITUDE]
+				,[ADDRESS_SECONDARY]
+				,[LANGUAGEID]
+				,[ETHNICITYID]
+				,[MARITALSTATUSID]
+				,[BUSINESSUNIT]
+				,[REGION]
+				,[DEPARTMENT]
+				,[GENDERID]
+				,[DOB]
+				,[TELEPHONE]
+				,[TELEPHONE_WORK]
+				,[TELEPHONE_AIT]
+				,[TELEPHONE_FAX]
+				,[TELEPHONE_MOBILE]
+				,[EMAIL]
+				,[MEDICALAIDNAME]
+				,[MEDICALAIDNUMBER]
+				,[RELATIONSHIPID]
+				,[EDUCATIONLEVELID]
+				,[EMPLOMENTSTARTDATE]
+				,[EMPLOMENTENDDATE]
+				,[CREATEUSERID]
+				,[CREATEDATETIME]
+				,[MODIFYUSERID]
+				,[MODIFYDATETIME]
+				,[ISACTIVE]
+				,[COMPANYSITEID]
+				,[BUSINESSUNITID]
+				,[REGIONID]
+				,[DEPARTMENTID]
+				,[PICTURE]
+				,[PASSPORTNUMBER]
+				,[REQUIRESREVIEW]
+				,[INTAKECREATED]
+				,[DISPLAYNAME]
+				,[ISANONYMOUS]
+				,[EMPLOYEELEVELID]
+				,[TENUREID]
+				,[EMPLOYEEGRADEID]
+				,[ISDEPENDANT]
+				,[AGEGROUPID]
+				,[ETLExecutionKey]
+			)
+	;
+/*End Logic*/
+END
+;
+GO
+
+
+
+if (select object_id('Persist.prc_load_EmployeeDependant')) is not null
+drop procedure Persist.prc_load_EmployeeDependant 
+go 
+create procedure [Persist].[prc_load_EmployeeDependant]
+as
+begin
+	merge Persist.EmployeeDependant as tgt
+	using
+		(
+		SELECT [ID]
+      ,[EMPLOYEEID]
+      ,[INITIALS]
+      ,[FIRSTNAME]
+      ,[LASTNAME]
+      ,[IDNUMBER]
+      ,[ETHNICITYID]
+      ,[GENDERID]
+      ,[LANGUAGEID]
+      ,[MARITALSTATUSID]
+      ,[RELATIONSHIPID]
+      ,[CELLNUMBER]
+      ,[PHONENUMBER]
+      ,[EMAIL]
+      ,[CREATEUSERID]
+      ,[CREATEDATETIME]
+      ,[MODIFYUSERID]
+      ,[MODIFYDATETIME]
+      ,[ISACTIVE]
+      ,[PASSPORTNUMBER]
+      ,[REQUIRESREVIEW]
+      ,[INTAKECREATED]
+      ,[DISPLAYNAME]
+      ,[TITLEID]
+      ,[AGEGROUPID]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_26y_Dependant]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[EMPLOYEEID]      ,0)  = ISNULL(src.[EMPLOYEEID]      ,0)
+      AND ISNULL(tgt.[INITIALS]		   ,'')	= ISNULL(src.[INITIALS]		   ,'')
+      AND ISNULL(tgt.[FIRSTNAME]	   ,'')	= ISNULL(src.[FIRSTNAME]	   ,'')
+      AND ISNULL(tgt.[LASTNAME]		   ,'')	= ISNULL(src.[LASTNAME]		   ,'')
+      AND ISNULL(tgt.[IDNUMBER]		   ,'')	= ISNULL(src.[IDNUMBER]		   ,'')
+      AND ISNULL(tgt.[ETHNICITYID]	   ,0)	= ISNULL(src.[ETHNICITYID]	   ,0)
+      AND ISNULL(tgt.[GENDERID]		   ,0)	= ISNULL(src.[GENDERID]		   ,0)
+      AND ISNULL(tgt.[LANGUAGEID]	   ,0)	= ISNULL(src.[LANGUAGEID]	   ,0)
+      AND ISNULL(tgt.[MARITALSTATUSID] ,0)	= ISNULL(src.[MARITALSTATUSID] ,0)
+      AND ISNULL(tgt.[RELATIONSHIPID]  ,0)	= ISNULL(src.[RELATIONSHIPID]  ,0)
+      AND ISNULL(tgt.[CELLNUMBER]	   ,'')	= ISNULL(src.[CELLNUMBER]	   ,'')
+      AND ISNULL(tgt.[PHONENUMBER]	   ,'')	= ISNULL(src.[PHONENUMBER]	   ,'')
+      AND ISNULL(tgt.[EMAIL]		   ,'')	= ISNULL(src.[EMAIL]		   ,'')
+      AND ISNULL(tgt.[CREATEUSERID]	   ,0)	= ISNULL(src.[CREATEUSERID]	   ,0)
+      AND ISNULL(tgt.[CREATEDATETIME]  ,'')	= ISNULL(src.[CREATEDATETIME]  ,'')
+      AND ISNULL(tgt.[MODIFYUSERID]	   ,0)	= ISNULL(src.[MODIFYUSERID]	   ,0)
+      AND ISNULL(tgt.[MODIFYDATETIME]  ,'')	= ISNULL(src.[MODIFYDATETIME]  ,'')
+      AND ISNULL(tgt.[ISACTIVE]		   ,0)	= ISNULL(src.[ISACTIVE]		   ,0)
+      AND ISNULL(tgt.[PASSPORTNUMBER]  ,'')	= ISNULL(src.[PASSPORTNUMBER]  ,'')
+      AND ISNULL(tgt.[REQUIRESREVIEW]  ,0)	= ISNULL(src.[REQUIRESREVIEW]  ,0)
+      AND ISNULL(tgt.[INTAKECREATED]   ,0)	= ISNULL(src.[INTAKECREATED]   ,0)
+      AND ISNULL(tgt.[DISPLAYNAME]	   ,'')	= ISNULL(src.[DISPLAYNAME]	   ,'')
+      AND ISNULL(tgt.[TITLEID]		   ,0)	= ISNULL(src.[TITLEID]		   ,0)
+      AND ISNULL(tgt.[AGEGROUPID]	   ,0)	= ISNULL(src.[AGEGROUPID]	   ,0)
+	)
+	then
+	update set 
+	   [EMPLOYEEID]      = src.[EMPLOYEEID]     
+      ,[INITIALS]		 = src.[INITIALS]
+      ,[FIRSTNAME]		 = src.[FIRSTNAME]
+      ,[LASTNAME]		 = src.[LASTNAME]
+      ,[IDNUMBER]		 = src.[IDNUMBER]
+      ,[ETHNICITYID]	 = src.[ETHNICITYID]
+      ,[GENDERID]		 = src.[GENDERID]
+      ,[LANGUAGEID]		 = src.[LANGUAGEID]
+      ,[MARITALSTATUSID] = src.[MARITALSTATUSID]
+      ,[RELATIONSHIPID]	 = src.[RELATIONSHIPID]
+      ,[CELLNUMBER]		 = src.[CELLNUMBER]
+      ,[PHONENUMBER]	 = src.[PHONENUMBER]
+      ,[EMAIL]			 = src.[EMAIL]
+      ,[CREATEUSERID]	 = src.[CREATEUSERID]
+      ,[CREATEDATETIME]	 = src.[CREATEDATETIME]
+      ,[MODIFYUSERID]	 = src.[MODIFYUSERID]
+      ,[MODIFYDATETIME]	 = src.[MODIFYDATETIME]
+      ,[ISACTIVE]		 = src.[ISACTIVE]
+      ,[PASSPORTNUMBER]	 = src.[PASSPORTNUMBER]
+      ,[REQUIRESREVIEW]	 = src.[REQUIRESREVIEW]
+      ,[INTAKECREATED]	 = src.[INTAKECREATED]
+      ,[DISPLAYNAME]	 = src.[DISPLAYNAME]
+      ,[TITLEID]		 = src.[TITLEID]
+      ,[AGEGROUPID]		 = src.[AGEGROUPID]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[EMPLOYEEID]
+      ,[INITIALS]
+      ,[FIRSTNAME]
+      ,[LASTNAME]
+      ,[IDNUMBER]
+      ,[ETHNICITYID]
+      ,[GENDERID]
+      ,[LANGUAGEID]
+      ,[MARITALSTATUSID]
+      ,[RELATIONSHIPID]
+      ,[CELLNUMBER]
+      ,[PHONENUMBER]
+      ,[EMAIL]
+      ,[CREATEUSERID]
+      ,[CREATEDATETIME]
+      ,[MODIFYUSERID]
+      ,[MODIFYDATETIME]
+      ,[ISACTIVE]
+      ,[PASSPORTNUMBER]
+      ,[REQUIRESREVIEW]
+      ,[INTAKECREATED]
+      ,[DISPLAYNAME]
+      ,[TITLEID]
+      ,[AGEGROUPID]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[EMPLOYEEID]
+      ,[INITIALS]
+      ,[FIRSTNAME]
+      ,[LASTNAME]
+      ,[IDNUMBER]
+      ,[ETHNICITYID]
+      ,[GENDERID]
+      ,[LANGUAGEID]
+      ,[MARITALSTATUSID]
+      ,[RELATIONSHIPID]
+      ,[CELLNUMBER]
+      ,[PHONENUMBER]
+      ,[EMAIL]
+      ,[CREATEUSERID]
+      ,[CREATEDATETIME]
+      ,[MODIFYUSERID]
+      ,[MODIFYDATETIME]
+      ,[ISACTIVE]
+      ,[PASSPORTNUMBER]
+      ,[REQUIRESREVIEW]
+      ,[INTAKECREATED]
+      ,[DISPLAYNAME]
+      ,[TITLEID]
+      ,[AGEGROUPID]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_EmployeeLevel')) is not null
+drop procedure Persist.prc_load_EmployeeLevel 
+go 
+create procedure [Persist].[prc_load_EmployeeLevel]
+as
+begin
+	merge Persist.EmployeeLevel as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].OSUSR_bzw_EmployeeLevel1
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]			 = src.[ORDER]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+if (select object_id('Persist.prc_load_Ethnicity')) is not null
+drop procedure Persist.prc_load_Ethnicity 
+go 
+create procedure [Persist].[prc_load_Ethnicity]
+as
+begin
+	merge Persist.Ethnicity as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].OSUSR_hi4_Ethnicity
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]			 = src.[ORDER]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+
+if (select object_id('Persist.prc_load_Gender')) is not null
+drop procedure Persist.prc_load_Gender go 
+create procedure [Persist].[prc_load_Gender]
+as
+begin
+	merge Persist.Gender as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].OSUSR_hi4_Gender
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]			 = src.[ORDER]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_iCareServices')) is not null
+drop procedure Persist.prc_load_iCareServices go 
+create procedure [Persist].[prc_load_iCareServices]
+as
+begin
+	merge Persist.iCare_Services as tgt
+	using
+		(
+		SELECT [ID]
+      ,[NAME]
+      ,[ISACTIVE]
+      ,[DATETIMECREATED]
+      ,[CREATEDBY]
+      ,[DATETIMEUPDATED]
+      ,[UPDATEDBY]
+      ,[ICARE_CATEGORYID]
+      ,[ISTELECARE]
+      ,[REQUIRESELIGIBILITY]
+      ,[ISCONTRACTENTITLEMNT]
+      ,[ALLOWVC]
+      ,[SERVICEID]
+      ,[HCSERVICEID]
+      ,[TREATMENTSUGGESTIONSID]
+      ,[SERVICETYPEID]
+      ,[SERVICEGROUPID]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_bzw_Services]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[NAME]					  ,'') = ISNULL(src.[NAME]					  ,'')
+      AND ISNULL(tgt.[ISACTIVE]				  ,0)  = ISNULL(src.[ISACTIVE]				  ,0)
+      AND ISNULL(tgt.[DATETIMECREATED]		  ,'') = ISNULL(src.[DATETIMECREATED]		  ,'')
+      AND ISNULL(tgt.[CREATEDBY]			  ,0)  = ISNULL(src.[CREATEDBY]			  ,0)
+      AND ISNULL(tgt.[DATETIMEUPDATED]		  ,'') = ISNULL(src.[DATETIMEUPDATED]		  ,'')
+      AND ISNULL(tgt.[UPDATEDBY]			  ,0)  = ISNULL(src.[UPDATEDBY]			  ,0)
+      AND ISNULL(tgt.[ICARE_CATEGORYID]		  ,0)  = ISNULL(src.[ICARE_CATEGORYID]		  ,0)
+      AND ISNULL(tgt.[ISTELECARE]			  ,0)  = ISNULL(src.[ISTELECARE]			  ,0)
+      AND ISNULL(tgt.[REQUIRESELIGIBILITY]	  ,0)  = ISNULL(src.[REQUIRESELIGIBILITY]	  ,0)
+      AND ISNULL(tgt.[ISCONTRACTENTITLEMNT]	  ,0)  = ISNULL(src.[ISCONTRACTENTITLEMNT]	  ,0)
+      AND ISNULL(tgt.[ALLOWVC]				  ,0)  = ISNULL(src.[ALLOWVC]				  ,0)
+      AND ISNULL(tgt.[SERVICEID]			  ,0)  = ISNULL(src.[SERVICEID]			  ,0)
+      AND ISNULL(tgt.[HCSERVICEID]			  ,0)  = ISNULL(src.[HCSERVICEID]			  ,0)
+      AND ISNULL(tgt.[TREATMENTSUGGESTIONSID] ,0)  = ISNULL(src.[TREATMENTSUGGESTIONSID] ,0)
+      AND ISNULL(tgt.[SERVICETYPEID]		  ,0)  = ISNULL(src.[SERVICETYPEID]		  ,0)
+      AND ISNULL(tgt.[SERVICEGROUPID]		  ,0)  = ISNULL(src.[SERVICEGROUPID]		  ,0)
+	)
+	then
+	update set 
+	   [NAME]                   = src.[NAME]
+      ,[ISACTIVE]				= src.[ISACTIVE]
+      ,[DATETIMECREATED]		= src.[DATETIMECREATED]
+      ,[CREATEDBY]				= src.[CREATEDBY]
+      ,[DATETIMEUPDATED]		= src.[DATETIMEUPDATED]
+      ,[UPDATEDBY]				= src.[UPDATEDBY]
+      ,[ICARE_CATEGORYID]		= src.[ICARE_CATEGORYID]
+      ,[ISTELECARE]				= src.[ISTELECARE]
+      ,[REQUIRESELIGIBILITY]	= src.[REQUIRESELIGIBILITY]
+      ,[ISCONTRACTENTITLEMNT]	= src.[ISCONTRACTENTITLEMNT]
+      ,[ALLOWVC]				= src.[ALLOWVC]
+      ,[SERVICEID]				= src.[SERVICEID]
+      ,[HCSERVICEID]			= src.[HCSERVICEID]
+      ,[TREATMENTSUGGESTIONSID]	= src.[TREATMENTSUGGESTIONSID]
+      ,[SERVICETYPEID]			= src.[SERVICETYPEID]
+      ,[SERVICEGROUPID]			= src.[SERVICEGROUPID]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[NAME]
+      ,[ISACTIVE]
+      ,[DATETIMECREATED]
+      ,[CREATEDBY]
+      ,[DATETIMEUPDATED]
+      ,[UPDATEDBY]
+      ,[ICARE_CATEGORYID]
+      ,[ISTELECARE]
+      ,[REQUIRESELIGIBILITY]
+      ,[ISCONTRACTENTITLEMNT]
+      ,[ALLOWVC]
+      ,[SERVICEID]
+      ,[HCSERVICEID]
+      ,[TREATMENTSUGGESTIONSID]
+      ,[SERVICETYPEID]
+      ,[SERVICEGROUPID]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[NAME]
+      ,[ISACTIVE]
+      ,[DATETIMECREATED]
+      ,[CREATEDBY]
+      ,[DATETIMEUPDATED]
+      ,[UPDATEDBY]
+      ,[ICARE_CATEGORYID]
+      ,[ISTELECARE]
+      ,[REQUIRESELIGIBILITY]
+      ,[ISCONTRACTENTITLEMNT]
+      ,[ALLOWVC]
+      ,[SERVICEID]
+      ,[HCSERVICEID]
+      ,[TREATMENTSUGGESTIONSID]
+      ,[SERVICETYPEID]
+      ,[SERVICEGROUPID]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_IndustrySector')) is not null
+drop procedure Persist.prc_load_IndustrySector go 
+create procedure [Persist].[prc_load_IndustrySector]
+as
+begin
+	merge Persist.Industry as tgt
+	using
+		(
+		SELECT [ID]
+      ,[PRIMARYSECTOR]
+      ,[INDUSTRYNAME]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].OSUSR_bzw_IndustrySector
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[PRIMARYSECTOR], '') = ISNULL(src.[PRIMARYSECTOR], '')
+      AND ISNULL(tgt.[INDUSTRYNAME], '') = ISNULL(src.[INDUSTRYNAME], '')
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	)
+	then
+	update set 
+	   [PRIMARYSECTOR]			 = src.[PRIMARYSECTOR]
+      ,[INDUSTRYNAME]			 = src.[INDUSTRYNAME]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[PRIMARYSECTOR]
+      ,[INDUSTRYNAME]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[PRIMARYSECTOR]
+      ,[INDUSTRYNAME]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_IntakeAssessment')) is not null
+drop procedure Persist.prc_load_IntakeAssessment go 
+create procedure [Persist].[prc_load_IntakeAssessment]
+as
+begin
+	merge Persist.IntakeAssessment as tgt
+	using
+		(
+		SELECT [ID]
+      ,[DESCRIPTION]
+      ,[COMPANYNAME]
+      ,[COMPANYID]
+      ,[COMPANYSITEID]
+      ,[EMPLOYEEID]
+      ,[ELIGIBLEOUTCOMEID]
+      ,[CREATEDBY]
+      ,[CREATEDDATETIME]
+      ,[UPDATEDBY]
+      ,[UPDATEDDATETIME]
+      ,[RISKLEVELID]
+      ,[RISKTYPEID]
+      ,[NOEMPLOYEEFOUND]
+      ,[ISDEPENDANT]
+      ,[EMPLOYEEDEPENDANTID]
+      ,[PRIMARYPROBLEM]
+      ,[SECONDARYPROBLEM]
+      ,[LOCATION]
+      ,[LAITITUDE]
+      ,[LONGITUDE]
+      ,[CASECREATED]
+      ,[ISELIGIBLE]
+      ,[REFERENCE]
+      ,[ICARE_SERVICEID]
+      ,[CONTRACTID]
+      ,[LATITUDE]
+      ,[FULLNAME]
+      ,[CUSTOMERNAME]
+      ,[PROBLEMCATEGORYID]
+      ,[PROBLEMTYPEID]
+      ,[HASSECONDARYPROBLEM]
+      ,[SECONDARYPROBLEMCATEGORYID]
+      ,[SECONDARYPROBLEMTYPEID]
+      ,[ICARE_CATEGORYID]
+      ,[TELEPHONENUMBER]
+      ,[WORKIMPACTID]
+      ,[WORKIMPACTSTATUSID]
+      ,[EMOTIONALSTATEID]
+      ,[EMOTIONALSTATUSID]
+      ,[ISANONYMOUS]
+      ,[CASECOUNT]
+      ,[INTAKESTATUSID]
+      ,[EXTERNALREFERED]
+      ,[EXTERNALREFERAL]
+      ,[EXTERNALREFFERED]
+      ,[EXTERNALREFERRAL]
+      ,[REFERRALTYPEID]
+      ,[EXTERNALREFERRED]
+      ,[RISKDEFINITIONID]
+      ,[REQUIRESRISKASSESSMENT]
+      ,[CANHAVEWORKIMPACT]
+      ,[EMETONIALSTATE]
+      ,[SERVICECATEGORYID]
+      ,[EMETIONALSTATE]
+      ,[EMOTIONALSTATE]
+      ,[ASSESSMENTID]
+      ,[EMERGENCYCONTACT]
+      ,[EMERGENCYCONTACTPHONE]
+      ,[ISPLAN]
+      ,[ISACCESS]
+      ,[PLANNOTES]
+      ,[ISHISTORY]
+      ,[HISTORYNOTES]
+      ,[REASONFOREXCALATION]
+      ,[REFEREMPLOYEEID]
+      ,[EXTERNALREFERCONTACT]
+      ,[CALLINGFORCOMPANYID]
+      ,[CALLERROLETYPEID]
+      ,[ISEXTERNALREFERRED]
+      ,[EXTERNALREFERENTITYID]
+      ,[REASONFORESCALATIONID]
+      ,[DETAILSNOTPROVIDED]
+      ,[ACCESSNOTES]
+      ,[ESCALATEEMPLOYEEID]
+      ,[TRACKINGSTATUSID]
+      ,[PROJECTCODE]
+      ,[ISMANAGERIALREFFERAL]
+      ,[ISMANAGERIALREFERRAL]
+      ,[ESCALATEROLEID]
+      ,[ESCALATEUSERID]
+      ,[ISOTHER]
+      ,[OTHERNOTES]
+      ,[COMPANYBUSINESSUNITID]
+      ,[COMPANYDEPARTMENTID]
+      ,[REASONFORCLOSURE]
+      ,[ISDELETED]
+      ,[REASONFORDELETE]
+      ,[INTAKEDELETEREASONID]
+      ,[INTAKEREFTEXT]
+      ,[WHOSHOULDRECEIVEREPORT]
+      ,[ISMANAGERIALREFSUBINTAKE]
+      ,[ISGROUPTRAUMAREFERRAL]
+      ,[ACCESSMETHODID]
+      ,[ACCESSMETHODOTHER]
+      ,[CLASSIFICATIONID]
+      ,[REPORTDATE]
+      ,[INTAKETYPEID]
+      ,[SERVICESTATUSID]
+      ,[OUTBOUNDREQUESTID]
+      ,[CLINICID]
+      ,[ISWALKIN]
+      ,[EMAILLOGID]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_5if_IntakeAssement]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[DESCRIPTION]					,'') = ISNULL(src.[DESCRIPTION]					,'')
+      AND ISNULL(tgt.[COMPANYNAME]					,'') = ISNULL(src.[COMPANYNAME]					,'')
+      AND ISNULL(tgt.[COMPANYID]					,0)	 = ISNULL(src.[COMPANYID]					,0)
+      AND ISNULL(tgt.[COMPANYSITEID]				,0)	 = ISNULL(src.[COMPANYSITEID]				,0)
+      AND ISNULL(tgt.[EMPLOYEEID]					,0)	 = ISNULL(src.[EMPLOYEEID]					,0)
+      AND ISNULL(tgt.[ELIGIBLEOUTCOMEID]			,0)	 = ISNULL(src.[ELIGIBLEOUTCOMEID]			,0)
+      AND ISNULL(tgt.[CREATEDBY]					,0)	 = ISNULL(src.[CREATEDBY]					,0)
+      AND ISNULL(tgt.[CREATEDDATETIME]				,'') = ISNULL(src.[CREATEDDATETIME]				,'')
+      AND ISNULL(tgt.[UPDATEDBY]					,0)	 = ISNULL(src.[UPDATEDBY]					,0)
+      AND ISNULL(tgt.[UPDATEDDATETIME]				,'') = ISNULL(src.[UPDATEDDATETIME]				,'')
+      AND ISNULL(tgt.[RISKLEVELID]					,0)	 = ISNULL(src.[RISKLEVELID]					,0)
+      AND ISNULL(tgt.[RISKTYPEID]					,0)	 = ISNULL(src.[RISKTYPEID]					,0)
+      AND ISNULL(tgt.[NOEMPLOYEEFOUND]				,0)	 = ISNULL(src.[NOEMPLOYEEFOUND]				,0)
+      AND ISNULL(tgt.[ISDEPENDANT]					,0)	 = ISNULL(src.[ISDEPENDANT]					,0)
+      AND ISNULL(tgt.[EMPLOYEEDEPENDANTID]			,0)	 = ISNULL(src.[EMPLOYEEDEPENDANTID]			,0)
+      AND ISNULL(tgt.[PRIMARYPROBLEM]				,'') = ISNULL(src.[PRIMARYPROBLEM]				,'')
+      AND ISNULL(tgt.[SECONDARYPROBLEM]				,'') = ISNULL(src.[SECONDARYPROBLEM]				,'')
+      AND ISNULL(tgt.[LOCATION]						,'') = ISNULL(src.[LOCATION]						,'')
+      AND ISNULL(tgt.[LAITITUDE]					,0)	 = ISNULL(src.[LAITITUDE]					,0)
+      AND ISNULL(tgt.[LONGITUDE]					,0)	 = ISNULL(src.[LONGITUDE]					,0)
+      AND ISNULL(tgt.[CASECREATED]					,0)	 = ISNULL(src.[CASECREATED]					,0)
+      AND ISNULL(tgt.[ISELIGIBLE]					,0)	 = ISNULL(src.[ISELIGIBLE]					,0)
+      AND ISNULL(tgt.[REFERENCE]					,'') = ISNULL(src.[REFERENCE]					,'')
+      AND ISNULL(tgt.[ICARE_SERVICEID]				,0)	 = ISNULL(src.[ICARE_SERVICEID]				,0)
+      AND ISNULL(tgt.[CONTRACTID]					,0)	 = ISNULL(src.[CONTRACTID]					,0)
+      AND ISNULL(tgt.[LATITUDE]						,0)	 = ISNULL(src.[LATITUDE]						,0)
+      AND ISNULL(tgt.[FULLNAME]						,'') = ISNULL(src.[FULLNAME]						,'')
+      AND ISNULL(tgt.[CUSTOMERNAME]					,'') = ISNULL(src.[CUSTOMERNAME]					,'')
+      AND ISNULL(tgt.[PROBLEMCATEGORYID]			,0)	 = ISNULL(src.[PROBLEMCATEGORYID]			,0)
+      AND ISNULL(tgt.[PROBLEMTYPEID]				,0)	 = ISNULL(src.[PROBLEMTYPEID]				,0)
+      AND ISNULL(tgt.[HASSECONDARYPROBLEM]			,0)	 = ISNULL(src.[HASSECONDARYPROBLEM]			,0)
+      AND ISNULL(tgt.[SECONDARYPROBLEMCATEGORYID]	,0)	 = ISNULL(src.[SECONDARYPROBLEMCATEGORYID]	,0)
+      AND ISNULL(tgt.[SECONDARYPROBLEMTYPEID]		,0)	 = ISNULL(src.[SECONDARYPROBLEMTYPEID]		,0)
+      AND ISNULL(tgt.[ICARE_CATEGORYID]				,0)	 = ISNULL(src.[ICARE_CATEGORYID]				,0)
+      AND ISNULL(tgt.[TELEPHONENUMBER]				,'') = ISNULL(src.[TELEPHONENUMBER]				,'')
+      AND ISNULL(tgt.[WORKIMPACTID]					,0)	 = ISNULL(src.[WORKIMPACTID]					,0)
+      AND ISNULL(tgt.[WORKIMPACTSTATUSID]			,0)	 = ISNULL(src.[WORKIMPACTSTATUSID]			,0)
+      AND ISNULL(tgt.[EMOTIONALSTATEID]				,0)	 = ISNULL(src.[EMOTIONALSTATEID]				,0)
+      AND ISNULL(tgt.[EMOTIONALSTATUSID]			,0)	 = ISNULL(src.[EMOTIONALSTATUSID]			,0)
+      AND ISNULL(tgt.[ISANONYMOUS]					,0)	 = ISNULL(src.[ISANONYMOUS]					,0)
+      AND ISNULL(tgt.[CASECOUNT]					,0)	 = ISNULL(src.[CASECOUNT]					,0)
+      AND ISNULL(tgt.[INTAKESTATUSID]				,0)	 = ISNULL(src.[INTAKESTATUSID]				,0)
+      AND ISNULL(tgt.[EXTERNALREFERED]				,0)	 = ISNULL(src.[EXTERNALREFERED]				,0)
+      AND ISNULL(tgt.[EXTERNALREFERAL]				,'') = ISNULL(src.[EXTERNALREFERAL]				,'')
+      AND ISNULL(tgt.[EXTERNALREFFERED]				,0)	 = ISNULL(src.[EXTERNALREFFERED]				,0)
+      AND ISNULL(tgt.[EXTERNALREFERRAL]				,'') = ISNULL(src.[EXTERNALREFERRAL]				,'')
+      AND ISNULL(tgt.[REFERRALTYPEID]				,0)	 = ISNULL(src.[REFERRALTYPEID]				,0)
+      AND ISNULL(tgt.[EXTERNALREFERRED]				,0)	 = ISNULL(src.[EXTERNALREFERRED]				,0)
+      AND ISNULL(tgt.[RISKDEFINITIONID]				,0)	 = ISNULL(src.[RISKDEFINITIONID]				,0)
+      AND ISNULL(tgt.[REQUIRESRISKASSESSMENT]		,0)	 = ISNULL(src.[REQUIRESRISKASSESSMENT]		,0)
+      AND ISNULL(tgt.[CANHAVEWORKIMPACT]			,0)	 = ISNULL(src.[CANHAVEWORKIMPACT]			,0)
+      AND ISNULL(tgt.[EMETONIALSTATE]				,0)	 = ISNULL(src.[EMETONIALSTATE]				,0)
+      AND ISNULL(tgt.[SERVICECATEGORYID]			,0)	 = ISNULL(src.[SERVICECATEGORYID]			,0)
+      AND ISNULL(tgt.[EMETIONALSTATE]				,0)	 = ISNULL(src.[EMETIONALSTATE]				,0)
+      AND ISNULL(tgt.[EMOTIONALSTATE]				,0)	 = ISNULL(src.[EMOTIONALSTATE]				,0)
+      AND ISNULL(tgt.[ASSESSMENTID]					,0)	 = ISNULL(src.[ASSESSMENTID]					,0)
+      AND ISNULL(tgt.[EMERGENCYCONTACT]				,'') = ISNULL(src.[EMERGENCYCONTACT]				,'')
+      AND ISNULL(tgt.[EMERGENCYCONTACTPHONE]		,'') = ISNULL(src.[EMERGENCYCONTACTPHONE]		,'')
+      AND ISNULL(tgt.[ISPLAN]						,0)	 = ISNULL(src.[ISPLAN]						,0)
+      AND ISNULL(tgt.[ISACCESS]						,0)	 = ISNULL(src.[ISACCESS]						,0)
+      AND ISNULL(tgt.[PLANNOTES]					,'') = ISNULL(src.[PLANNOTES]					,'')
+      AND ISNULL(tgt.[ISHISTORY]					,0)	 = ISNULL(src.[ISHISTORY]					,0)
+      AND ISNULL(tgt.[HISTORYNOTES]					,'') = ISNULL(src.[HISTORYNOTES]					,'')
+      AND ISNULL(tgt.[REASONFOREXCALATION]			,'') = ISNULL(src.[REASONFOREXCALATION]			,'')
+      AND ISNULL(tgt.[REFEREMPLOYEEID]				,0)	 = ISNULL(src.[REFEREMPLOYEEID]				,0)
+      AND ISNULL(tgt.[EXTERNALREFERCONTACT]			,'') = ISNULL(src.[EXTERNALREFERCONTACT]			,'')
+      AND ISNULL(tgt.[CALLINGFORCOMPANYID]			,0)	 = ISNULL(src.[CALLINGFORCOMPANYID]			,0)
+      AND ISNULL(tgt.[CALLERROLETYPEID]				,0)	 = ISNULL(src.[CALLERROLETYPEID]				,0)
+      AND ISNULL(tgt.[ISEXTERNALREFERRED]			,0)	 = ISNULL(src.[ISEXTERNALREFERRED]			,0)
+      AND ISNULL(tgt.[EXTERNALREFERENTITYID]		,0)	 = ISNULL(src.[EXTERNALREFERENTITYID]		,0)
+      AND ISNULL(tgt.[REASONFORESCALATIONID]		,0)	 = ISNULL(src.[REASONFORESCALATIONID]		,0)
+      AND ISNULL(tgt.[DETAILSNOTPROVIDED]			,0)	 = ISNULL(src.[DETAILSNOTPROVIDED]			,0)
+      AND ISNULL(tgt.[ACCESSNOTES]					,'') = ISNULL(src.[ACCESSNOTES]					,'')
+      AND ISNULL(tgt.[ESCALATEEMPLOYEEID]			,0)	 = ISNULL(src.[ESCALATEEMPLOYEEID]			,0)
+      AND ISNULL(tgt.[TRACKINGSTATUSID]				,0)	 = ISNULL(src.[TRACKINGSTATUSID]				,0)
+      AND ISNULL(tgt.[PROJECTCODE]					,'') = ISNULL(src.[PROJECTCODE]					,'')
+      AND ISNULL(tgt.[ISMANAGERIALREFFERAL]			,0)	 = ISNULL(src.[ISMANAGERIALREFFERAL]			,0)
+      AND ISNULL(tgt.[ISMANAGERIALREFERRAL]			,0)	 = ISNULL(src.[ISMANAGERIALREFERRAL]			,0)
+      AND ISNULL(tgt.[ESCALATEROLEID]				,0)	 = ISNULL(src.[ESCALATEROLEID]				,0)
+      AND ISNULL(tgt.[ESCALATEUSERID]				,0)	 = ISNULL(src.[ESCALATEUSERID]				,0)
+      AND ISNULL(tgt.[ISOTHER]						,0)	 = ISNULL(src.[ISOTHER]						,0)
+      AND ISNULL(tgt.[OTHERNOTES]					,'') = ISNULL(src.[OTHERNOTES]					,'')
+      AND ISNULL(tgt.[COMPANYBUSINESSUNITID]		,0)	 = ISNULL(src.[COMPANYBUSINESSUNITID]		,0)
+      AND ISNULL(tgt.[COMPANYDEPARTMENTID]			,0)	 = ISNULL(src.[COMPANYDEPARTMENTID]			,0)
+      AND ISNULL(tgt.[REASONFORCLOSURE]				,'') = ISNULL(src.[REASONFORCLOSURE]				,'')
+      AND ISNULL(tgt.[ISDELETED]					,0)	 = ISNULL(src.[ISDELETED]					,0)
+      AND ISNULL(tgt.[REASONFORDELETE]				,'') = ISNULL(src.[REASONFORDELETE]				,'')
+      AND ISNULL(tgt.[INTAKEDELETEREASONID]			,0)	 = ISNULL(src.[INTAKEDELETEREASONID]			,0)
+      AND ISNULL(tgt.[INTAKEREFTEXT]				,'') = ISNULL(src.[INTAKEREFTEXT]				,'')
+      AND ISNULL(tgt.[WHOSHOULDRECEIVEREPORT]		,'') = ISNULL(src.[WHOSHOULDRECEIVEREPORT]		,'')
+      AND ISNULL(tgt.[ISMANAGERIALREFSUBINTAKE]		,0)	 = ISNULL(src.[ISMANAGERIALREFSUBINTAKE]		,0)
+      AND ISNULL(tgt.[ISGROUPTRAUMAREFERRAL]		,0)	 = ISNULL(src.[ISGROUPTRAUMAREFERRAL]		,0)
+      AND ISNULL(tgt.[ACCESSMETHODID]				,0)	 = ISNULL(src.[ACCESSMETHODID]				,0)
+      AND ISNULL(tgt.[ACCESSMETHODOTHER]			,'') = ISNULL(src.[ACCESSMETHODOTHER]			,'')
+      AND ISNULL(tgt.[CLASSIFICATIONID]				,0)	 = ISNULL(src.[CLASSIFICATIONID]				,0)
+      AND ISNULL(tgt.[REPORTDATE]					,'') = ISNULL(src.[REPORTDATE]					,'')
+      AND ISNULL(tgt.[INTAKETYPEID]					,0)	 = ISNULL(src.[INTAKETYPEID]					,0)
+      AND ISNULL(tgt.[SERVICESTATUSID]				,0)	 = ISNULL(src.[SERVICESTATUSID]				,0)
+      AND ISNULL(tgt.[OUTBOUNDREQUESTID]			,0)	 = ISNULL(src.[OUTBOUNDREQUESTID]			,0)
+      AND ISNULL(tgt.[CLINICID]						,0)	 = ISNULL(src.[CLINICID]						,0)
+      AND ISNULL(tgt.[ISWALKIN]						,0)	 = ISNULL(src.[ISWALKIN]						,0)
+      AND ISNULL(tgt.[EMAILLOGID]					,0)	 = ISNULL(src.[EMAILLOGID]					,0)
+	)
+	then
+	update set 
+	   [DESCRIPTION]				= src.[DESCRIPTION]
+      ,[COMPANYNAME]				= src.[COMPANYNAME]
+      ,[COMPANYID]					= src.[COMPANYID]
+      ,[COMPANYSITEID]				= src.[COMPANYSITEID]
+      ,[EMPLOYEEID]					= src.[EMPLOYEEID]
+      ,[ELIGIBLEOUTCOMEID]			= src.[ELIGIBLEOUTCOMEID]
+      ,[CREATEDBY]					= src.[CREATEDBY]
+      ,[CREATEDDATETIME]			= src.[CREATEDDATETIME]
+      ,[UPDATEDBY]					= src.[UPDATEDBY]
+      ,[UPDATEDDATETIME]			= src.[UPDATEDDATETIME]
+      ,[RISKLEVELID]				= src.[RISKLEVELID]
+      ,[RISKTYPEID]					= src.[RISKTYPEID]
+      ,[NOEMPLOYEEFOUND]			= src.[NOEMPLOYEEFOUND]
+      ,[ISDEPENDANT]				= src.[ISDEPENDANT]
+      ,[EMPLOYEEDEPENDANTID]		= src.[EMPLOYEEDEPENDANTID]
+      ,[PRIMARYPROBLEM]				= src.[PRIMARYPROBLEM]
+      ,[SECONDARYPROBLEM]			= src.[SECONDARYPROBLEM]
+      ,[LOCATION]					= src.[LOCATION]
+      ,[LAITITUDE]					= src.[LAITITUDE]
+      ,[LONGITUDE]					= src.[LONGITUDE]
+      ,[CASECREATED]				= src.[CASECREATED]
+      ,[ISELIGIBLE]					= src.[ISELIGIBLE]
+      ,[REFERENCE]					= src.[REFERENCE]
+      ,[ICARE_SERVICEID]			= src.[ICARE_SERVICEID]
+      ,[CONTRACTID]					= src.[CONTRACTID]
+      ,[LATITUDE]					= src.[LATITUDE]
+      ,[FULLNAME]					= src.[FULLNAME]
+      ,[CUSTOMERNAME]				= src.[CUSTOMERNAME]
+      ,[PROBLEMCATEGORYID]			= src.[PROBLEMCATEGORYID]
+      ,[PROBLEMTYPEID]				= src.[PROBLEMTYPEID]
+      ,[HASSECONDARYPROBLEM]		= src.[HASSECONDARYPROBLEM]
+      ,[SECONDARYPROBLEMCATEGORYID]	= src.[SECONDARYPROBLEMCATEGORYID]
+      ,[SECONDARYPROBLEMTYPEID]		= src.[SECONDARYPROBLEMTYPEID]
+      ,[ICARE_CATEGORYID]			= src.[ICARE_CATEGORYID]
+      ,[TELEPHONENUMBER]			= src.[TELEPHONENUMBER]
+      ,[WORKIMPACTID]				= src.[WORKIMPACTID]
+      ,[WORKIMPACTSTATUSID]			= src.[WORKIMPACTSTATUSID]
+      ,[EMOTIONALSTATEID]			= src.[EMOTIONALSTATEID]
+      ,[EMOTIONALSTATUSID]			= src.[EMOTIONALSTATUSID]
+      ,[ISANONYMOUS]				= src.[ISANONYMOUS]
+      ,[CASECOUNT]					= src.[CASECOUNT]
+      ,[INTAKESTATUSID]				= src.[INTAKESTATUSID]
+      ,[EXTERNALREFERED]			= src.[EXTERNALREFERED]
+      ,[EXTERNALREFERAL]			= src.[EXTERNALREFERAL]
+      ,[EXTERNALREFFERED]			= src.[EXTERNALREFFERED]
+      ,[EXTERNALREFERRAL]			= src.[EXTERNALREFERRAL]
+      ,[REFERRALTYPEID]				= src.[REFERRALTYPEID]
+      ,[EXTERNALREFERRED]			= src.[EXTERNALREFERRED]
+      ,[RISKDEFINITIONID]			= src.[RISKDEFINITIONID]
+      ,[REQUIRESRISKASSESSMENT]		= src.[REQUIRESRISKASSESSMENT]
+      ,[CANHAVEWORKIMPACT]			= src.[CANHAVEWORKIMPACT]
+      ,[EMETONIALSTATE]				= src.[EMETONIALSTATE]
+      ,[SERVICECATEGORYID]			= src.[SERVICECATEGORYID]
+      ,[EMETIONALSTATE]				= src.[EMETIONALSTATE]
+      ,[EMOTIONALSTATE]				= src.[EMOTIONALSTATE]
+      ,[ASSESSMENTID]				= src.[ASSESSMENTID]
+      ,[EMERGENCYCONTACT]			= src.[EMERGENCYCONTACT]
+      ,[EMERGENCYCONTACTPHONE]		= src.[EMERGENCYCONTACTPHONE]
+      ,[ISPLAN]						= src.[ISPLAN]
+      ,[ISACCESS]					= src.[ISACCESS]
+      ,[PLANNOTES]					= src.[PLANNOTES]
+      ,[ISHISTORY]					= src.[ISHISTORY]
+      ,[HISTORYNOTES]				= src.[HISTORYNOTES]
+      ,[REASONFOREXCALATION]		= src.[REASONFOREXCALATION]
+      ,[REFEREMPLOYEEID]			= src.[REFEREMPLOYEEID]
+      ,[EXTERNALREFERCONTACT]		= src.[EXTERNALREFERCONTACT]
+      ,[CALLINGFORCOMPANYID]		= src.[CALLINGFORCOMPANYID]
+      ,[CALLERROLETYPEID]			= src.[CALLERROLETYPEID]
+      ,[ISEXTERNALREFERRED]			= src.[ISEXTERNALREFERRED]
+      ,[EXTERNALREFERENTITYID]		= src.[EXTERNALREFERENTITYID]
+      ,[REASONFORESCALATIONID]		= src.[REASONFORESCALATIONID]
+      ,[DETAILSNOTPROVIDED]			= src.[DETAILSNOTPROVIDED]
+      ,[ACCESSNOTES]				= src.[ACCESSNOTES]
+      ,[ESCALATEEMPLOYEEID]			= src.[ESCALATEEMPLOYEEID]
+      ,[TRACKINGSTATUSID]			= src.[TRACKINGSTATUSID]
+      ,[PROJECTCODE]				= src.[PROJECTCODE]
+      ,[ISMANAGERIALREFFERAL]		= src.[ISMANAGERIALREFFERAL]
+      ,[ISMANAGERIALREFERRAL]		= src.[ISMANAGERIALREFERRAL]
+      ,[ESCALATEROLEID]				= src.[ESCALATEROLEID]
+      ,[ESCALATEUSERID]				= src.[ESCALATEUSERID]
+      ,[ISOTHER]					= src.[ISOTHER]
+      ,[OTHERNOTES]					= src.[OTHERNOTES]
+      ,[COMPANYBUSINESSUNITID]		= src.[COMPANYBUSINESSUNITID]
+      ,[COMPANYDEPARTMENTID]		= src.[COMPANYDEPARTMENTID]
+      ,[REASONFORCLOSURE]			= src.[REASONFORCLOSURE]
+      ,[ISDELETED]					= src.[ISDELETED]
+      ,[REASONFORDELETE]			= src.[REASONFORDELETE]
+      ,[INTAKEDELETEREASONID]		= src.[INTAKEDELETEREASONID]
+      ,[INTAKEREFTEXT]				= src.[INTAKEREFTEXT]
+      ,[WHOSHOULDRECEIVEREPORT]		= src.[WHOSHOULDRECEIVEREPORT]
+      ,[ISMANAGERIALREFSUBINTAKE]	= src.[ISMANAGERIALREFSUBINTAKE]
+      ,[ISGROUPTRAUMAREFERRAL]		= src.[ISGROUPTRAUMAREFERRAL]
+      ,[ACCESSMETHODID]				= src.[ACCESSMETHODID]
+      ,[ACCESSMETHODOTHER]			= src.[ACCESSMETHODOTHER]
+      ,[CLASSIFICATIONID]			= src.[CLASSIFICATIONID]
+      ,[REPORTDATE]					= src.[REPORTDATE]
+      ,[INTAKETYPEID]				= src.[INTAKETYPEID]
+      ,[SERVICESTATUSID]			= src.[SERVICESTATUSID]
+      ,[OUTBOUNDREQUESTID]			= src.[OUTBOUNDREQUESTID]
+      ,[CLINICID]					= src.[CLINICID]
+      ,[ISWALKIN]					= src.[ISWALKIN]
+      ,[EMAILLOGID]					= src.[EMAILLOGID]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[DESCRIPTION]
+      ,[COMPANYNAME]
+      ,[COMPANYID]
+      ,[COMPANYSITEID]
+      ,[EMPLOYEEID]
+      ,[ELIGIBLEOUTCOMEID]
+      ,[CREATEDBY]
+      ,[CREATEDDATETIME]
+      ,[UPDATEDBY]
+      ,[UPDATEDDATETIME]
+      ,[RISKLEVELID]
+      ,[RISKTYPEID]
+      ,[NOEMPLOYEEFOUND]
+      ,[ISDEPENDANT]
+      ,[EMPLOYEEDEPENDANTID]
+      ,[PRIMARYPROBLEM]
+      ,[SECONDARYPROBLEM]
+      ,[LOCATION]
+      ,[LAITITUDE]
+      ,[LONGITUDE]
+      ,[CASECREATED]
+      ,[ISELIGIBLE]
+      ,[REFERENCE]
+      ,[ICARE_SERVICEID]
+      ,[CONTRACTID]
+      ,[LATITUDE]
+      ,[FULLNAME]
+      ,[CUSTOMERNAME]
+      ,[PROBLEMCATEGORYID]
+      ,[PROBLEMTYPEID]
+      ,[HASSECONDARYPROBLEM]
+      ,[SECONDARYPROBLEMCATEGORYID]
+      ,[SECONDARYPROBLEMTYPEID]
+      ,[ICARE_CATEGORYID]
+      ,[TELEPHONENUMBER]
+      ,[WORKIMPACTID]
+      ,[WORKIMPACTSTATUSID]
+      ,[EMOTIONALSTATEID]
+      ,[EMOTIONALSTATUSID]
+      ,[ISANONYMOUS]
+      ,[CASECOUNT]
+      ,[INTAKESTATUSID]
+      ,[EXTERNALREFERED]
+      ,[EXTERNALREFERAL]
+      ,[EXTERNALREFFERED]
+      ,[EXTERNALREFERRAL]
+      ,[REFERRALTYPEID]
+      ,[EXTERNALREFERRED]
+      ,[RISKDEFINITIONID]
+      ,[REQUIRESRISKASSESSMENT]
+      ,[CANHAVEWORKIMPACT]
+      ,[EMETONIALSTATE]
+      ,[SERVICECATEGORYID]
+      ,[EMETIONALSTATE]
+      ,[EMOTIONALSTATE]
+      ,[ASSESSMENTID]
+      ,[EMERGENCYCONTACT]
+      ,[EMERGENCYCONTACTPHONE]
+      ,[ISPLAN]
+      ,[ISACCESS]
+      ,[PLANNOTES]
+      ,[ISHISTORY]
+      ,[HISTORYNOTES]
+      ,[REASONFOREXCALATION]
+      ,[REFEREMPLOYEEID]
+      ,[EXTERNALREFERCONTACT]
+      ,[CALLINGFORCOMPANYID]
+      ,[CALLERROLETYPEID]
+      ,[ISEXTERNALREFERRED]
+      ,[EXTERNALREFERENTITYID]
+      ,[REASONFORESCALATIONID]
+      ,[DETAILSNOTPROVIDED]
+      ,[ACCESSNOTES]
+      ,[ESCALATEEMPLOYEEID]
+      ,[TRACKINGSTATUSID]
+      ,[PROJECTCODE]
+      ,[ISMANAGERIALREFFERAL]
+      ,[ISMANAGERIALREFERRAL]
+      ,[ESCALATEROLEID]
+      ,[ESCALATEUSERID]
+      ,[ISOTHER]
+      ,[OTHERNOTES]
+      ,[COMPANYBUSINESSUNITID]
+      ,[COMPANYDEPARTMENTID]
+      ,[REASONFORCLOSURE]
+      ,[ISDELETED]
+      ,[REASONFORDELETE]
+      ,[INTAKEDELETEREASONID]
+      ,[INTAKEREFTEXT]
+      ,[WHOSHOULDRECEIVEREPORT]
+      ,[ISMANAGERIALREFSUBINTAKE]
+      ,[ISGROUPTRAUMAREFERRAL]
+      ,[ACCESSMETHODID]
+      ,[ACCESSMETHODOTHER]
+      ,[CLASSIFICATIONID]
+      ,[REPORTDATE]
+      ,[INTAKETYPEID]
+      ,[SERVICESTATUSID]
+      ,[OUTBOUNDREQUESTID]
+      ,[CLINICID]
+      ,[ISWALKIN]
+      ,[EMAILLOGID]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[DESCRIPTION]
+      ,[COMPANYNAME]
+      ,[COMPANYID]
+      ,[COMPANYSITEID]
+      ,[EMPLOYEEID]
+      ,[ELIGIBLEOUTCOMEID]
+      ,[CREATEDBY]
+      ,[CREATEDDATETIME]
+      ,[UPDATEDBY]
+      ,[UPDATEDDATETIME]
+      ,[RISKLEVELID]
+      ,[RISKTYPEID]
+      ,[NOEMPLOYEEFOUND]
+      ,[ISDEPENDANT]
+      ,[EMPLOYEEDEPENDANTID]
+      ,[PRIMARYPROBLEM]
+      ,[SECONDARYPROBLEM]
+      ,[LOCATION]
+      ,[LAITITUDE]
+      ,[LONGITUDE]
+      ,[CASECREATED]
+      ,[ISELIGIBLE]
+      ,[REFERENCE]
+      ,[ICARE_SERVICEID]
+      ,[CONTRACTID]
+      ,[LATITUDE]
+      ,[FULLNAME]
+      ,[CUSTOMERNAME]
+      ,[PROBLEMCATEGORYID]
+      ,[PROBLEMTYPEID]
+      ,[HASSECONDARYPROBLEM]
+      ,[SECONDARYPROBLEMCATEGORYID]
+      ,[SECONDARYPROBLEMTYPEID]
+      ,[ICARE_CATEGORYID]
+      ,[TELEPHONENUMBER]
+      ,[WORKIMPACTID]
+      ,[WORKIMPACTSTATUSID]
+      ,[EMOTIONALSTATEID]
+      ,[EMOTIONALSTATUSID]
+      ,[ISANONYMOUS]
+      ,[CASECOUNT]
+      ,[INTAKESTATUSID]
+      ,[EXTERNALREFERED]
+      ,[EXTERNALREFERAL]
+      ,[EXTERNALREFFERED]
+      ,[EXTERNALREFERRAL]
+      ,[REFERRALTYPEID]
+      ,[EXTERNALREFERRED]
+      ,[RISKDEFINITIONID]
+      ,[REQUIRESRISKASSESSMENT]
+      ,[CANHAVEWORKIMPACT]
+      ,[EMETONIALSTATE]
+      ,[SERVICECATEGORYID]
+      ,[EMETIONALSTATE]
+      ,[EMOTIONALSTATE]
+      ,[ASSESSMENTID]
+      ,[EMERGENCYCONTACT]
+      ,[EMERGENCYCONTACTPHONE]
+      ,[ISPLAN]
+      ,[ISACCESS]
+      ,[PLANNOTES]
+      ,[ISHISTORY]
+      ,[HISTORYNOTES]
+      ,[REASONFOREXCALATION]
+      ,[REFEREMPLOYEEID]
+      ,[EXTERNALREFERCONTACT]
+      ,[CALLINGFORCOMPANYID]
+      ,[CALLERROLETYPEID]
+      ,[ISEXTERNALREFERRED]
+      ,[EXTERNALREFERENTITYID]
+      ,[REASONFORESCALATIONID]
+      ,[DETAILSNOTPROVIDED]
+      ,[ACCESSNOTES]
+      ,[ESCALATEEMPLOYEEID]
+      ,[TRACKINGSTATUSID]
+      ,[PROJECTCODE]
+      ,[ISMANAGERIALREFFERAL]
+      ,[ISMANAGERIALREFERRAL]
+      ,[ESCALATEROLEID]
+      ,[ESCALATEUSERID]
+      ,[ISOTHER]
+      ,[OTHERNOTES]
+      ,[COMPANYBUSINESSUNITID]
+      ,[COMPANYDEPARTMENTID]
+      ,[REASONFORCLOSURE]
+      ,[ISDELETED]
+      ,[REASONFORDELETE]
+      ,[INTAKEDELETEREASONID]
+      ,[INTAKEREFTEXT]
+      ,[WHOSHOULDRECEIVEREPORT]
+      ,[ISMANAGERIALREFSUBINTAKE]
+      ,[ISGROUPTRAUMAREFERRAL]
+      ,[ACCESSMETHODID]
+      ,[ACCESSMETHODOTHER]
+      ,[CLASSIFICATIONID]
+      ,[REPORTDATE]
+      ,[INTAKETYPEID]
+      ,[SERVICESTATUSID]
+      ,[OUTBOUNDREQUESTID]
+      ,[CLINICID]
+      ,[ISWALKIN]
+      ,[EMAILLOGID]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_IntakeAssessmentSites')) is not null
+drop procedure Persist.prc_load_IntakeAssessmentSites go 
+create procedure [Persist].[prc_load_IntakeAssessmentSites]
+as
+begin
+	merge Persist.IntakeAssessmentSites as tgt
+	using
+		(
+		SELECT [ID]
+      ,[INTAKEASSESSMENTID]
+      ,[COMPANYSITEID]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_ew4_IntakeAssessmentSites]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[INTAKEASSESSMENTID], 0) = ISNULL(src.[INTAKEASSESSMENTID], 0)
+      AND ISNULL(tgt.[COMPANYSITEID], 0) = ISNULL(src.[COMPANYSITEID], 0)
+	)
+	then
+	update set 
+       [INTAKEASSESSMENTID]			 = src.[INTAKEASSESSMENTID]
+      ,[COMPANYSITEID]		 = src.[COMPANYSITEID]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[INTAKEASSESSMENTID]
+      ,[COMPANYSITEID]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[INTAKEASSESSMENTID]
+      ,[COMPANYSITEID]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_IntakeClientSatisfactionSurvey')) is not null
+drop procedure Persist.prc_load_IntakeClientSatisfactionSurvey go 
+/*---------------------------------------------------------------------------------------------------*/
+/*--------------------Create Stored Procedure prc_load_IntakeClientSatisfactionSurvey----------------*/
+/*---------------------------------------------Version 1---------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------*/
+CREATE PROCEDURE [Persist].[prc_load_IntakeClientSatisfactionSurvey]
+AS
+/*Begin Logic*/
+BEGIN
+	/*Merge Source with Target*/
+	MERGE [Persist].[IntakeClientSatisfactionSurvey] as tgt
+	USING
+		(
+			SELECT 
+				[ID]
+				,[CASEID]
+				,[SERVICE]
+				,[HELPFUL]
+				,[FUTURESERVICE]
+				,[RECOMMENDSERVICE]
+				,[COMMENT]
+				,[CREATEDON]
+				,[COMPLETEDBY]
+				,[COMPLETEDON]
+				,[SESSION]
+				,[INTAKEASSESSMENTID]
+				,[SCORE]
+				,[ISSENDTOCLIENT]
+				,[INTAKEPERSONID]
+				,[INTAKEPERSONNAME]
+				,[ETLExecutionKey]
+			FROM [OutSystems].[OSUSR_EW4_INTAKECLIENTSATISFACTIONSURVEY]
+		) AS src
+	ON
+		tgt.[ID] = src.[ID]
+	/*If Data is to be updated at Target*/
+	WHEN MATCHED AND NOT
+	(
+		ISNULL(tgt.[CASEID], 0) = ISNULL(src.[CASEID], 0)
+		AND ISNULL(tgt.[SERVICE], 0) = ISNULL(src.[SERVICE], 0)
+		AND ISNULL(tgt.[HELPFUL], 0) = ISNULL(src.[HELPFUL], 0)
+		AND ISNULL(tgt.[FUTURESERVICE], 0) = ISNULL(src.[FUTURESERVICE], 0)
+		AND ISNULL(tgt.[RECOMMENDSERVICE], 0) = ISNULL(src.[RECOMMENDSERVICE], 0)
+		AND ISNULL(tgt.[COMMENT], '1900-01-01') = ISNULL(src.[COMMENT], '1900-01-01')
+		AND ISNULL(tgt.[CREATEDON], '1900-01-01') = ISNULL(src.[CREATEDON], '1900-01-01')
+		AND ISNULL(tgt.[COMPLETEDBY], 0) = ISNULL(src.[COMPLETEDBY], 0)
+		AND ISNULL(tgt.[COMPLETEDON], '1900-01-01') = ISNULL(src.[COMPLETEDON], '1900-01-01')
+		AND ISNULL(tgt.[SESSION], 0) = ISNULL(src.[SESSION], 0)
+		AND ISNULL(tgt.[INTAKEASSESSMENTID], 0) = ISNULL(src.[INTAKEASSESSMENTID], 0)
+		AND ISNULL(tgt.[SCORE], 0) = ISNULL(src.[SCORE], 0)
+		AND ISNULL(tgt.[ISSENDTOCLIENT], 0) = ISNULL(src.[ISSENDTOCLIENT], 0)
+		AND ISNULL(tgt.[INTAKEPERSONID], 0) = ISNULL(src.[INTAKEPERSONID], 0)
+	)
+	/*Update Data at Target*/
+	THEN
+		UPDATE SET 
+			[CASEID] = src.[CASEID]
+			,[SERVICE] = src.[SERVICE]
+			,[HELPFUL] = src.[HELPFUL]
+			,[FUTURESERVICE] = src.[FUTURESERVICE]
+			,[RECOMMENDSERVICE] = src.[RECOMMENDSERVICE]
+			,[COMMENT] = src.[COMMENT]
+			,[CREATEDON] = src.[CREATEDON]
+			,[COMPLETEDBY] = src.[COMPLETEDBY]
+			,[COMPLETEDON] = src.[COMPLETEDON]
+			,[SESSION] = src.[SESSION]
+			,[INTAKEASSESSMENTID] = src.[INTAKEASSESSMENTID]
+			,[SCORE] = src.[SCORE]
+			,[ISSENDTOCLIENT] = src.[ISSENDTOCLIENT]
+			,[INTAKEPERSONID] = src.[INTAKEPERSONID]
+	/*If Data is to be Inserted into Target*/
+	WHEN NOT MATCHED
+	/*Insert Data into Target*/
+	THEN
+		INSERT 
+			( 
+				[ID]
+				,[CASEID]
+				,[SERVICE]
+				,[HELPFUL]
+				,[FUTURESERVICE]
+				,[RECOMMENDSERVICE]
+				,[COMMENT]
+				,[CREATEDON]
+				,[COMPLETEDBY]
+				,[COMPLETEDON]
+				,[SESSION]
+				,[INTAKEASSESSMENTID]
+				,[SCORE]
+				,[ISSENDTOCLIENT]
+				,[INTAKEPERSONID]
+				,[INTAKEPERSONNAME]
+				,[ETLExecutionKey] 
+			)
+		VALUES
+			(
+				[ID]
+				,[CASEID]
+				,[SERVICE]
+				,[HELPFUL]
+				,[FUTURESERVICE]
+				,[RECOMMENDSERVICE]
+				,[COMMENT]
+				,[CREATEDON]
+				,[COMPLETEDBY]
+				,[COMPLETEDON]
+				,[SESSION]
+				,[INTAKEASSESSMENTID]
+				,[SCORE]
+				,[ISSENDTOCLIENT]
+				,[INTAKEPERSONID]
+				,[INTAKEPERSONNAME]
+				,[ETLExecutionKey]
+			)
+	;
+/*End Logic*/
+END
+;
+GO
+
+
+
+
+
+if (select object_id('Persist.prc_load_IntakePerson')) is not null
+drop procedure Persist.prc_load_IntakePerson go 
+create procedure [Persist].[prc_load_IntakePerson]
+as
+begin
+	merge Persist.IntakePerson as tgt
+	using
+		(
+		SELECT [ID]
+      ,[EMPLOYEEID]
+      ,[EMPLOYEEDEPENDANTID]
+      ,[FIRSTNAME]
+      ,[LASTNAME]
+      ,[IDNUMBER]
+      ,[PASSPORTNUMBER]
+      ,[GENDERID]
+      ,[EMPLOYEENUMBER]
+      ,[CELLPHONENUMBER]
+      ,[EMAIL]
+      ,[ISDEPENDANT]
+      ,[CREATEDBY]
+      ,[CREATEDDATETIME]
+      ,[ISANONYMOUS]
+      ,[RELATIONSHIPID]
+      ,[ETHNICITYID]
+      ,[MARITALSTATUSID]
+      ,[TITLEID]
+      ,[LANGUAGEID]
+      ,[DISPLAYNAME]
+      ,[ALTTELEPHONENUMBER]
+      ,[EMPLOYEELEVELID]
+      ,[TENUREID]
+      ,[BUSINESSUNITID]
+      ,[REGIONID]
+      ,[DEPARTMENTID]
+      ,[INTAKEASSESSMENTID]
+      ,[ISDEPENDANTLISTITEM]
+      ,[ISCANCELLED]
+      ,[CANCELLEDBY]
+      ,[CANCELLEDDATE]
+      ,[COMPANYSITEID]
+      ,[AGEGROUPID]
+      ,[ISMAINEMPLOYEE]
+      ,[NOIDGIVEN]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_5if_IntakePerson]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[EMPLOYEEID]		   ,0)  = ISNULL(src.[EMPLOYEEID]		   ,0)
+      AND ISNULL(tgt.[EMPLOYEEDEPENDANTID] ,0)	= ISNULL(src.[EMPLOYEEDEPENDANTID] ,0)
+      AND ISNULL(tgt.[FIRSTNAME]		   ,'')	= ISNULL(src.[FIRSTNAME]		   ,'')
+      AND ISNULL(tgt.[LASTNAME]			   ,'')	= ISNULL(src.[LASTNAME]			   ,'')
+      AND ISNULL(tgt.[IDNUMBER]			   ,'')	= ISNULL(src.[IDNUMBER]			   ,'')
+      AND ISNULL(tgt.[PASSPORTNUMBER]	   ,'')	= ISNULL(src.[PASSPORTNUMBER]	   ,'')
+      AND ISNULL(tgt.[GENDERID]			   ,0)	= ISNULL(src.[GENDERID]			   ,0)
+      AND ISNULL(tgt.[EMPLOYEENUMBER]	   ,'')	= ISNULL(src.[EMPLOYEENUMBER]	   ,'')
+      AND ISNULL(tgt.[CELLPHONENUMBER]	   ,'')	= ISNULL(src.[CELLPHONENUMBER]	   ,'')
+      AND ISNULL(tgt.[EMAIL]			   ,'')	= ISNULL(src.[EMAIL]			   ,'')
+      AND ISNULL(tgt.[ISDEPENDANT]		   ,0)	= ISNULL(src.[ISDEPENDANT]		   ,0)
+      AND ISNULL(tgt.[CREATEDBY]		   ,0)	= ISNULL(src.[CREATEDBY]		   ,0)
+      AND ISNULL(tgt.[CREATEDDATETIME]	   ,'')	= ISNULL(src.[CREATEDDATETIME]	   ,'')
+      AND ISNULL(tgt.[ISANONYMOUS]		   ,0)	= ISNULL(src.[ISANONYMOUS]		   ,0)
+      AND ISNULL(tgt.[RELATIONSHIPID]	   ,0)	= ISNULL(src.[RELATIONSHIPID]	   ,0)
+      AND ISNULL(tgt.[ETHNICITYID]		   ,0)	= ISNULL(src.[ETHNICITYID]		   ,0)
+      AND ISNULL(tgt.[MARITALSTATUSID]	   ,0)	= ISNULL(src.[MARITALSTATUSID]	   ,0)
+      AND ISNULL(tgt.[TITLEID]			   ,0)	= ISNULL(src.[TITLEID]			   ,0)
+      AND ISNULL(tgt.[LANGUAGEID]		   ,0)	= ISNULL(src.[LANGUAGEID]		   ,0)
+      AND ISNULL(tgt.[DISPLAYNAME]		   ,'')	= ISNULL(src.[DISPLAYNAME]		   ,'')
+      AND ISNULL(tgt.[ALTTELEPHONENUMBER]  ,'')	= ISNULL(src.[ALTTELEPHONENUMBER]  ,'')
+      AND ISNULL(tgt.[EMPLOYEELEVELID]	   ,0)	= ISNULL(src.[EMPLOYEELEVELID]	   ,0)
+      AND ISNULL(tgt.[TENUREID]			   ,0)	= ISNULL(src.[TENUREID]			   ,0)
+      AND ISNULL(tgt.[BUSINESSUNITID]	   ,0)	= ISNULL(src.[BUSINESSUNITID]	   ,0)
+      AND ISNULL(tgt.[REGIONID]			   ,0)	= ISNULL(src.[REGIONID]			   ,0)
+      AND ISNULL(tgt.[DEPARTMENTID]		   ,0)	= ISNULL(src.[DEPARTMENTID]		   ,0)
+      AND ISNULL(tgt.[INTAKEASSESSMENTID]  ,0)	= ISNULL(src.[INTAKEASSESSMENTID]  ,0)
+      AND ISNULL(tgt.[ISDEPENDANTLISTITEM] ,0)	= ISNULL(src.[ISDEPENDANTLISTITEM] ,0)
+      AND ISNULL(tgt.[ISCANCELLED]		   ,0)	= ISNULL(src.[ISCANCELLED]		   ,0)
+      AND ISNULL(tgt.[CANCELLEDBY]		   ,0)	= ISNULL(src.[CANCELLEDBY]		   ,0)
+      AND ISNULL(tgt.[CANCELLEDDATE]	   ,'')	= ISNULL(src.[CANCELLEDDATE]	   ,'')
+      AND ISNULL(tgt.[COMPANYSITEID]	   ,0)	= ISNULL(src.[COMPANYSITEID]	   ,0)
+      AND ISNULL(tgt.[AGEGROUPID]		   ,0)	= ISNULL(src.[AGEGROUPID]		   ,0)
+      AND ISNULL(tgt.[ISMAINEMPLOYEE]	   ,0)	= ISNULL(src.[ISMAINEMPLOYEE]	   ,0)
+      AND ISNULL(tgt.[NOIDGIVEN]		   ,0)	= ISNULL(src.[NOIDGIVEN]		   ,0)
+	)
+	then
+	update set 
+	   [EMPLOYEEID]          = src.[EMPLOYEEID]
+      ,[EMPLOYEEDEPENDANTID] = src.[EMPLOYEEDEPENDANTID]
+      ,[FIRSTNAME]			 = src.[FIRSTNAME]
+      ,[LASTNAME]			 = src.[LASTNAME]
+      ,[IDNUMBER]			 = src.[IDNUMBER]
+      ,[PASSPORTNUMBER]		 = src.[PASSPORTNUMBER]
+      ,[GENDERID]			 = src.[GENDERID]
+      ,[EMPLOYEENUMBER]		 = src.[EMPLOYEENUMBER]
+      ,[CELLPHONENUMBER]	 = src.[CELLPHONENUMBER]
+      ,[EMAIL]				 = src.[EMAIL]
+      ,[ISDEPENDANT]		 = src.[ISDEPENDANT]
+      ,[CREATEDBY]			 = src.[CREATEDBY]
+      ,[CREATEDDATETIME]	 = src.[CREATEDDATETIME]
+      ,[ISANONYMOUS]		 = src.[ISANONYMOUS]
+      ,[RELATIONSHIPID]		 = src.[RELATIONSHIPID]
+      ,[ETHNICITYID]		 = src.[ETHNICITYID]
+      ,[MARITALSTATUSID]	 = src.[MARITALSTATUSID]
+      ,[TITLEID]			 = src.[TITLEID]
+      ,[LANGUAGEID]			 = src.[LANGUAGEID]
+      ,[DISPLAYNAME]		 = src.[DISPLAYNAME]
+      ,[ALTTELEPHONENUMBER]	 = src.[ALTTELEPHONENUMBER]
+      ,[EMPLOYEELEVELID]	 = src.[EMPLOYEELEVELID]
+      ,[TENUREID]			 = src.[TENUREID]
+      ,[BUSINESSUNITID]		 = src.[BUSINESSUNITID]
+      ,[REGIONID]			 = src.[REGIONID]
+      ,[DEPARTMENTID]		 = src.[DEPARTMENTID]
+      ,[INTAKEASSESSMENTID]	 = src.[INTAKEASSESSMENTID]
+      ,[ISDEPENDANTLISTITEM] = src.[ISDEPENDANTLISTITEM]
+      ,[ISCANCELLED]		 = src.[ISCANCELLED]
+      ,[CANCELLEDBY]		 = src.[CANCELLEDBY]
+      ,[CANCELLEDDATE]		 = src.[CANCELLEDDATE]
+      ,[COMPANYSITEID]		 = src.[COMPANYSITEID]
+      ,[AGEGROUPID]			 = src.[AGEGROUPID]
+      ,[ISMAINEMPLOYEE]		 = src.[ISMAINEMPLOYEE]
+      ,[NOIDGIVEN]			 = src.[NOIDGIVEN]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[EMPLOYEEID]
+      ,[EMPLOYEEDEPENDANTID]
+      ,[FIRSTNAME]
+      ,[LASTNAME]
+      ,[IDNUMBER]
+      ,[PASSPORTNUMBER]
+      ,[GENDERID]
+      ,[EMPLOYEENUMBER]
+      ,[CELLPHONENUMBER]
+      ,[EMAIL]
+      ,[ISDEPENDANT]
+      ,[CREATEDBY]
+      ,[CREATEDDATETIME]
+      ,[ISANONYMOUS]
+      ,[RELATIONSHIPID]
+      ,[ETHNICITYID]
+      ,[MARITALSTATUSID]
+      ,[TITLEID]
+      ,[LANGUAGEID]
+      ,[DISPLAYNAME]
+      ,[ALTTELEPHONENUMBER]
+      ,[EMPLOYEELEVELID]
+      ,[TENUREID]
+      ,[BUSINESSUNITID]
+      ,[REGIONID]
+      ,[DEPARTMENTID]
+      ,[INTAKEASSESSMENTID]
+      ,[ISDEPENDANTLISTITEM]
+      ,[ISCANCELLED]
+      ,[CANCELLEDBY]
+      ,[CANCELLEDDATE]
+      ,[COMPANYSITEID]
+      ,[AGEGROUPID]
+      ,[ISMAINEMPLOYEE]
+      ,[NOIDGIVEN]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[EMPLOYEEID]
+      ,[EMPLOYEEDEPENDANTID]
+      ,[FIRSTNAME]
+      ,[LASTNAME]
+      ,[IDNUMBER]
+      ,[PASSPORTNUMBER]
+      ,[GENDERID]
+      ,[EMPLOYEENUMBER]
+      ,[CELLPHONENUMBER]
+      ,[EMAIL]
+      ,[ISDEPENDANT]
+      ,[CREATEDBY]
+      ,[CREATEDDATETIME]
+      ,[ISANONYMOUS]
+      ,[RELATIONSHIPID]
+      ,[ETHNICITYID]
+      ,[MARITALSTATUSID]
+      ,[TITLEID]
+      ,[LANGUAGEID]
+      ,[DISPLAYNAME]
+      ,[ALTTELEPHONENUMBER]
+      ,[EMPLOYEELEVELID]
+      ,[TENUREID]
+      ,[BUSINESSUNITID]
+      ,[REGIONID]
+      ,[DEPARTMENTID]
+      ,[INTAKEASSESSMENTID]
+      ,[ISDEPENDANTLISTITEM]
+      ,[ISCANCELLED]
+      ,[CANCELLEDBY]
+      ,[CANCELLEDDATE]
+      ,[COMPANYSITEID]
+      ,[AGEGROUPID]
+      ,[ISMAINEMPLOYEE]
+      ,[NOIDGIVEN]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+
+if (select object_id('Persist.prc_load_Language')) is not null
+drop procedure Persist.prc_load_Language go 
+create procedure [Persist].[prc_load_Language]
+as
+begin
+	merge Persist.Language as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].OSUSR_hi4_Language
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]			 = src.[ORDER]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_MaritalStatus')) is not null
+drop procedure Persist.prc_load_MaritalStatus go 
+create procedure [Persist].[prc_load_MaritalStatus]
+as
+begin
+	merge Persist.MaritalStatus as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].OSUSR_hi4_MaritalStatus
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]			 = src.[ORDER]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_OutboundRequest')) is not null
+drop procedure Persist.prc_load_OutboundRequest go 
+create procedure [Persist].[prc_load_OutboundRequest]
+as
+begin
+	merge Persist.OutboundRequest as tgt
+	using
+		(
+		SELECT [ID]
+      ,[NAMESURNAMEORNOTGIVENOPTION]
+      ,[NAMESURNAME]
+      ,[CONTACTDETAILSOPTION]
+      ,[CELLPHONENUMBER]
+      ,[LANDLINENUMBER]
+      ,[EMAILADDRESS]
+      ,[METHODOFCONTACTID]
+      ,[REASONORNOTES]
+      ,[ISPOSSIBLERISK]
+      ,[COMPANYID]
+      ,[REQUESTORNAMESURNAME]
+      ,[REQUESTORCONTACTOPTION]
+      ,[REQUESTORCELLPHONE]
+      ,[REQUESTORLANDLINENUMBER]
+      ,[REQUESTOREMAILADDRESS]
+      ,[CONTACTDATEREQUESTED]
+      ,[CONTACTPERIODOFDAYREQUESTED]
+      ,[CONTACTTIMEREQUESTED]
+      ,[OUTBOUNDSTATUSID]
+      ,[TRACKINGSTATUSID]
+      ,[CREATEDBY]
+      ,[CREATEDON]
+      ,[REASONFORDELETE]
+      ,[NOTEFORCLOSURE]
+      ,[RISKTYPEID]
+      ,[OUTBOUNDOUTCOMEID]
+      ,[REFNR]
+      ,[ISINTAKECREATED]
+      ,[OUTBOUNDREFTEXT]
+      ,[ISDELETED]
+      ,[OUTBOUNDDELETEREASONID]
+      ,[COMPANYNAME]
+      ,[RISKLEVELID]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].OSUSR_ew4_OutboundRequest 
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[NAMESURNAMEORNOTGIVENOPTION] ,'') = ISNULL(src.[NAMESURNAMEORNOTGIVENOPTION] ,'')
+      AND ISNULL(tgt.[NAMESURNAME]				   ,'')	= ISNULL(src.[NAMESURNAME]				   ,'')
+      AND ISNULL(tgt.[CONTACTDETAILSOPTION]		   ,'')	= ISNULL(src.[CONTACTDETAILSOPTION]		   ,'')
+      AND ISNULL(tgt.[CELLPHONENUMBER]			   ,'')	= ISNULL(src.[CELLPHONENUMBER]			   ,'')
+      AND ISNULL(tgt.[LANDLINENUMBER]			   ,'')	= ISNULL(src.[LANDLINENUMBER]			   ,'')
+      AND ISNULL(tgt.[EMAILADDRESS]				   ,'')	= ISNULL(src.[EMAILADDRESS]				   ,'')
+      AND ISNULL(tgt.[METHODOFCONTACTID]		   ,0)	= ISNULL(src.[METHODOFCONTACTID]		   ,0)
+      AND ISNULL(tgt.[REASONORNOTES]			   ,'')	= ISNULL(src.[REASONORNOTES]			   ,'')
+      AND ISNULL(tgt.[ISPOSSIBLERISK]			   ,0)	= ISNULL(src.[ISPOSSIBLERISK]			   ,0)
+      AND ISNULL(tgt.[COMPANYID]				   ,0)	= ISNULL(src.[COMPANYID]				   ,0)
+      AND ISNULL(tgt.[REQUESTORNAMESURNAME]		   ,'')	= ISNULL(src.[REQUESTORNAMESURNAME]		   ,'')
+      AND ISNULL(tgt.[REQUESTORCONTACTOPTION]	   ,'')	= ISNULL(src.[REQUESTORCONTACTOPTION]	   ,'')
+      AND ISNULL(tgt.[REQUESTORCELLPHONE]		   ,'')	= ISNULL(src.[REQUESTORCELLPHONE]		   ,'')
+      AND ISNULL(tgt.[REQUESTORLANDLINENUMBER]	   ,'')	= ISNULL(src.[REQUESTORLANDLINENUMBER]	   ,'')
+      AND ISNULL(tgt.[REQUESTOREMAILADDRESS]	   ,'')	= ISNULL(src.[REQUESTOREMAILADDRESS]	   ,'')
+      AND ISNULL(tgt.[CONTACTDATEREQUESTED]		   ,'')	= ISNULL(src.[CONTACTDATEREQUESTED]		   ,'')
+      AND ISNULL(tgt.[CONTACTPERIODOFDAYREQUESTED] ,0)	= ISNULL(src.[CONTACTPERIODOFDAYREQUESTED] ,0)
+      AND ISNULL(tgt.[CONTACTTIMEREQUESTED]		   ,'')	= ISNULL(src.[CONTACTTIMEREQUESTED]		   ,'')
+      AND ISNULL(tgt.[OUTBOUNDSTATUSID]			   ,0)	= ISNULL(src.[OUTBOUNDSTATUSID]			   ,0)
+      AND ISNULL(tgt.[TRACKINGSTATUSID]			   ,0)	= ISNULL(src.[TRACKINGSTATUSID]			   ,0)
+      AND ISNULL(tgt.[CREATEDBY]				   ,0)	= ISNULL(src.[CREATEDBY]				   ,0)
+      AND ISNULL(tgt.[CREATEDON]				   ,'')	= ISNULL(src.[CREATEDON]				   ,'')
+      AND ISNULL(tgt.[REASONFORDELETE]			   ,'')	= ISNULL(src.[REASONFORDELETE]			   ,'')
+      AND ISNULL(tgt.[NOTEFORCLOSURE]			   ,'')	= ISNULL(src.[NOTEFORCLOSURE]			   ,'')
+      AND ISNULL(tgt.[RISKTYPEID]				   ,0)	= ISNULL(src.[RISKTYPEID]				   ,0)
+      AND ISNULL(tgt.[OUTBOUNDOUTCOMEID]		   ,0)	= ISNULL(src.[OUTBOUNDOUTCOMEID]		   ,0)
+      AND ISNULL(tgt.[REFNR]					   ,'')	= ISNULL(src.[REFNR]					   ,'')
+      AND ISNULL(tgt.[ISINTAKECREATED]			   ,0)	= ISNULL(src.[ISINTAKECREATED]			   ,0)
+      AND ISNULL(tgt.[OUTBOUNDREFTEXT]			   ,'')	= ISNULL(src.[OUTBOUNDREFTEXT]			   ,'')
+      AND ISNULL(tgt.[ISDELETED]				   ,0)	= ISNULL(src.[ISDELETED]				   ,0)
+      AND ISNULL(tgt.[OUTBOUNDDELETEREASONID]	   ,0)	= ISNULL(src.[OUTBOUNDDELETEREASONID]	   ,0)
+      AND ISNULL(tgt.[COMPANYNAME]				   ,'')	= ISNULL(src.[COMPANYNAME]				   ,'')
+      AND ISNULL(tgt.[RISKLEVELID]				   ,0)	= ISNULL(src.[RISKLEVELID]				   ,0)
+	)
+	then
+	update set 
+	   [NAMESURNAMEORNOTGIVENOPTION] = src.[NAMESURNAMEORNOTGIVENOPTION]
+      ,[NAMESURNAME]				 = src.[NAMESURNAME]
+      ,[CONTACTDETAILSOPTION]		 = src.[CONTACTDETAILSOPTION]
+      ,[CELLPHONENUMBER]			 = src.[CELLPHONENUMBER]
+      ,[LANDLINENUMBER]				 = src.[LANDLINENUMBER]
+      ,[EMAILADDRESS]				 = src.[EMAILADDRESS]
+      ,[METHODOFCONTACTID]			 = src.[METHODOFCONTACTID]
+      ,[REASONORNOTES]				 = src.[REASONORNOTES]
+      ,[ISPOSSIBLERISK]				 = src.[ISPOSSIBLERISK]
+      ,[COMPANYID]					 = src.[COMPANYID]
+      ,[REQUESTORNAMESURNAME]		 = src.[REQUESTORNAMESURNAME]
+      ,[REQUESTORCONTACTOPTION]		 = src.[REQUESTORCONTACTOPTION]
+      ,[REQUESTORCELLPHONE]			 = src.[REQUESTORCELLPHONE]
+      ,[REQUESTORLANDLINENUMBER]	 = src.[REQUESTORLANDLINENUMBER]
+      ,[REQUESTOREMAILADDRESS]		 = src.[REQUESTOREMAILADDRESS]
+      ,[CONTACTDATEREQUESTED]		 = src.[CONTACTDATEREQUESTED]
+      ,[CONTACTPERIODOFDAYREQUESTED] = src.[CONTACTPERIODOFDAYREQUESTED]
+      ,[CONTACTTIMEREQUESTED]		 = src.[CONTACTTIMEREQUESTED]
+      ,[OUTBOUNDSTATUSID]			 = src.[OUTBOUNDSTATUSID]
+      ,[TRACKINGSTATUSID]			 = src.[TRACKINGSTATUSID]
+      ,[CREATEDBY]					 = src.[CREATEDBY]
+      ,[CREATEDON]					 = src.[CREATEDON]
+      ,[REASONFORDELETE]			 = src.[REASONFORDELETE]
+      ,[NOTEFORCLOSURE]				 = src.[NOTEFORCLOSURE]
+      ,[RISKTYPEID]					 = src.[RISKTYPEID]
+      ,[OUTBOUNDOUTCOMEID]			 = src.[OUTBOUNDOUTCOMEID]
+      ,[REFNR]						 = src.[REFNR]
+      ,[ISINTAKECREATED]			 = src.[ISINTAKECREATED]
+      ,[OUTBOUNDREFTEXT]			 = src.[OUTBOUNDREFTEXT]
+      ,[ISDELETED]					 = src.[ISDELETED]
+      ,[OUTBOUNDDELETEREASONID]		 = src.[OUTBOUNDDELETEREASONID]
+      ,[COMPANYNAME]				 = src.[COMPANYNAME]
+      ,[RISKLEVELID]				 = src.[RISKLEVELID]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[NAMESURNAMEORNOTGIVENOPTION]
+      ,[NAMESURNAME]
+      ,[CONTACTDETAILSOPTION]
+      ,[CELLPHONENUMBER]
+      ,[LANDLINENUMBER]
+      ,[EMAILADDRESS]
+      ,[METHODOFCONTACTID]
+      ,[REASONORNOTES]
+      ,[ISPOSSIBLERISK]
+      ,[COMPANYID]
+      ,[REQUESTORNAMESURNAME]
+      ,[REQUESTORCONTACTOPTION]
+      ,[REQUESTORCELLPHONE]
+      ,[REQUESTORLANDLINENUMBER]
+      ,[REQUESTOREMAILADDRESS]
+      ,[CONTACTDATEREQUESTED]
+      ,[CONTACTPERIODOFDAYREQUESTED]
+      ,[CONTACTTIMEREQUESTED]
+      ,[OUTBOUNDSTATUSID]
+      ,[TRACKINGSTATUSID]
+      ,[CREATEDBY]
+      ,[CREATEDON]
+      ,[REASONFORDELETE]
+      ,[NOTEFORCLOSURE]
+      ,[RISKTYPEID]
+      ,[OUTBOUNDOUTCOMEID]
+      ,[REFNR]
+      ,[ISINTAKECREATED]
+      ,[OUTBOUNDREFTEXT]
+      ,[ISDELETED]
+      ,[OUTBOUNDDELETEREASONID]
+      ,[COMPANYNAME]
+      ,[RISKLEVELID]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[NAMESURNAMEORNOTGIVENOPTION]
+      ,[NAMESURNAME]
+      ,[CONTACTDETAILSOPTION]
+      ,[CELLPHONENUMBER]
+      ,[LANDLINENUMBER]
+      ,[EMAILADDRESS]
+      ,[METHODOFCONTACTID]
+      ,[REASONORNOTES]
+      ,[ISPOSSIBLERISK]
+      ,[COMPANYID]
+      ,[REQUESTORNAMESURNAME]
+      ,[REQUESTORCONTACTOPTION]
+      ,[REQUESTORCELLPHONE]
+      ,[REQUESTORLANDLINENUMBER]
+      ,[REQUESTOREMAILADDRESS]
+      ,[CONTACTDATEREQUESTED]
+      ,[CONTACTPERIODOFDAYREQUESTED]
+      ,[CONTACTTIMEREQUESTED]
+      ,[OUTBOUNDSTATUSID]
+      ,[TRACKINGSTATUSID]
+      ,[CREATEDBY]
+      ,[CREATEDON]
+      ,[REASONFORDELETE]
+      ,[NOTEFORCLOSURE]
+      ,[RISKTYPEID]
+      ,[OUTBOUNDOUTCOMEID]
+      ,[REFNR]
+      ,[ISINTAKECREATED]
+      ,[OUTBOUNDREFTEXT]
+      ,[ISDELETED]
+      ,[OUTBOUNDDELETEREASONID]
+      ,[COMPANYNAME]
+      ,[RISKLEVELID]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+
+if (select object_id('Persist.prc_load_ProblemCategory')) is not null
+drop procedure Persist.prc_load_ProblemCategory go 
+create procedure [Persist].[prc_load_ProblemCategory]
+as
+begin
+	merge Persist.ProblemCategory as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[DEFINITION]
+      ,[REQUIRESRISKASSETMENT]
+      ,[REQUIRESRISKASSESSMENT]
+      ,[CANHAVEWORKIMPACT]
+      ,[EMETONIALSTATE]
+      ,[SERVICENAME]
+      ,[EMOTIONALSTATE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].OSUSR_5IF_PROBLEMCATEGORY 
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL]                  ,'') = ISNULL(src.[LABEL]                  ,'')
+      AND ISNULL(tgt.[ORDER]				  ,0)  = ISNULL(src.[ORDER]				  ,0)
+      AND ISNULL(tgt.[IS_ACTIVE]			  ,0)  = ISNULL(src.[IS_ACTIVE]			  ,0)
+      AND ISNULL(tgt.[DEFINITION]			  ,'') = ISNULL(src.[DEFINITION]			  ,'')
+      AND ISNULL(tgt.[REQUIRESRISKASSETMENT]  ,0)  = ISNULL(src.[REQUIRESRISKASSETMENT]  ,0)
+      AND ISNULL(tgt.[REQUIRESRISKASSESSMENT] ,0)  = ISNULL(src.[REQUIRESRISKASSESSMENT] ,0)
+      AND ISNULL(tgt.[CANHAVEWORKIMPACT]	  ,0)  = ISNULL(src.[CANHAVEWORKIMPACT]	  ,0)
+      AND ISNULL(tgt.[EMETONIALSTATE]		  ,0)  = ISNULL(src.[EMETONIALSTATE]		  ,0)
+      AND ISNULL(tgt.[SERVICENAME]			  ,'') = ISNULL(src.[SERVICENAME]			  ,'')
+      AND ISNULL(tgt.[EMOTIONALSTATE]		  ,0)  = ISNULL(src.[EMOTIONALSTATE]		  ,0)
+	)
+	then
+	update set 
+	   [LABEL]                  = src.[LABEL]
+      ,[ORDER]					= src.[ORDER]
+      ,[IS_ACTIVE]				= src.[IS_ACTIVE]
+      ,[DEFINITION]				= src.[DEFINITION]
+      ,[REQUIRESRISKASSETMENT]	= src.[REQUIRESRISKASSETMENT]
+      ,[REQUIRESRISKASSESSMENT]	= src.[REQUIRESRISKASSESSMENT]
+      ,[CANHAVEWORKIMPACT]		= src.[CANHAVEWORKIMPACT]
+      ,[EMETONIALSTATE]			= src.[EMETONIALSTATE]
+      ,[SERVICENAME]			= src.[SERVICENAME]
+      ,[EMOTIONALSTATE]			= src.[EMOTIONALSTATE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[DEFINITION]
+      ,[REQUIRESRISKASSETMENT]
+      ,[REQUIRESRISKASSESSMENT]
+      ,[CANHAVEWORKIMPACT]
+      ,[EMETONIALSTATE]
+      ,[SERVICENAME]
+      ,[EMOTIONALSTATE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[DEFINITION]
+      ,[REQUIRESRISKASSETMENT]
+      ,[REQUIRESRISKASSESSMENT]
+      ,[CANHAVEWORKIMPACT]
+      ,[EMETONIALSTATE]
+      ,[SERVICENAME]
+      ,[EMOTIONALSTATE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_ProblemType')) is not null
+drop procedure Persist.prc_load_ProblemType go 
+create procedure [Persist].[prc_load_ProblemType]
+as
+begin
+	merge Persist.ProblemType as tgt
+	using
+		(
+		SELECT [ID]
+      ,[PROBLEMCATEGORYID]
+      ,[TYPENAME]
+      ,[ISACTIVE]
+      ,[IS]
+      ,[ISPROFESSIONALREFERRAL]
+      ,[ISFORMALREFERRAL]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].OSUSR_5IF_PROBLEMTYPE 
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[PROBLEMCATEGORYID]	  ,0)  = ISNULL(src.[PROBLEMCATEGORYID]	  ,0)
+      AND ISNULL(tgt.[TYPENAME]				  ,'') = ISNULL(src.[TYPENAME]				  ,'')
+      AND ISNULL(tgt.[ISACTIVE]				  ,0)  = ISNULL(src.[ISACTIVE]				  ,0)
+      AND ISNULL(tgt.[IS]					  ,0)  = ISNULL(src.[IS]					  ,0)
+      AND ISNULL(tgt.[ISPROFESSIONALREFERRAL] ,0)  = ISNULL(src.[ISPROFESSIONALREFERRAL] ,0)
+      AND ISNULL(tgt.[ISFORMALREFERRAL]		  ,0)  = ISNULL(src.[ISFORMALREFERRAL]		  ,0)
+	)
+	then
+	update set 
+	   [PROBLEMCATEGORYID]      = src.[PROBLEMCATEGORYID]
+      ,[TYPENAME]				= src.[TYPENAME]
+      ,[ISACTIVE]				= src.[ISACTIVE]
+      ,[IS]						= src.[IS]
+      ,[ISPROFESSIONALREFERRAL]	= src.[ISPROFESSIONALREFERRAL]
+      ,[ISFORMALREFERRAL]		= src.[ISFORMALREFERRAL]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[PROBLEMCATEGORYID]
+      ,[TYPENAME]
+      ,[ISACTIVE]
+      ,[IS]
+      ,[ISPROFESSIONALREFERRAL]
+      ,[ISFORMALREFERRAL]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[PROBLEMCATEGORYID]
+      ,[TYPENAME]
+      ,[ISACTIVE]
+      ,[IS]
+      ,[ISPROFESSIONALREFERRAL]
+      ,[ISFORMALREFERRAL]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_Province')) is not null
+drop procedure Persist.prc_load_Province go 
+create procedure [Persist].[prc_load_Province]
+as
+begin
+	merge Persist.Province as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].OSUSR_hi4_Province
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]			 = src.[ORDER]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_Province_Test')) is not null
+drop procedure Persist.prc_load_Province_Test go 
+create procedure [Persist].[prc_load_Province_Test]
+as
+begin
+	merge Persist.[Province_Test] as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_hi4_Province_Test]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]			 = src.[ORDER]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_ReferralType')) is not null
+drop procedure Persist.prc_load_ReferralType go 
+create procedure [Persist].[prc_load_ReferralType]
+as
+begin
+	merge [Persist].[RefferalType] as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].OSUSR_5if_RefferalType
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]			 = src.[ORDER]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+
+if (select object_id('Persist.prc_load_Relationship')) is not null
+drop procedure Persist.prc_load_Relationship go 
+create procedure [Persist].[prc_load_Relationship]
+as
+begin
+	merge Persist.Relationship as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].OSUSR_hi4_Relationship
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]			 = src.[ORDER]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+if (select object_id('Persist.prc_load_RiskLevel')) is not null
+drop procedure Persist.prc_load_RiskLevel go 
+create procedure [Persist].[prc_load_RiskLevel]
+as
+begin
+	merge Persist.RiskLevel as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].OSUSR_5if_RiskType
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]			 = src.[ORDER]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_RiskType')) is not null
+drop procedure Persist.prc_load_RiskType go 
+create procedure [Persist].[prc_load_RiskType]
+as
+begin
+	merge Persist.RiskType as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].OSUSR_5if_RiskType1
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]			 = src.[ORDER]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_Role')) is not null
+drop procedure Persist.prc_load_Role go 
+/*---------------------------------------------------------------------------------------------------*/
+/*-------------------------------Create Stored Procedure prc_load_Role-------------------------------*/
+/*---------------------------------------------Version 1---------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------*/
+CREATE PROCEDURE [Persist].[prc_load_Role]
+AS
+/*Begin Logic*/
+BEGIN
+	/*Merge Source with Target*/
+	MERGE [Persist].[Role] as tgt
+	USING
+		(
+			SELECT 
+				[ID]
+				,[ESPACE_ID]
+				,[SS_KEY]
+				,[NAME]
+				,[DESCRIPTION]
+				,[PERSISTENT]
+				,[IS_ACTIVE]
+				,[ETLExecutionKey] 
+			FROM [OutSystems].[OSSYS_ROLE]
+		) AS src
+	ON
+		tgt.[ID] = src.[ID]
+	/*If Data is to be updated at Target*/
+	WHEN MATCHED AND NOT
+	(
+		ISNULL(tgt.[ESPACE_ID], 0) = ISNULL(src.[ESPACE_ID], 0)
+		AND ISNULL(tgt.[SS_KEY], '') = ISNULL(src.[SS_KEY], '')
+		AND ISNULL(tgt.[NAME], '') = ISNULL(src.[NAME], '')
+		AND ISNULL(tgt.[DESCRIPTION], '') = ISNULL(src.[DESCRIPTION], '')
+		AND ISNULL(tgt.[PERSISTENT], 0) = ISNULL(src.[PERSISTENT], 0)
+		AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	)
+	/*Update Data at Target*/
+	THEN
+		UPDATE SET 
+			[ESPACE_ID] = src.[ESPACE_ID]
+			,[SS_KEY] = src.[SS_KEY]
+			,[NAME] = src.[NAME]
+			,[DESCRIPTION] = src.[DESCRIPTION]
+			,[PERSISTENT] = src.[PERSISTENT]
+			,[IS_ACTIVE] = src.[IS_ACTIVE]
+	/*If Data is to be Inserted into Target*/
+	WHEN NOT MATCHED
+	/*Insert Data into Target*/
+	THEN
+		INSERT 
+			( 
+				[ID]
+				,[ESPACE_ID]
+				,[SS_KEY]
+				,[NAME]
+				,[DESCRIPTION]
+				,[PERSISTENT]
+				,[IS_ACTIVE]
+				,[ETLExecutionKey] 
+			)
+		VALUES
+			(
+				[ID]
+				,[ESPACE_ID]
+				,[SS_KEY]
+				,[NAME]
+				,[DESCRIPTION]
+				,[PERSISTENT]
+				,[IS_ACTIVE]
+				,[ETLExecutionKey] 
+			)
+	;
+/*End Logic*/
+END
+;
+GO
+
+
+
+
+
+if (select object_id('Persist.prc_load_Sector')) is not null
+drop procedure Persist.prc_load_Sector go 
+create procedure [Persist].[prc_load_Sector]
+as
+begin
+	merge Persist.Sector as tgt
+	using
+		(
+		SELECT [ID]
+      ,[SECTORNAME]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_bzw_Sector]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[SECTORNAME], '') = ISNULL(src.[SECTORNAME], '')
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	)
+	then
+	update set 
+	   [SECTORNAME]			 = src.[SECTORNAME]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[SECTORNAME]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[SECTORNAME]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+/****** Object:  StoredProcedure [Persist].[prc_load_ServiceType]    Script Date: 9/8/2022 4:09:33 PM ******/
+
+
+if (select object_id('Persist.prc_load_ServiceType')) is not null
+drop procedure Persist.prc_load_ServiceType go
+create procedure [Persist].[prc_load_ServiceType]
+as
+begin
+	merge Persist.ServiceType as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+	  ,[ISFACETOFACE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_hi4_ServiceType]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	  AND ISNULL(tgt.[ISFACETOFACE], 0) = ISNULL(src.[ISFACETOFACE], 0)
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]			 = src.[ORDER]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+	  ,[ISFACETOFACE]		 = src.[ISFACETOFACE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+	  ,[ISFACETOFACE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+	  ,[ISFACETOFACE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+
+if (select object_id('Persist.prc_load_SessionOutcome')) is not null
+drop procedure Persist.prc_load_SessionOutcome go 
+create procedure [Persist].[prc_load_SessionOutcome]
+as
+begin
+	merge Persist.SessionOutcome as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+	  ,[ISBILLABLE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_5if_SessionClosure]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	  AND ISNULL(tgt.[ISBILLABLE], '') = ISNULL(src.[ISBILLABLE], '')
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]			 = src.[ORDER]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+	  ,[ISBILLABLE]			 = src.[ISBILLABLE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+	  ,[ISBILLABLE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+	  ,[ISBILLABLE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+
+if (select object_id('Persist.prc_load_Tenure')) is not null
+drop procedure Persist.prc_load_Tenure go 
+create procedure [Persist].[prc_load_Tenure]
+as
+begin
+	merge Persist.Tenure as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_o9h_Tenure]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]			 = src.[ORDER]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+
+if (select object_id('Persist.prc_load_TrackingStatus')) is not null
+drop procedure Persist.prc_load_TrackingStatus go
+create procedure [Persist].[prc_load_TrackingStatus]
+as
+begin
+	merge Persist.TrackingStatus as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+	  ,[LABELCOLOR]
+	  ,[BACKGROUNDCOLOR]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].[OSUSR_5if_TrackingStatus]
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	  AND ISNULL(tgt.[LABELCOLOR], '') = ISNULL(src.[LABELCOLOR], '')
+	  AND ISNULL(tgt.[BACKGROUNDCOLOR], '') = ISNULL(src.[BACKGROUNDCOLOR], '')
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]			 = src.[ORDER]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+	  ,[LABELCOLOR]			 = src.[LABELCOLOR]
+	  ,[BACKGROUNDCOLOR]			 = src.[BACKGROUNDCOLOR]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+	  ,[LABELCOLOR]
+	  ,[BACKGROUNDCOLOR]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+	  ,[LABELCOLOR]
+	  ,[BACKGROUNDCOLOR]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO
+
+
+if (select object_id('Persist.prc_load_User')) is not null
+drop procedure Persist.prc_load_User go 
+/*---------------------------------------------------------------------------------------------------*/
+/*-------------------------------Create Stored Procedure prc_load_User-------------------------------*/
+/*---------------------------------------------Version 1---------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------*/
+CREATE PROCEDURE [Persist].[prc_load_User]
+AS
+/*Begin Logic*/
+BEGIN
+	/*Merge Source with Target*/
+	MERGE [Persist].[User] as tgt
+	USING
+		(
+			SELECT 
+				[ID]
+				,[TENANT_ID] 
+				,[IS_ACTIVE] 
+				,[CREATION_DATE] 
+				,[LAST_LOGIN] 
+				,[NAME] 
+				,[MOBILEPHONE] 
+				,[EMAIL] 
+				,[USERNAME] 
+				,[PASSWORD] 
+				,[EXTERNAL_ID] 
+				,[ETLExecutionKey] 
+			FROM [OutSystems].[OSSYS_USER]
+		) AS src
+	ON
+		tgt.[ID] = src.[ID]
+	/*If Data is to be updated at Target*/
+	WHEN MATCHED AND NOT
+	(
+		ISNULL(tgt.[TENANT_ID], 0) = ISNULL(src.[TENANT_ID], 0)
+		AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+		AND ISNULL(tgt.[CREATION_DATE], '1900-01-01') = ISNULL(src.[CREATION_DATE], '1900-01-01')
+		AND ISNULL(tgt.[LAST_LOGIN], '1900-01-01') = ISNULL(src.[LAST_LOGIN], '1900-01-01')
+		AND ISNULL(tgt.[NAME], '') = ISNULL(src.[NAME], '')
+		AND ISNULL(tgt.[MOBILEPHONE], '') = ISNULL(src.[MOBILEPHONE], '')
+		AND ISNULL(tgt.[EMAIL], '') = ISNULL(src.[EMAIL], '')
+		AND ISNULL(tgt.[USERNAME], '') = ISNULL(src.[USERNAME], '')
+		AND ISNULL(tgt.[PASSWORD], '') = ISNULL(src.[PASSWORD], '')
+		AND ISNULL(tgt.[EXTERNAL_ID], '') = ISNULL(src.[EXTERNAL_ID], '')
+	)
+	/*Update Data at Target*/
+	THEN
+		UPDATE SET 
+			[TENANT_ID] = src.[TENANT_ID]
+			,[IS_ACTIVE] = src.[IS_ACTIVE]
+			,[CREATION_DATE] = src.[CREATION_DATE]
+			,[LAST_LOGIN] = src.[LAST_LOGIN]
+			,[NAME] = src.[NAME]
+			,[MOBILEPHONE] = src.[MOBILEPHONE]
+			,[EMAIL] = src.[EMAIL]
+			,[USERNAME] = src.[USERNAME]
+			,[PASSWORD] = src.[PASSWORD]
+			,[EXTERNAL_ID] = src.[EXTERNAL_ID]
+	/*If Data is to be Inserted into Target*/
+	WHEN NOT MATCHED
+	/*Insert Data into Target*/
+	THEN
+		INSERT 
+			( 
+				[ID]
+				,[TENANT_ID] 
+				,[IS_ACTIVE] 
+				,[CREATION_DATE] 
+				,[LAST_LOGIN] 
+				,[NAME] 
+				,[MOBILEPHONE] 
+				,[EMAIL] 
+				,[USERNAME] 
+				,[PASSWORD] 
+				,[EXTERNAL_ID] 
+				,[ETLExecutionKey]
+			)
+		VALUES
+			(
+				[ID]
+				,[TENANT_ID] 
+				,[IS_ACTIVE] 
+				,[CREATION_DATE] 
+				,[LAST_LOGIN] 
+				,[NAME] 
+				,[MOBILEPHONE] 
+				,[EMAIL] 
+				,[USERNAME] 
+				,[PASSWORD] 
+				,[EXTERNAL_ID] 
+				,[ETLExecutionKey]
+			)
+	;
+/*End Logic*/
+END
+;
+GO
+
+
+
+if (select object_id('Persist.prc_load_UserRoles')) is not null
+drop procedure Persist.prc_load_UserRoles go 
+/*---------------------------------------------------------------------------------------------------*/
+/*----------------------------Create Stored Procedure prc_load_UserRoles-----------------------------*/
+/*---------------------------------------------Version 1---------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------*/
+CREATE PROCEDURE [Persist].[prc_load_UserRoles]
+AS
+/*Begin Logic*/
+BEGIN
+	/*Merge Source with Target*/
+	MERGE [Persist].[UserRoles] as tgt
+	USING
+		(
+			SELECT 
+				[ID]
+				,[USERID] 
+				,[ROLEDESCRIPTION]
+				,[NAME]
+				,[TENANTID] 
+				,[ETLExecutionKey] 
+			FROM [OutSystems].[OSUSR_CCY_USERROLES]
+		) AS src
+	ON
+		tgt.[ID] = src.[ID]
+	/*If Data is to be updated at Target*/
+	WHEN MATCHED AND NOT
+	(
+		ISNULL(tgt.[USERID], 0) = ISNULL(src.[USERID], 0)
+		AND ISNULL(tgt.[ROLEDESCRIPTION], '') = ISNULL(src.[ROLEDESCRIPTION], '')
+		AND ISNULL(tgt.[NAME], '') = ISNULL(src.[NAME], '')
+		AND ISNULL(tgt.[TENANTID], 0) = ISNULL(src.[TENANTID], 0)
+	)
+	/*Update Data at Target*/
+	THEN
+		UPDATE SET 
+			[USERID] = src.[USERID]
+			,[ROLEDESCRIPTION] = src.[ROLEDESCRIPTION]
+			,[NAME] = src.[NAME]
+			,[TENANTID] = src.[TENANTID]
+	/*If Data is to be Inserted into Target*/
+	WHEN NOT MATCHED
+	/*Insert Data into Target*/
+	THEN
+		INSERT 
+			( 
+				[ID]
+				,[USERID] 
+				,[ROLEDESCRIPTION]
+				,[NAME]
+				,[TENANTID] 
+				,[ETLExecutionKey]
+			)
+		VALUES
+			(
+				[ID]
+				,[USERID] 
+				,[ROLEDESCRIPTION]
+				,[NAME]
+				,[TENANTID] 
+				,[ETLExecutionKey]
+			)
+	;
+/*End Logic*/
+END
+;
+GO
+
+
+
+if (select object_id('Persist.prc_load_WorkingImpactStatus')) is not null
+drop procedure Persist.prc_load_WorkingImpactStatus go 
+create procedure [Persist].[prc_load_WorkingImpactStatus]
+as
+begin
+	merge Persist.WorkingImpactStatus as tgt
+	using
+		(
+		SELECT [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+  FROM [OutSystems].OSUSR_5if_WorkImpactStatus
+		) as src
+	on
+		tgt.ID = src.ID
+
+	when matched and not
+	(
+	      ISNULL(tgt.[LABEL], '') = ISNULL(src.[LABEL], '')
+      AND ISNULL(tgt.[ORDER], 0) = ISNULL(src.[ORDER], 0)
+      AND ISNULL(tgt.[IS_ACTIVE], 0) = ISNULL(src.[IS_ACTIVE], 0)
+	)
+	then
+	update set 
+	   [LABEL]			 = src.[LABEL]
+      ,[ORDER]			 = src.[ORDER]
+      ,[IS_ACTIVE]		 = src.[IS_ACTIVE]
+      ,[ETLExecutionKey] = src.[ETLExecutionKey]
+	when not matched then
+	insert ( [ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey])
+		values
+		(
+		[ID]
+      ,[LABEL]
+      ,[ORDER]
+      ,[IS_ACTIVE]
+      ,[ETLExecutionKey]
+		);
+end;
+
+
+GO

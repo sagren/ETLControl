@@ -1,4 +1,5 @@
 create function ETLControl.fncJobGetKey(@pJobName varchar(100))
+
 /*
 Created on: 2018-08-31
 By: Sagren Pillai
@@ -26,9 +27,8 @@ declare @vJobKey int
 return @vJobKey
 
 end
+go
 
--- Unit Test
-select ETLControl.fncJobGetKey('Extract Inventtable')
 
 
 
@@ -58,6 +58,7 @@ declare @vStatusKey int = 0
 return @vStatusKey
 
 end
+GO
 
 
 create function ETLControl.fncLoadModeGetKey(@pLoadMode varchar(100))
@@ -87,6 +88,7 @@ declare @vLoadModeKey int = 0
 return @vLoadModeKey
 
 end
+GO
 
 
 drop function ETLControl.fncBatchGetKey
@@ -120,7 +122,7 @@ declare @vBatchKey int = 0
 return @vBatchKey
 
 end
-
+GO
 
 
 
@@ -167,7 +169,7 @@ declare
 		JobKey = @vJobKey
 
 end
-
+GO
 
 
 
@@ -189,6 +191,7 @@ begin
 		JobExecutionKEy = @pJobExecutionKey
 
 end
+GO
 
 
 
@@ -224,6 +227,7 @@ declare @vBatchKey int = 0
 		BatchKey = @vBatchKey
 
 end
+GO
 
 
 
@@ -242,6 +246,7 @@ begin
 		BatchExecutionKey = @pBatchExecutionKey
 
 end
+GO
 
 
 
@@ -263,10 +268,17 @@ declare @vBatchExecutionKey int = 0
 return @vBatchExecutionKey
 
 end
+GO
 
 
 
 /* Test Batch and Job ETL Control Interface */
+
+
+-- Unit Test Example
+select ETLControl.fncJobGetKey('Extract Inventtable')
+go
+
 
 exec ETLControl.prcBatchStart 'Daily Sales ETL'
 
